@@ -189,7 +189,7 @@ public class EnterFrame extends javax.swing.JFrame {
         }
         // allocate memory for fixed-length tables
         adaptRows(MAXPLAYERSPERTEAM);
-        myTableModel myTM1 = new myTableModel(MAXTEAMS,MAXPLAYERSPERTEAM+2);
+        MyTableModel myTM1 = new MyTableModel(MAXTEAMS,MAXPLAYERSPERTEAM+2);
         myTM1.setColumnName(0, Main.localizedText("Teams & Players"));
         myTM1.setColumnName(1, Main.localizedText("Elo"));
         for (int j=1; j<=MAXPLAYERSPERTEAM; j++) 
@@ -7393,7 +7393,7 @@ private void SonnebornTeams(int index) {
         jLabel16.setText(Main.localizedText("Insert results for round")+" :" + currRound);
         addedPairs=(short)((addedRows+1)/2);
         TableModel myTM = jTable1.getModel();
-        myTableModel myTM5 = new myTableModel(addedPairs,4);
+        MyTableModel myTM5 = new MyTableModel(addedPairs,4);
         myTM5.setColumnName(0, Main.localizedText("Board"));
         if (maxPlayersPerTeam == 1) {
             myTM5.setColumnName(1, Main.localizedText("player A"));
@@ -7410,7 +7410,7 @@ private void SonnebornTeams(int index) {
         TableColumn col = jTable5.getColumnModel().getColumn(3);
         col.setMinWidth(80);
         col.setMaxWidth(80);
-        myTableModel myTM7 = new myTableModel(maxBoards,3, true);
+        MyTableModel myTM7 = new MyTableModel(maxBoards,3, true);
         myTM7.setColumnName(0, Main.localizedText("player A"));
         myTM7.setColumnName(1, Main.localizedText("player B"));
         myTM7.setColumnName(2, Main.localizedText("result"));
@@ -7666,8 +7666,8 @@ private void SonnebornTeams(int index) {
 
     }//GEN-LAST:event_jButton21ActionPerformed
 
-    class myTableModel extends AbstractTableModel {
-    public myTableModel(int rows, int cols, boolean editable) {
+    class MyTableModel extends AbstractTableModel {
+    public MyTableModel(int rows, int cols, boolean editable) {
         super();
         maxRows=rows;
         maxCols=cols;
@@ -7675,7 +7675,7 @@ private void SonnebornTeams(int index) {
         rowData=new String[maxRows][maxCols]; // allocate local memory for the arrays
         colNames=new String[maxCols];
     }
-    public myTableModel(int rows, int cols) {
+    public MyTableModel(int rows, int cols) {
         super();
         maxRows=rows;
         maxCols=cols;
@@ -14757,7 +14757,7 @@ private int indexAt(int value, short[] array) {
         short i,j,k,r,value,i0,i1; String values, pair, S[];
         calculateTeamScores(-1);  // this initializes tempIndex & sortIndex by ranking criteria
 //        jButton31.setEnabled(true);      // enable 'output current round' button
-        myTableModel myTM2 = new myTableModel((addedRows+1)/2, 2, true);
+        MyTableModel myTM2 = new MyTableModel((addedRows+1)/2, 2, true);
         if (maxPlayersPerTeam==1) {
             myTM2.setColumnName(0, Main.localizedText("player A"));
             myTM2.setColumnName(1, Main.localizedText("player B"));
@@ -14766,11 +14766,11 @@ private int indexAt(int value, short[] array) {
             myTM2.setColumnName(1, Main.localizedText("Team B"));
         }
         jTable2.setModel(myTM2);
-        myTableModel myTM3 = new myTableModel(addedRows, 1);
+        MyTableModel myTM3 = new MyTableModel(addedRows, 1);
         if (maxPlayersPerTeam==1) myTM3.setColumnName(0, Main.localizedText("player A"));
         else myTM3.setColumnName(0, Main.localizedText("Team A"));
         jTable3.setModel(myTM3);
-        myTableModel myTM4 = new myTableModel(addedRows, 1);
+        MyTableModel myTM4 = new MyTableModel(addedRows, 1);
         if (maxPlayersPerTeam==1) myTM4.setColumnName(0, Main.localizedText("player B"));
         else myTM4.setColumnName(0, Main.localizedText("Team B"));
         jTable4.setModel(myTM4);
@@ -14855,7 +14855,7 @@ private int indexAt(int value, short[] array) {
      }
     
     private void adaptRows(short rows) {
-        myTableModel myTM6 = new myTableModel(rows, 10, true);
+        MyTableModel myTM6 = new MyTableModel(rows, 10, true);
         myTM6.setColumnName(0, Main.localizedText("Player Name"));
         myTM6.setColumnName(1, Main.localizedText("FED"));
         myTM6.setColumnName(2, Main.localizedText("Birthday"));

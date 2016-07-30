@@ -1,0 +1,139 @@
+Torneo Natale SanGregorio
+Oratorio Le Grazie
+PN
+19/12/2010;19/12/2010
+Cancian Loris
+0     // tournament type (0=swiss Dutch, 1=swiss Dubov, 2=Swiss Simple, 3=swiss Perfect Colours, 4=Amalfi Rating, 5=round robin, 6=by hand)
+1     // tournament pairing (1=regular, 2=allow return, 3=absolutely free)
+7     // Rounds 
+1     // Team order criteria (1=Elo, 2= random, 3=alphabetical, 4=as entered)
+1     // max boards to play
+1     // max Players per Team
+215000     // string with tie break criteria
+31     // total Teams entered
+0     // total rounds yet generated
+1     // sort index of the following Team
+TAMAI Roberto
+1     // Number of Players
+TAMAI Roberto;PN;140557;m;FM;801798;;105892;2220;0;
+2     // sort index of the following Team
+CELLINI Riccardo
+1     // Number of Players
+CELLINI Riccardo;PN;140398;m;2N;0;;139562;1600;30;
+3     // sort index of the following Team
+CELLINI ALBERTO
+1     // Number of Players
+CELLINI ALBERTO;PN;;m;nc;;;;1440;30;
+4     // sort index of the following Team
+LA MALFA Stelio
+1     // Number of Players
+LA MALFA Stelio;PN;51261;m;1N;826871;;106533;1815;0;
+5     // sort index of the following Team
+CERVESATO Eugenio
+1     // Number of Players
+CERVESATO Eugenio;PN;300956;m;3N;0;;105877;1599;30;
+6     // sort index of the following Team
+CERVESATO Fabio
+1     // Number of Players
+CERVESATO Fabio;PN;180787;m;3N;0;;110340;1497;30;
+7     // sort index of the following Team
+BIANCHINI PERICLE
+1     // Number of Players
+BIANCHINI PERICLE;PN;;m;nc;;;;1440;30;
+8     // sort index of the following Team
+RAFFIN Carlo
+1     // Number of Players
+RAFFIN Carlo;PN;210763;m;3N;0;;102029;1580;30;
+9     // sort index of the following Team
+SCIAN Nicola
+1     // Number of Players
+SCIAN Nicola;PN;80483;m;2N;0;;123793;1737;30;
+10     // sort index of the following Team
+ZANUSSI Leandro
+1     // Number of Players
+ZANUSSI Leandro;UD;140773;m;2N;0;;110313;1677;30;
+11     // sort index of the following Team
+FANTINI Marco
+1     // Number of Players
+FANTINI Marco;UD;21160;m;CM;817376;;103733;1948;0;
+12     // sort index of the following Team
+BISARO Andrea
+1     // Number of Players
+BISARO Andrea;PN;190971;m;2N;845060;;120456;1742;0;
+13     // sort index of the following Team
+CORTESE LINA
+1     // Number of Players
+CORTESE LINA;PN;;f;nc;;;;1440;30;
+14     // sort index of the following Team
+DE MONTE David
+1     // Number of Players
+DE MONTE David;UD;180594;m;1N;859290;;118779;1908;0;
+15     // sort index of the following Team
+LUCIANI Carlo
+1     // Number of Players
+LUCIANI Carlo;GO;11154;m;M;800627;;100641;2230;0;
+16     // sort index of the following Team
+SAVOIA Sergio
+1     // Number of Players
+SAVOIA Sergio;UD;11163;m;1N;658499;;100649;1893;0;
+17     // sort index of the following Team
+BORTOLOTTO Denzio
+1     // Number of Players
+BORTOLOTTO Denzio;TV;110264;m;2N;808377;;128668;1745;0;
+18     // sort index of the following Team
+DAL BIANCO Nicola
+1     // Number of Players
+DAL BIANCO Nicola;TV;140577;m;2N;848921;;132171;1605;0;
+19     // sort index of the following Team
+MANCIN Michele
+1     // Number of Players
+MANCIN Michele;TV;31078;m;2N;824780;;118363;1752;0;
+20     // sort index of the following Team
+GAVRIL DANIEL
+1     // Number of Players
+GAVRIL DANIEL;PN;;m;CM;;;;2100;0;
+21     // sort index of the following Team
+PIATTO MICHELE
+1     // Number of Players
+PIATTO MICHELE;PN;;m;nc;;;;1440;30;
+22     // sort index of the following Team
+ZUCCHETTO Pierpaolo
+1     // Number of Players
+ZUCCHETTO Pierpaolo;VE;290659;m;1N;0;;112332;1802;30;
+23     // sort index of the following Team
+PILLON Giovanni Piet
+1     // Number of Players
+PILLON Giovanni Piet;PN;240651;m;1N;849545;;114557;1907;0;
+24     // sort index of the following Team
+CASONATO MATTEO (W)
+1     // Number of Players
+CASONATO MATTEO;PN;;m;nc;;;;1440;30;
+25     // sort index of the following Team
+COMPARINI ANTONIO
+1     // Number of Players
+COMPARINI ANTONIO;PN;;m;nc;;;;1440;30;
+26     // sort index of the following Team
+CERVESATO ALESSIO
+1     // Number of Players
+CERVESATO ALESSIO;PN;;m;nc;;;;1440;30;
+27     // sort index of the following Team
+SIMONI GIULIO
+1     // Number of Players
+SIMONI GIULIO;PN;;m;nc;;;;1440;30;
+28     // sort index of the following Team
+DALLA TORRE STEFANO
+1     // Number of Players
+DALLA TORRE STEFANO;PN;;m;nc;;;;1440;30;
+29     // sort index of the following Team
+MAESTRI Roberto
+1     // Number of Players
+MAESTRI Roberto;UD;130846;m;1N;871354;;105930;1766;0;
+30     // sort index of the following Team
+CANCIAN Loris
+1     // Number of Players
+CANCIAN Loris;PN;30866;m;3N;0;;110282;1580;30;
+31     // sort index of the following Team
+PICCO Ruggero
+1     // Number of Players
+PICCO Ruggero;UD;301262;m;CM;811149;;103728;2045;0;
+// for each round, floater set follows.
