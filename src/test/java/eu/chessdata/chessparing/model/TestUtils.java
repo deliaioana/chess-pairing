@@ -17,7 +17,6 @@ public class TestUtils {
 		
 		File generatedFiles =  new File(Tools.GENERATED_FILES);
 		String absolutePath = generatedFiles.getAbsolutePath();
-		System.out.println(absolutePath);
 		if (generatedFiles.exists()){
 			return;
 		}

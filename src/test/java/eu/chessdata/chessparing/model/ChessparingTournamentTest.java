@@ -56,7 +56,7 @@ public class ChessparingTournamentTest {
 		ChessparingTournament tournament = gson.fromJson(reader, ChessparingTournament.class);
 
 		// simple line that tests that wee have the correct data
-		Assert.assertTrue("Not the expected data", tournament.getName().equals("Simple chess tournament"));
+		Assert.assertTrue("Not the expected data", tournament.getName().equals("Tournament 1"));
 	}
 	
 	/**

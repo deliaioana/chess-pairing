@@ -1,13 +1,14 @@
 package eu.chessdata.chessparing.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChessparingTournament {
 	private String name;
 	private String description;
 	private int totalRounds;
-	private List<ChessparingPlayer> players;
-	private List<ChessparingRound> rounds;
+	private List<ChessparingPlayer> players = new ArrayList<ChessparingPlayer>();
+	private List<ChessparingRound> rounds = new ArrayList<ChessparingRound>();
 
 	public String getName() {
 		return name;

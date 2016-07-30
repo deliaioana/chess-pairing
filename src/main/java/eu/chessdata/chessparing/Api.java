@@ -17,4 +17,6 @@ public class Api {
 		ChessparingTournament tournament = gson.fromJson(jSonTournament, ChessparingTournament.class);
 		return tournament;
 	}
+	
+	
 }
