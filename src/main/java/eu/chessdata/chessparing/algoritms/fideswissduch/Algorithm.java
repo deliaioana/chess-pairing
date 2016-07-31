@@ -1,4 +1,4 @@
-package eu.chessdata.chessparing.algoritms;
+package eu.chessdata.chessparing.algoritms.fideswissduch;
 
 import eu.chessdata.chessparing.model.ChessparingTournament;
 

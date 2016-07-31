@@ -1,8 +1,16 @@
 package eu.chessdata.chessparing.model;
 
+import eu.chessdata.chessparing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
+
 public class ChessparingPlayer {
 	private String name;
 	private int elo;
+	/**
+	 * this is the the natural order that you wish to be considered for a tournament. 
+	 *  {@link FideSwissDutchAlgorithm} also uses this number in making paring decisions. 
+	 */
+	private int initialOrderId;
+	
 	private String playerKey;
 	public String getName() {
 		return name;
@@ -21,6 +29,12 @@ public class ChessparingPlayer {
 	}
 	public void setPlayerKey(String playerKey) {
 		this.playerKey = playerKey;
+	}
+	public int getInitialOrderId() {
+		return initialOrderId;
+	}
+	public void setInitialOrderId(int initialOrderId) {
+		this.initialOrderId = initialOrderId;
 	}
 	
 	

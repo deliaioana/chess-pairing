@@ -1,14 +1,17 @@
-package eu.chessdata.chessparing.algoritms;
+package eu.chessdata.chessparing.algoritms.fideswissduch;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import eu.chessdata.chessparing.algoritms.comparators.ByElo;
 import eu.chessdata.chessparing.model.ChessparingGame;
 import eu.chessdata.chessparing.model.ChessparingPlayer;
 import eu.chessdata.chessparing.model.ChessparingRound;
 import eu.chessdata.chessparing.model.ChessparingTournament;
+import eu.chessdata.chessparing.model.ParringSummary;
 
 public class FideSwissDutchAlgorithm implements Algorithm {
 	private ChessparingTournament mTournament;
@@ -24,6 +27,11 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		// with this use case
 		if (mTournament.getTotalRounds() <= mTournament.getRounds().size()) {
 			throw new IllegalStateException("You are trying to generate more rounds than totalRounds");
+		}
+		
+		boolean validationOk = validateOrder();
+		if (!validationOk){
+			return mTournament;
 		}
 
 		List<ChessparingRound> rounds = this.mTournament.getRounds();
@@ -78,5 +86,54 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 
 		// and wee set the rounds
 		mTournament.setRounds(rounds);
+	}
+
+	/**
+	 * if players with no initialOrderId or the same initialOrderId then do not pare
+	 * and set the paring message accordingly. No initial order is considered smaller or equal to 0
+	 * @return  true if validation is OK and false otherwise
+	 */
+	private boolean validateOrder(){
+		//players with no id
+		List<String> playersNoId = new ArrayList<>();
+		List<ChessparingPlayer> players = mTournament.getPlayers();
+		for (ChessparingPlayer player: players){
+			if (player.getInitialOrderId()<=0){
+				playersNoId.add(player.getName());
+			}
+		}
+		if (playersNoId.size()>0){
+			StringBuffer sb = new StringBuffer();
+			sb.append("You have players with no initialOrderId: ");
+			for(String name: playersNoId){
+				sb.append(name+", ");//
+			}
+			int id = sb.lastIndexOf(", ");
+			sb.replace(id, sb.length(), "");
+			ParringSummary parringSummary = new ParringSummary();
+			parringSummary.setShortMessage(ParringSummary.PARRING_NOT_OK);
+			parringSummary.setLongMessage(sb.toString());
+			mTournament.setParringSummary(parringSummary);
+			return false;
+		}
+		
+		//players with the same id
+		Map<Integer,ChessparingPlayer> map = new HashMap<>();
+		for (ChessparingPlayer player: players){
+			if(map.containsKey(player.getInitialOrderId())){
+				StringBuffer sb = new StringBuffer();
+				sb.append("You have players with the same initialOrderId: ");
+				sb.append(map.get(player.getInitialOrderId()).getName()+" and ");
+				sb.append(player.getName());
+				ParringSummary parringSummary = new ParringSummary();
+				parringSummary.setShortMessage(ParringSummary.PARRING_NOT_OK);
+				parringSummary.setLongMessage(sb.toString());
+				mTournament.setParringSummary(parringSummary);
+				return false;
+			}else{
+				map.put(player.getInitialOrderId(), player);
+			}
+		}
+		return true;
 	}
 }

@@ -1,7 +1,7 @@
 {
-    "name": "zero rounds",
-    "totalRounds": 0,
-    "players": [
+	"name": "testValiateOrder",
+	"totalRounds": 7,
+	"players": [
 		{
 			"name": "Bogdan Marian",
 			"elo": 1450,
@@ -17,13 +17,13 @@
 		{
 			"name": "Calin Constantin",
 			"elo": 1550,
-			"initialOrderId": 3,
+			"initialOrderId": 0,
 			"playerKey": "1550Calin Constantin"
 		},
 		{
 			"name": "Cezar Andrei",
 			"elo": 1200,
-			"initialOrderId": 4,
+			"initialOrderId": 0,
 			"playerKey": "1200Cezar Andrei"
 		},
 		{
@@ -51,5 +51,5 @@
 			"playerKey": "1750Delia Ioana"
 		}
 	],
-    "rounds": []
+	"rounds": []
 }

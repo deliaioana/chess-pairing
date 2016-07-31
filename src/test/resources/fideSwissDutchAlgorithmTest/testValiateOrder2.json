@@ -1,17 +1,17 @@
 {
-    "name": "zero rounds",
-    "totalRounds": 0,
-    "players": [
+	"name": "testValiateOrder",
+	"totalRounds": 7,
+	"players": [
 		{
 			"name": "Bogdan Marian",
 			"elo": 1450,
-			"initialOrderId": 1,
+			"initialOrderId": 30,
 			"playerKey": "1450Bogdan Marian"
 		},
 		{
 			"name": "Lacramioara",
 			"elo": 1320,
-			"initialOrderId": 2,
+			"initialOrderId": 30,
 			"playerKey": "1320Lacramioara"
 		},
 		{
@@ -51,5 +51,5 @@
 			"playerKey": "1750Delia Ioana"
 		}
 	],
-    "rounds": []
+	"rounds": []
 }

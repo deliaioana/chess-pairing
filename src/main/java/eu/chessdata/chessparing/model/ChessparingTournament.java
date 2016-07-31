@@ -13,6 +13,7 @@ public class ChessparingTournament {
 	private int totalRounds;
 	private List<ChessparingPlayer> players = new ArrayList<ChessparingPlayer>();
 	private List<ChessparingRound> rounds = new ArrayList<ChessparingRound>();
+	private ParringSummary parringSummary;
 
 	public String getName() {
 		return name;
@@ -52,6 +53,14 @@ public class ChessparingTournament {
 
 	public void setPlayers(List<ChessparingPlayer> players) {
 		this.players = players;
+	}
+
+	public ParringSummary getParringSummary() {
+		return parringSummary;
+	}
+
+	public void setParringSummary(ParringSummary parringSummary) {
+		this.parringSummary = parringSummary;
 	}
 	
 	
