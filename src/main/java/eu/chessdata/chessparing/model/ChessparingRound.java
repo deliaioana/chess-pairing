@@ -26,6 +26,4 @@ public class ChessparingRound {
 	public void setUpfloaters(List<ChessparingPlayer> upfloaters) {
 		this.upfloaters = upfloaters;
 	}
-
-
 }

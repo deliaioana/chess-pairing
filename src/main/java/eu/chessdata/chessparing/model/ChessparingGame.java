@@ -1,6 +1,12 @@
 package eu.chessdata.chessparing.model;
 
 public class ChessparingGame {
+	public static final int RESULT_NOT_DECIDED = 0;
+	public static final int RESULT_WITE_WINS = 1;
+	public static final int RESULT_BLACK_WINS = 2;
+	public static final int RESULT_DRAW_GAME = 3;
+	public static final int RESULT_NO_PARTNER = 4;
+	
 	/**
 	 * it allays starts from 1
 	 */
