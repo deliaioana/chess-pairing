@@ -1,28 +1,32 @@
 package eu.chessdata.chessparing.model;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.Gson;
 
 import eu.chessdata.chessparing.Tools;
 
 public class TestUtils {
 	/**
 	 * Create the generatedFiles folder in the rout of the project this folder
-	 * is ignored by git and is meant to put the generated files while
-	 * building this project
+	 * is ignored by git and is meant to put the generated files while building
+	 * this project
 	 */
 	public static void createIfNotPresentGeneratedFilesFolder() {
-		
-		
-		File generatedFiles =  new File(Tools.GENERATED_FILES);
+
+		File generatedFiles = new File(Tools.GENERATED_FILES);
 		String absolutePath = generatedFiles.getAbsolutePath();
-		if (generatedFiles.exists()){
+		if (generatedFiles.exists()) {
 			return;
 		}
 		boolean folderCreated = generatedFiles.mkdirs();
-		if (!folderCreated){
-			throw new IllegalStateException("Not able to create folder: "+absolutePath);
+		if (!folderCreated) {
+			throw new IllegalStateException("Not able to create folder: " + absolutePath);
 		}
 		return;
 	}
@@ -54,6 +58,27 @@ public class TestUtils {
 		player.setPlayerKey(String.valueOf(elo) + playerName);
 		return player;
 	}
-	
-	
+
+	/**
+	 * Useful tool in debugging when sometimes you just want to look at a
+	 * tournament in clear text instead of the debugging console
+	 * 
+	 * @param tournament
+	 *            is the tournament that will be serialized to file
+	 * @param fileName
+	 *            is where the tournament will be serialized
+	 */
+	public static void writeToFile(ChessparingTournament tournament, String fileName) {
+		createIfNotPresentGeneratedFilesFolder();
+		String filePath = Tools.GENERATED_FILES + "/" + fileName;
+		try {
+			Writer writer = new FileWriter(filePath);
+			Gson gson = Tools.getGson();
+			gson.toJson(tournament, writer);
+			writer.close();
+		} catch (IOException e) {
+			throw new IllegalStateException("Not able to write to file: " + filePath + "\n" + e.getMessage());
+		}
+
+	}
 }

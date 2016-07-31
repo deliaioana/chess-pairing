@@ -6,6 +6,10 @@ import java.util.List;
 public class ChessparingTournament {
 	private String name;
 	private String description;
+	/**
+	 * this is the maximum allowed number of rounds in a tournament. 
+	 * If you try to pare over this number some algorithms will just crash. 
+	 */
 	private int totalRounds;
 	private List<ChessparingPlayer> players = new ArrayList<ChessparingPlayer>();
 	private List<ChessparingRound> rounds = new ArrayList<ChessparingRound>();

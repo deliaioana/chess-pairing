@@ -20,6 +20,12 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			throw new IllegalStateException("Please ad at least 2 players or more");
 		}
 
+		// more rounds than totalRounds? For the moment I do not want to deal
+		// with this use case
+		if (mTournament.getTotalRounds() <= mTournament.getRounds().size()) {
+			throw new IllegalStateException("You are trying to generate more rounds than totalRounds");
+		}
+
 		List<ChessparingRound> rounds = this.mTournament.getRounds();
 		if (rounds.size() <= 0) {
 			generateFirstRound();

@@ -24,11 +24,14 @@ public class FideSwissDutchAlgorithmTest {
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
 		ChessparingTournament tournament = gson.fromJson(reader, ChessparingTournament.class);
-		assertTrue("Not the expected file content", tournament.getName().equals("zero rounds"));
+		tournament.setTotalRounds(7);
+		tournament.setName("FirstRoundTest1 (just a name)");
+		tournament.setDescription("This is the description. It could be quite long if you so desire. ");
+		assertTrue("Not the expected file content", tournament.getName().contains("FirstRoundTest1"));
 		assertTrue("Tournament sould contain 0 rounds", tournament.getRounds().size() == 0);
 		FideSwissDutchAlgorithm algoritm = new FideSwissDutchAlgorithm();
 		tournament = algoritm.generateNextRound(tournament);
 		assertTrue("Tournament should contain only one round", tournament.getRounds().size()==1);
+		//TestUtils.writeToFile(tournament, "firstRound.json");
 	}
-
 }

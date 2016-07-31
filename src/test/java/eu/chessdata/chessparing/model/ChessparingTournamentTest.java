@@ -67,7 +67,8 @@ public class ChessparingTournamentTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void constumizeTournament() throws IOException {
+	public static void constumizeTournament() throws IOException {
+		
 		String tournament1FilePath = Tools.GENERATED_FILES+"/tournament1.json";
 		Writer writer = new FileWriter(tournament1FilePath);
 		Gson gson = Tools.getGson();
