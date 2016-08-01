@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import eu.chessdata.chessparing.Tools;
 import eu.chessdata.chessparing.algoritms.comparators.ByElo;
 import eu.chessdata.chessparing.model.ChessparingGame;
 import eu.chessdata.chessparing.model.ChessparingPlayer;
@@ -18,6 +19,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 
 	public ChessparingTournament generateNextRound(ChessparingTournament tournament) {
 		this.mTournament = tournament;
+		this.mTournament.setParringSummary(Tools.buildParringStarted());
 		// more tan 1 players
 		if (mTournament.getPlayers().size() < 2) {
 			throw new IllegalStateException("Please ad at least 2 players or more");
@@ -86,6 +88,11 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 
 		// and wee set the rounds
 		mTournament.setRounds(rounds);
+		
+		ParringSummary firstRoundOk = new ParringSummary();
+		firstRoundOk.setShortMessage(ParringSummary.PARRING_OK);
+		firstRoundOk.setLongMessage("First round was generated");
+		mTournament.setParringSummary(firstRoundOk);
 	}
 
 	/**

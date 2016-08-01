@@ -1,0 +1,130 @@
+{
+	"name": "testValiateOrder",
+	"totalRounds": 7,
+	"players": [
+		{
+			"name": "Catalin Ioan",
+			"elo": 1750,
+			"initialOrderId": 6,
+			"playerKey": "1750Catalin Ioan"
+		},
+		{
+			"name": "Delia Ioana",
+			"elo": 1750,
+			"initialOrderId": 8,
+			"playerKey": "1750Delia Ioana"
+		},
+		{
+			"name": "Maria",
+			"elo": 1700,
+			"initialOrderId": 7,
+			"playerKey": "1700Maria"
+		},
+		{
+			"name": "Rares",
+			"elo": 1600,
+			"initialOrderId": 5,
+			"playerKey": "1600Rares"
+		},
+		{
+			"name": "Calin Constantin",
+			"elo": 1550,
+			"initialOrderId": 3,
+			"playerKey": "1550Calin Constantin"
+		},
+		{
+			"name": "Bogdan Marian",
+			"elo": 1450,
+			"initialOrderId": 1,
+			"playerKey": "1450Bogdan Marian"
+		},
+		{
+			"name": "Lacramioara",
+			"elo": 1320,
+			"initialOrderId": 2,
+			"playerKey": "1320Lacramioara"
+		},
+		{
+			"name": "Cezar Andrei",
+			"elo": 1200,
+			"initialOrderId": 4,
+			"playerKey": "1200Cezar Andrei"
+		}
+	],
+	"rounds": [
+		{
+			"roundNumber": 1,
+			"upfloaters": [],
+			"games": [
+				{
+					"tableNumber": 1,
+					"whitePlayer": {
+						"name": "Catalin Ioan",
+						"elo": 1750,
+						"initialOrderId": 6,
+						"playerKey": "1750Catalin Ioan"
+					},
+					"blackPlayer": {
+						"name": "Delia Ioana",
+						"elo": 1750,
+						"initialOrderId": 8,
+						"playerKey": "1750Delia Ioana"
+					},
+					"result": 0
+				},
+				{
+					"tableNumber": 2,
+					"whitePlayer": {
+						"name": "Maria",
+						"elo": 1700,
+						"initialOrderId": 7,
+						"playerKey": "1700Maria"
+					},
+					"blackPlayer": {
+						"name": "Rares",
+						"elo": 1600,
+						"initialOrderId": 5,
+						"playerKey": "1600Rares"
+					},
+					"result": 0
+				},
+				{
+					"tableNumber": 3,
+					"whitePlayer": {
+						"name": "Calin Constantin",
+						"elo": 1550,
+						"initialOrderId": 3,
+						"playerKey": "1550Calin Constantin"
+					},
+					"blackPlayer": {
+						"name": "Bogdan Marian",
+						"elo": 1450,
+						"initialOrderId": 1,
+						"playerKey": "1450Bogdan Marian"
+					},
+					"result": 0
+				},
+				{
+					"tableNumber": 4,
+					"whitePlayer": {
+						"name": "Lacramioara",
+						"elo": 1320,
+						"initialOrderId": 2,
+						"playerKey": "1320Lacramioara"
+					},
+					"blackPlayer": {
+						"name": "Cezar Andrei",
+						"elo": 1200,
+						"initialOrderId": 4,
+						"playerKey": "1200Cezar Andrei"
+					},
+					"result": 0
+				}
+			]
+		}
+	],
+	"parringSummary": {
+		"shortMessage": "parringOK",
+		"longMessage": "First round was generated"
+	}
+}

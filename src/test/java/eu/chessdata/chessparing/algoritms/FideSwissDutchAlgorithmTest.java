@@ -16,9 +16,10 @@ import eu.chessdata.chessparing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
 import eu.chessdata.chessparing.model.ChessparingTournament;
 import eu.chessdata.chessparing.model.ChessparingTournamentTest;
 import eu.chessdata.chessparing.model.ParringSummary;
+import eu.chessdata.chessparing.model.TestUtils;
 
 public class FideSwissDutchAlgorithmTest {
-	
+
 	@Test
 	public void firstRoundTest1() throws UnsupportedEncodingException {
 		InputStream inputStream = ChessparingTournamentTest.class
@@ -33,12 +34,12 @@ public class FideSwissDutchAlgorithmTest {
 		assertTrue("Tournament sould contain 0 rounds", tournament.getRounds().size() == 0);
 		FideSwissDutchAlgorithm algoritm = new FideSwissDutchAlgorithm();
 		tournament = algoritm.generateNextRound(tournament);
-		assertTrue("Tournament should contain only one round", tournament.getRounds().size()==1);
-		//TestUtils.writeToFile(tournament, "firstRound.json");
+		assertTrue("Tournament should contain only one round", tournament.getRounds().size() == 1);
+		// TestUtils.writeToFile(tournament, "firstRound.json");
 	}
-	
+
 	@Test
-	public void testValiateOrder1() throws UnsupportedEncodingException{
+	public void testValiateOrder1() throws UnsupportedEncodingException {
 		InputStream inputStream = ChessparingTournamentTest.class
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/testValiateOrder1.json");
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
@@ -47,14 +48,14 @@ public class FideSwissDutchAlgorithmTest {
 		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
 		tournament = algorithm.generateNextRound(tournament);
 		ParringSummary parringSummary = tournament.getParringSummary();
-		
+
 		assertTrue(parringSummary.getShortMessage().equals(ParringSummary.PARRING_NOT_OK));
-		//System.out.println(parringSummary.getLongMessage());
-		//TestUtils.writeToFile(tournament, "testValiateOrder1.json");
+		// System.out.println(parringSummary.getLongMessage());
+		// TestUtils.writeToFile(tournament, "testValiateOrder1.json");
 	}
 
 	@Test
-	public void testValiateOrder2() throws UnsupportedEncodingException{
+	public void testValiateOrder2() throws UnsupportedEncodingException {
 		InputStream inputStream = ChessparingTournamentTest.class
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/testValiateOrder2.json");
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
@@ -63,8 +64,31 @@ public class FideSwissDutchAlgorithmTest {
 		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
 		tournament = algorithm.generateNextRound(tournament);
 		ParringSummary parringSummary = tournament.getParringSummary();
-		
+
 		assertTrue(parringSummary.getShortMessage().equals(ParringSummary.PARRING_NOT_OK));
-		//System.out.println(parringSummary.getLongMessage());
+		// System.out.println(parringSummary.getLongMessage());
+	}
+
+	/**
+	 * Starting point for the second round. It is more of an integration test
+	 * because it will probably end up testing allot of components witch are not
+	 * yet created. I'm really in a hurry of having an functional peering
+	 * algorithm at hand. 
+	 * 
+	 * @throws UnsupportedEncodingException
+	 */
+	@Test
+	public void testPareSecondRound01() throws UnsupportedEncodingException {
+		InputStream inputStream = ChessparingTournamentTest.class
+				.getResourceAsStream("/fideSwissDutchAlgorithmTest/testPareSecondRound01.json");
+		Reader reader = new InputStreamReader(inputStream, "UTF-8");
+		Gson gson = Tools.getGson();
+		ChessparingTournament tournament = gson.fromJson(reader, ChessparingTournament.class);
+		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
+		tournament = algorithm.generateNextRound(tournament);
+		ParringSummary parringSummary = tournament.getParringSummary();
+		System.out.println(parringSummary.getLongMessage());
+		assertTrue(parringSummary.getShortMessage().equals(ParringSummary.PARRING_OK));
+		TestUtils.writeToFile(tournament, "testPareSecondRound01.json");
 	}
 }
