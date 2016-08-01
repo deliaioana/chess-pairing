@@ -16,7 +16,6 @@ import eu.chessdata.chessparing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
 import eu.chessdata.chessparing.model.ChessparingTournament;
 import eu.chessdata.chessparing.model.ChessparingTournamentTest;
 import eu.chessdata.chessparing.model.ParringSummary;
-import eu.chessdata.chessparing.model.TestUtils;
 
 public class FideSwissDutchAlgorithmTest {
 	
