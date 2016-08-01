@@ -1,4 +1,4 @@
-package eu.chessdata.chessparing.algoritms.fideswissduch;
+package eu.chessdata.chesspairing.algoritms.fideswissduch;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,13 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import eu.chessdata.chessparing.Tools;
-import eu.chessdata.chessparing.algoritms.comparators.ByElo;
-import eu.chessdata.chessparing.model.ChessparingGame;
-import eu.chessdata.chessparing.model.ChessparingPlayer;
-import eu.chessdata.chessparing.model.ChessparingRound;
-import eu.chessdata.chessparing.model.ChessparingTournament;
-import eu.chessdata.chessparing.model.ParringSummary;
+import eu.chessdata.chesspairing.Tools;
+import eu.chessdata.chesspairing.algoritms.comparators.ByElo;
+import eu.chessdata.chesspairing.model.ChessparingGame;
+import eu.chessdata.chesspairing.model.ChessparingPlayer;
+import eu.chessdata.chesspairing.model.ChessparingRound;
+import eu.chessdata.chesspairing.model.ChessparingTournament;
+import eu.chessdata.chesspairing.model.ParringSummary;
 
 public class FideSwissDutchAlgorithm implements Algorithm {
 	private ChessparingTournament mTournament;

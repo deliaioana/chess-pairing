@@ -1,4 +1,4 @@
-package eu.chessdata.chessparing.model;
+package eu.chessdata.chesspairing.model;
 
 public class ChessparingGame {
 	public static final int RESULT_NOT_DECIDED = 0;

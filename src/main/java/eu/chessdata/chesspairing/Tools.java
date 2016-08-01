@@ -1,8 +1,8 @@
-package eu.chessdata.chessparing;
+package eu.chessdata.chesspairing;
 
 import com.google.gson.Gson;
 
-import eu.chessdata.chessparing.model.ParringSummary;
+import eu.chessdata.chesspairing.model.ParringSummary;
 
 public class Tools {
 	public static final String GENERATED_FILES = "generatedFiles";

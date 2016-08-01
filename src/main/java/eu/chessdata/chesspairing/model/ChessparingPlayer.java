@@ -1,6 +1,6 @@
-package eu.chessdata.chessparing.model;
+package eu.chessdata.chesspairing.model;
 
-import eu.chessdata.chessparing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
+import eu.chessdata.chesspairing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
 
 public class ChessparingPlayer {
 	private String name;

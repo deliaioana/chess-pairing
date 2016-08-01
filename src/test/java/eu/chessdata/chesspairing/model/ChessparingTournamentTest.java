@@ -1,4 +1,4 @@
-package eu.chessdata.chessparing.model;
+package eu.chessdata.chesspairing.model;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,8 +14,9 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
-import eu.chessdata.chessparing.Api;
-import eu.chessdata.chessparing.Tools;
+import eu.chessdata.chesspairing.Api;
+import eu.chessdata.chesspairing.Tools;
+import eu.chessdata.chesspairing.model.ChessparingTournament;
 
 public class ChessparingTournamentTest {
 	@BeforeClass

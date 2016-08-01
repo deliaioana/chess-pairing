@@ -1,4 +1,4 @@
-package eu.chessdata.chessparing.model;
+package eu.chessdata.chesspairing.model;
 
 import java.util.ArrayList;
 import java.util.List;

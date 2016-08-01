@@ -1,4 +1,4 @@
-package eu.chessdata.chessparing.model;
+package eu.chessdata.chesspairing.model;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -9,7 +9,9 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import eu.chessdata.chessparing.Tools;
+import eu.chessdata.chesspairing.Tools;
+import eu.chessdata.chesspairing.model.ChessparingPlayer;
+import eu.chessdata.chesspairing.model.ChessparingTournament;
 
 public class TestUtils {
 	/**

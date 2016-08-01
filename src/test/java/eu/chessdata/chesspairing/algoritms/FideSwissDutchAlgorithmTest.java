@@ -1,4 +1,4 @@
-package eu.chessdata.chessparing.algoritms;
+package eu.chessdata.chesspairing.algoritms;
 
 import static org.junit.Assert.assertTrue;
 
@@ -11,12 +11,12 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
-import eu.chessdata.chessparing.Tools;
-import eu.chessdata.chessparing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
-import eu.chessdata.chessparing.model.ChessparingTournament;
-import eu.chessdata.chessparing.model.ChessparingTournamentTest;
-import eu.chessdata.chessparing.model.ParringSummary;
-import eu.chessdata.chessparing.model.TestUtils;
+import eu.chessdata.chesspairing.Tools;
+import eu.chessdata.chesspairing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
+import eu.chessdata.chesspairing.model.ChessparingTournament;
+import eu.chessdata.chesspairing.model.ChessparingTournamentTest;
+import eu.chessdata.chesspairing.model.ParringSummary;
+import eu.chessdata.chesspairing.model.TestUtils;
 
 public class FideSwissDutchAlgorithmTest {
 

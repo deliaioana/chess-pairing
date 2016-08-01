@@ -1,8 +1,8 @@
-package eu.chessdata.chessparing.algoritms.comparators;
+package eu.chessdata.chesspairing.algoritms.comparators;
 
 import java.util.Comparator;
 
-import eu.chessdata.chessparing.model.ChessparingPlayer;
+import eu.chessdata.chesspairing.model.ChessparingPlayer;
 
 /**
  * It sorts in the descending order the players by elo

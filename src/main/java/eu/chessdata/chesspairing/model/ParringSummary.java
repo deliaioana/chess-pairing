@@ -1,4 +1,4 @@
-package eu.chessdata.chessparing.model;
+package eu.chessdata.chesspairing.model;
 /**
  * This is a simple class that can be used to represent different results
  * of a peering algorithm or just to package useful information to the

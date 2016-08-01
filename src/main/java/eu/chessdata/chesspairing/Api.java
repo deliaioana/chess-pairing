@@ -1,8 +1,8 @@
-package eu.chessdata.chessparing;
+package eu.chessdata.chesspairing;
 
 import com.google.gson.Gson;
 
-import eu.chessdata.chessparing.model.ChessparingTournament;
+import eu.chessdata.chesspairing.model.ChessparingTournament;
 
 public class Api {
 	
