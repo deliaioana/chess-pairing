@@ -18,7 +18,7 @@ import eu.chessdata.chesspairing.Api;
 import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.model.ChessparingTournament;
 
-public class ChessparingTournamentTest {
+public class ChesspairingTournamentTest {
 	@BeforeClass
 	public static void checGeneratedFilesFolder(){
 		TestUtils.createIfNotPresentGeneratedFilesFolder();
@@ -48,8 +48,8 @@ public class ChessparingTournamentTest {
 	 */
 	@Test
 	public void loadFromFileSnipet() throws UnsupportedEncodingException {
-		InputStream inputStream = ChessparingTournamentTest.class
-				.getResourceAsStream("/chessparingTournamentTest/tournament1.json");
+		InputStream inputStream = ChesspairingTournamentTest.class
+				.getResourceAsStream("/chesspairingTournamentTest/tournament1.json");
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
 

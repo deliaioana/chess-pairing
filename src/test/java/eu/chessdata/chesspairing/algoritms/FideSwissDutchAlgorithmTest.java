@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
 import eu.chessdata.chesspairing.model.ChessparingTournament;
-import eu.chessdata.chesspairing.model.ChessparingTournamentTest;
+import eu.chessdata.chesspairing.model.ChesspairingTournamentTest;
 import eu.chessdata.chesspairing.model.ParringSummary;
 import eu.chessdata.chesspairing.model.TestUtils;
 
@@ -22,7 +22,7 @@ public class FideSwissDutchAlgorithmTest {
 
 	@Test
 	public void firstRoundTest1() throws UnsupportedEncodingException {
-		InputStream inputStream = ChessparingTournamentTest.class
+		InputStream inputStream = ChesspairingTournamentTest.class
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/zeroRounds.json");
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
@@ -40,7 +40,7 @@ public class FideSwissDutchAlgorithmTest {
 
 	@Test
 	public void testValiateOrder1() throws UnsupportedEncodingException {
-		InputStream inputStream = ChessparingTournamentTest.class
+		InputStream inputStream = ChesspairingTournamentTest.class
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/testValiateOrder1.json");
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
@@ -56,7 +56,7 @@ public class FideSwissDutchAlgorithmTest {
 
 	@Test
 	public void testValiateOrder2() throws UnsupportedEncodingException {
-		InputStream inputStream = ChessparingTournamentTest.class
+		InputStream inputStream = ChesspairingTournamentTest.class
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/testValiateOrder2.json");
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
@@ -79,7 +79,7 @@ public class FideSwissDutchAlgorithmTest {
 	 */
 	@Test
 	public void testPareSecondRound01() throws UnsupportedEncodingException {
-		InputStream inputStream = ChessparingTournamentTest.class
+		InputStream inputStream = ChesspairingTournamentTest.class
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/testPareSecondRound01.json");
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
