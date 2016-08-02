@@ -30,9 +30,9 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		if (mTournament.getTotalRounds() <= mTournament.getRounds().size()) {
 			throw new IllegalStateException("You are trying to generate more rounds than totalRounds");
 		}
-		
+
 		boolean validationOk = validateOrder();
-		if (!validationOk){
+		if (!validationOk) {
 			return mTournament;
 		}
 
@@ -41,7 +41,50 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			generateFirstRound();
 			return this.mTournament;
 		}
+
+		// make sure that the next round can be generated
+		if (!canIGenerateNextRound()) {
+			mTournament.getParringSummary().setShortMessage(ParringSummary.PARRING_NOT_OK);
+			mTournament.getParringSummary().setLongMessage("You can not generate the next round!");
+			return mTournament;
+		}
+		prepareNextRound();
+
 		throw new UnsupportedOperationException("Please implement this");
+	}
+
+	/**
+	 * create the next round, copy the players presence and the return the round
+	 * number
+	 */
+	private void prepareNextRound() {
+		throw new IllegalStateException("Please implement this");
+	}
+
+	/**
+	 * it tests for the proper rounds identification (not to have 2 rounds with
+	 * the same id) and if there is place to create one more round
+	 * 
+	 * @return true if a new round can be generated;
+	 */
+	private boolean canIGenerateNextRound() {
+		int totalRounds = mTournament.getTotalRounds();
+		int currentRouns = mTournament.getRounds().size();
+
+		List<Integer> roundNumbers = new ArrayList<>();
+		for (ChessparingRound round : mTournament.getRounds()) {
+			if (roundNumbers.contains(round.getRoundNumber())) {
+				// you have 2 rounds with the same id
+				return false;
+			}
+			roundNumbers.add(round.getRoundNumber());
+		}
+
+		if (currentRouns < totalRounds) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -88,7 +131,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 
 		// and wee set the rounds
 		mTournament.setRounds(rounds);
-		
+
 		ParringSummary firstRoundOk = new ParringSummary();
 		firstRoundOk.setShortMessage(ParringSummary.PARRING_OK);
 		firstRoundOk.setLongMessage("First round was generated");
@@ -96,24 +139,26 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	}
 
 	/**
-	 * if players with no initialOrderId or the same initialOrderId then do not pare
-	 * and set the paring message accordingly. No initial order is considered smaller or equal to 0
-	 * @return  true if validation is OK and false otherwise
+	 * if players with no initialOrderId or the same initialOrderId then do not
+	 * pare and set the paring message accordingly. No initial order is
+	 * considered smaller or equal to 0
+	 * 
+	 * @return true if validation is OK and false otherwise
 	 */
-	private boolean validateOrder(){
-		//players with no id
+	private boolean validateOrder() {
+		// players with no id
 		List<String> playersNoId = new ArrayList<>();
 		List<ChessparingPlayer> players = mTournament.getPlayers();
-		for (ChessparingPlayer player: players){
-			if (player.getInitialOrderId()<=0){
+		for (ChessparingPlayer player : players) {
+			if (player.getInitialOrderId() <= 0) {
 				playersNoId.add(player.getName());
 			}
 		}
-		if (playersNoId.size()>0){
+		if (playersNoId.size() > 0) {
 			StringBuffer sb = new StringBuffer();
 			sb.append("You have players with no initialOrderId: ");
-			for(String name: playersNoId){
-				sb.append(name+", ");//
+			for (String name : playersNoId) {
+				sb.append(name + ", ");//
 			}
 			int id = sb.lastIndexOf(", ");
 			sb.replace(id, sb.length(), "");
@@ -123,21 +168,21 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			mTournament.setParringSummary(parringSummary);
 			return false;
 		}
-		
-		//players with the same id
-		Map<Integer,ChessparingPlayer> map = new HashMap<>();
-		for (ChessparingPlayer player: players){
-			if(map.containsKey(player.getInitialOrderId())){
+
+		// players with the same id
+		Map<Integer, ChessparingPlayer> map = new HashMap<>();
+		for (ChessparingPlayer player : players) {
+			if (map.containsKey(player.getInitialOrderId())) {
 				StringBuffer sb = new StringBuffer();
 				sb.append("You have players with the same initialOrderId: ");
-				sb.append(map.get(player.getInitialOrderId()).getName()+" and ");
+				sb.append(map.get(player.getInitialOrderId()).getName() + " and ");
 				sb.append(player.getName());
 				ParringSummary parringSummary = new ParringSummary();
 				parringSummary.setShortMessage(ParringSummary.PARRING_NOT_OK);
 				parringSummary.setLongMessage(sb.toString());
 				mTournament.setParringSummary(parringSummary);
 				return false;
-			}else{
+			} else {
 				map.put(player.getInitialOrderId(), player);
 			}
 		}
