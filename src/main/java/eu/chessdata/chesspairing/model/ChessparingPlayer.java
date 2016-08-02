@@ -3,6 +3,9 @@ package eu.chessdata.chesspairing.model;
 import eu.chessdata.chesspairing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
 
 public class ChessparingPlayer {
+	public static final String PRESENT = "present";
+	public static final String ABSENT = "absent";
+	
 	private String name;
 	private int elo;
 	/**
@@ -12,6 +15,9 @@ public class ChessparingPlayer {
 	private int initialOrderId;
 	
 	private String playerKey;
+	private String presence;
+	
+	
 	public String getName() {
 		return name;
 	}
@@ -35,6 +41,12 @@ public class ChessparingPlayer {
 	}
 	public void setInitialOrderId(int initialOrderId) {
 		this.initialOrderId = initialOrderId;
+	}
+	public String getPresence() {
+		return presence;
+	}
+	public void setPresence(String presence) {
+		this.presence = presence;
 	}
 	
 	

@@ -49,16 +49,27 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			return mTournament;
 		}
 		prepareNextRound();
+		
 
 		throw new UnsupportedOperationException("Please implement this");
 	}
 
 	/**
-	 * create the next round, copy the players presence and the return the round
-	 * number
+	 * create the next round, copy the players presence and then return 
 	 */
 	private void prepareNextRound() {
-		throw new IllegalStateException("Please implement this");
+		ChessparingRound round = new ChessparingRound();
+		int roundNumber = mTournament.getRounds().size() + 1;
+		round.setRoundNumber(roundNumber);
+		List<ChessparingPlayer> players = new ArrayList<>();
+		// round.setRoundNumber(roundNumber);
+		for (ChessparingPlayer player : mTournament.getPlayers()) {
+			if (player.getPresence().equals(ChessparingPlayer.PRESENT)) {
+				players.add(player);
+			}
+		}
+		round.setPresentPlayers(players);
+		mTournament.getRounds().add(round);
 	}
 
 	/**
