@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sun.org.apache.xerces.internal.impl.xs.SchemaSymbols;
+
 import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.algoritms.comparators.ByElo;
 import eu.chessdata.chesspairing.model.ChessparingGame;
@@ -16,6 +18,11 @@ import eu.chessdata.chesspairing.model.ParringSummary;
 
 public class FideSwissDutchAlgorithm implements Algorithm {
 	private ChessparingTournament mTournament;
+
+	/**
+	 * groups of players The key
+	 */
+	private Map<Long, Map<String, ChessparingPlayer>> playersByResult;
 
 	public ChessparingTournament generateNextRound(ChessparingTournament tournament) {
 		this.mTournament = tournament;
@@ -49,17 +56,85 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			return mTournament;
 		}
 		prepareNextRound();
-		computeCurrentResults();
-		
+		int roundNumber = mTournament.getRounds().size();
+		computeCurrentResults(roundNumber);
+
 		throw new UnsupportedOperationException("Please implement this");
 	}
-	
-	private void computeCurrentResults(){
+
+	/**
+	 * compute all players results from the previous rounds
+	 * 
+	 * @param roundNumber
+	 */
+	private void computeCurrentResults(int roundNumber) {
+		// get the current round
+		// reset playersByResult;
+		this.playersByResult = new HashMap<>();
+		ChessparingRound currentRound = getRound(roundNumber);
+		
+		// players key
+		Map<String, Double> currentPoints = new HashMap<>();
+
+		for (int i = 1; i < roundNumber; i++) {
+			ChessparingRound round = getRound(i);
+			List<ChessparingGame> games = round.getGames();
+			for (ChessparingGame game : games) {
+
+				String whiteKey = game.getWhitePlayer().getPlayerKey();
+				Double whitePoints = currentPoints.get(whiteKey);
+				if (whitePoints == null) {
+					whitePoints = 0.0;
+					currentPoints.put(whiteKey, whitePoints);
+				}
+				if (game.getResult() == ChessparingGame.RESULT_WITE_WINS) {
+					whitePoints = whitePoints + 1;
+				}
+				if (game.getResult() == ChessparingGame.RESULT_NO_PARTNER) {
+					whitePoints = whitePoints + 0.5;
+					// go to the next game
+					continue;
+				}
+
+				String blackKey = game.getBlackPlayer().getPlayerKey();
+				Double blackPoints = currentPoints.get(blackKey);
+				if (blackPoints == null) {
+					blackPoints = 0.0;
+					currentPoints.put(blackKey, blackPoints);
+				}
+				if (game.getResult() == ChessparingGame.RESULT_BLACK_WINS) {
+					blackPoints = blackPoints + 1;
+				}
+				if (game.getResult() == ChessparingGame.RESULT_DRAW_GAME) {
+					whitePoints = whitePoints + 0.5;
+					blackPoints = blackPoints + 0.5;
+				}
+			}
+		}
+		
+		//collect only the points from the present players;
 		throw new IllegalStateException("Please implement this");
 	}
 
 	/**
-	 * create the next round, copy the players presence and then return 
+	 * get a reference to the round by round number;
+	 * 
+	 * @param roundNumber
+	 * @return
+	 */
+	private ChessparingRound getRound(int roundNumber) {
+		List<ChessparingRound> rounds = mTournament.getRounds();
+		for (ChessparingRound round : rounds) {
+			if (round.getRoundNumber() == roundNumber) {
+				return round;
+			}
+		}
+		throw new IllegalStateException(
+				"Tournament in inconsistent state! Not able to find roundNumber = " + roundNumber);
+	}
+
+	/**
+	 * create the next round and copy the players presence
 	 */
 	private void prepareNextRound() {
 		ChessparingRound round = new ChessparingRound();

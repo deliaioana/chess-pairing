@@ -13,11 +13,9 @@ import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
-import eu.chessdata.chesspairing.model.ChessparingTournament;
 import eu.chessdata.chesspairing.model.ChesspairingTournamentTest;
-import eu.chessdata.chesspairing.model.ChessparingPlayer;
+import eu.chessdata.chesspairing.model.ChessparingTournament;
 import eu.chessdata.chesspairing.model.ParringSummary;
-import eu.chessdata.chesspairing.model.TestUtils;
 
 public class FideSwissDutchAlgorithmTest {
 
