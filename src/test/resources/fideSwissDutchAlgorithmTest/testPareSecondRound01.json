@@ -6,54 +6,63 @@
 			"name": "Catalin Ioan",
 			"elo": 1750,
 			"initialOrderId": 6,
-			"playerKey": "1750Catalin Ioan"
+			"playerKey": "1750Catalin Ioan",
+			"presence": "present"
 		},
 		{
 			"name": "Delia Ioana",
 			"elo": 1750,
 			"initialOrderId": 8,
-			"playerKey": "1750Delia Ioana"
+			"playerKey": "1750Delia Ioana",
+			"presence": "present"
 		},
 		{
 			"name": "Maria",
 			"elo": 1700,
 			"initialOrderId": 7,
-			"playerKey": "1700Maria"
+			"playerKey": "1700Maria",
+			"presence": "present"
 		},
 		{
 			"name": "Rares",
 			"elo": 1600,
 			"initialOrderId": 5,
-			"playerKey": "1600Rares"
+			"playerKey": "1600Rares",
+			"presence": "present"
 		},
 		{
 			"name": "Calin Constantin",
 			"elo": 1550,
 			"initialOrderId": 3,
-			"playerKey": "1550Calin Constantin"
+			"playerKey": "1550Calin Constantin",
+			"presence": "present"
 		},
 		{
 			"name": "Bogdan Marian",
 			"elo": 1450,
 			"initialOrderId": 1,
-			"playerKey": "1450Bogdan Marian"
+			"playerKey": "1450Bogdan Marian",
+			"presence": "present"
 		},
 		{
 			"name": "Lacramioara",
 			"elo": 1320,
 			"initialOrderId": 2,
-			"playerKey": "1320Lacramioara"
+			"playerKey": "1320Lacramioara",
+			"presence": "present"
 		},
 		{
 			"name": "Cezar Andrei",
 			"elo": 1200,
 			"initialOrderId": 4,
-			"playerKey": "1200Cezar Andrei"
+			"playerKey": "1200Cezar Andrei",
+			"presence": "present"
 		}
 	],
 	"rounds": [
 		{
 			"roundNumber": 1,
+			"presentPlayers": [],
 			"upfloaters": [],
 			"games": [
 				{

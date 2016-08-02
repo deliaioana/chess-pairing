@@ -15,6 +15,7 @@ import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
 import eu.chessdata.chesspairing.model.ChessparingTournament;
 import eu.chessdata.chesspairing.model.ChesspairingTournamentTest;
+import eu.chessdata.chesspairing.model.ChessparingPlayer;
 import eu.chessdata.chesspairing.model.ParringSummary;
 import eu.chessdata.chesspairing.model.TestUtils;
 
@@ -85,10 +86,12 @@ public class FideSwissDutchAlgorithmTest {
 		Gson gson = Tools.getGson();
 		ChessparingTournament tournament = gson.fromJson(reader, ChessparingTournament.class);
 		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
+		
+		
 		tournament = algorithm.generateNextRound(tournament);
 		ParringSummary parringSummary = tournament.getParringSummary();
 		System.out.println(parringSummary.getLongMessage());
 		assertTrue(parringSummary.getShortMessage().equals(ParringSummary.PARRING_OK));
-		TestUtils.writeToFile(tournament, "testPareSecondRound01.json");
+		
 	}
 }

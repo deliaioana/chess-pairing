@@ -49,9 +49,13 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			return mTournament;
 		}
 		prepareNextRound();
+		computeCurrentResults();
 		
-
 		throw new UnsupportedOperationException("Please implement this");
+	}
+	
+	private void computeCurrentResults(){
+		throw new IllegalStateException("Please implement this");
 	}
 
 	/**
