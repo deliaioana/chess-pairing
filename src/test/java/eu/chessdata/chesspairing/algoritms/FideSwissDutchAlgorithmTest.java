@@ -91,13 +91,13 @@ public class FideSwissDutchAlgorithmTest {
 		List<ChesspairingPlayer> players = tournament.getPlayers();
 		int presentPlayers = 0;
 		for (ChesspairingPlayer player: players){
-			player.setPresent(true);
 			if (player.isPresent()){
 				presentPlayers++;
 			}
 		}
 		assertTrue("all plaeyrs should be present", players.size()==presentPlayers);
-		TestUtils.writeToFile(tournament, "testPareSecondRound01.json");
+		//TestUtils.writeToFile(tournament, "testPareSecondRound01.json");
+		
 		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
 		tournament = algorithm.generateNextRound(tournament);
 		PairingSummary parringSummary = tournament.getParringSummary();

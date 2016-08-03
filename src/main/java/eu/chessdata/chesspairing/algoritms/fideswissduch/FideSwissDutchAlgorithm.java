@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.algoritms.comparators.ByElo;
@@ -17,11 +18,17 @@ import eu.chessdata.chesspairing.model.PairingSummary;
 
 public class FideSwissDutchAlgorithm implements Algorithm {
 	private ChesspairingTournament mTournament;
+	
 
 	/**
 	 * groups of players The key
 	 */
-	private Map<Long, Map<String, ChesspairingPlayer>> playersByResult;
+	private Map<String, Double> currentPoints;
+	private Map<Double, Map<String, ChesspairingPlayer>> playersByResult;
+	private List<Double> orderedResults;
+	//PlayerKey to color string
+	private Map<String, String> playerKeystoColorStrings;
+	
 
 	public ChesspairingTournament generateNextRound(ChesspairingTournament tournament) {
 		this.mTournament = tournament;
@@ -57,22 +64,30 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		prepareNextRound();
 		int roundNumber = mTournament.getRounds().size();
 		computeCurrentResults(roundNumber);
+		computeCollorStrings();
 
 		throw new UnsupportedOperationException("Please implement this");
 	}
 
+	private void computeCollorStrings() {
+		throw new UnsupportedOperationException("Please implement this");
+		
+	}
+
 	/**
 	 * compute all players results from the previous rounds
+	 * and orders the results in the descending order
 	 * 
 	 * @param roundNumber
 	 */
 	private void computeCurrentResults(int roundNumber) {
-		// get the current round
+		
 		// reset playersByResult;
 		this.playersByResult = new HashMap<>();
+		this.orderedResults = new ArrayList<>();
 		
 		// players key
-		Map<String, Double> currentPoints = new HashMap<>();
+		this.currentPoints = new HashMap<>();
 
 		for (int i = 1; i < roundNumber; i++) {
 			ChesspairingRound round = getRound(i);
@@ -80,10 +95,10 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			for (ChesspairingGame game : games) {
 
 				String whiteKey = game.getWhitePlayer().getPlayerKey();
-				Double whitePoints = currentPoints.get(whiteKey);
+				Double whitePoints = this.currentPoints.get(whiteKey);
 				if (whitePoints == null) {
 					whitePoints = 0.0;
-					currentPoints.put(whiteKey, whitePoints);
+					this.currentPoints.put(whiteKey, whitePoints);
 				}
 				if (game.getResult() == ChesspairingResult.WHITE_WINS) {
 					whitePoints = whitePoints + 1;
@@ -95,10 +110,10 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 				}
 
 				String blackKey = game.getBlackPlayer().getPlayerKey();
-				Double blackPoints = currentPoints.get(blackKey);
+				Double blackPoints = this.currentPoints.get(blackKey);
 				if (blackPoints == null) {
 					blackPoints = 0.0;
-					currentPoints.put(blackKey, blackPoints);
+					this.currentPoints.put(blackKey, blackPoints);
 				}
 				if (game.getResult() == ChesspairingResult.BLACK_WINS) {
 					blackPoints = blackPoints + 1;
@@ -111,7 +126,29 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		}
 		
 		//collect only the points from the present players;
-		throw new IllegalStateException("Please implement this");
+		List<ChesspairingPlayer> allPlayers = mTournament.getPlayers();
+		for (ChesspairingPlayer player: allPlayers){
+			if (!player.isPresent()){
+				this.currentPoints.remove(player.getPlayerKey());
+			}
+		}
+		
+		//put the results in playersByResult
+		for (Entry<String, Double> entry: currentPoints.entrySet()){
+			//if playersByResult group does not exist then create it
+			Double result = entry.getValue();
+			if (!this.playersByResult.containsKey(result)){
+				Map<String, ChesspairingPlayer> newGroup = new HashMap<>();
+				this.playersByResult.put(result, newGroup);
+				this.orderedResults.add(result);
+			}
+			Map<String,ChesspairingPlayer> group = playersByResult.get(result);
+			String playerKey = entry.getKey();
+			ChesspairingPlayer player = getPlayer(playerKey);
+			group.put(playerKey, player);
+		}
+		//order the results
+		Collections.reverse(this.orderedResults);
 	}
 
 	/**
@@ -276,5 +313,14 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			}
 		}
 		return true;
+	}
+	
+	private ChesspairingPlayer getPlayer(String playerKey){
+		for (ChesspairingPlayer player: mTournament.getPlayers()){
+			if (player.getPlayerKey().equals(playerKey)){
+				return player;
+			}
+		}
+		throw new IllegalStateException("You are surching by the wronk key: "+playerKey);
 	}
 }
