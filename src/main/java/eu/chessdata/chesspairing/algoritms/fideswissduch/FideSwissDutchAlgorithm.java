@@ -141,7 +141,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		List<ChesspairingPlayer> players = new ArrayList<>();
 		// round.setRoundNumber(roundNumber);
 		for (ChesspairingPlayer player : mTournament.getPlayers()) {
-			if (player.getPresence().equals(ChesspairingPlayer.PRESENT)) {
+			if (player.isPresent()) {
 				players.add(player);
 			}
 		}
