@@ -2,17 +2,17 @@ package eu.chessdata.chesspairing.algoritms.comparators;
 
 import java.util.Comparator;
 
-import eu.chessdata.chesspairing.model.ChessparingPlayer;
+import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 
 /**
  * It sorts in the descending order the players by elo
  * @author bogda
  *
  */
-public class ByElo implements Comparator<ChessparingPlayer>{
+public class ByElo implements Comparator<ChesspairingPlayer>{
 
 	@Override
-	public int compare(ChessparingPlayer o1, ChessparingPlayer o2) {
+	public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
 		if (o1 == null){
 			throw new IllegalStateException("Player o1 is null");
 		}

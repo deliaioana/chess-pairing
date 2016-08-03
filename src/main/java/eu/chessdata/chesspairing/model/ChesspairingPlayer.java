@@ -2,7 +2,7 @@ package eu.chessdata.chesspairing.model;
 
 import eu.chessdata.chesspairing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
 
-public class ChessparingPlayer {
+public class ChesspairingPlayer {
 	public static final String PRESENT = "present";
 	public static final String ABSENT = "absent";
 	

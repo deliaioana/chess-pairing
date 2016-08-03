@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Api;
 import eu.chessdata.chesspairing.Tools;
-import eu.chessdata.chesspairing.model.ChessparingTournament;
+import eu.chessdata.chesspairing.model.ChesspairingTournament;
 
 public class ChesspairingTournamentTest {
 	@BeforeClass
@@ -29,9 +29,9 @@ public class ChesspairingTournamentTest {
 	 */
 	@Test
 	public void simpetBuildTournament() {
-		ChessparingTournament tournament = TestUtils.buildTournament("Simple chess tournament");
+		ChesspairingTournament tournament = TestUtils.buildTournament("Simple chess tournament");
 		String stringTournament = Api.serializeTournament(tournament);
-		ChessparingTournament secondTournament = Api.deserializeTournament(stringTournament);
+		ChesspairingTournament secondTournament = Api.deserializeTournament(stringTournament);
 		Assert.assertTrue("Tournament names should be the same",
 				tournament.getName().equals(secondTournament.getName()));
 		String secondString = Api.serializeTournament(secondTournament);
@@ -41,7 +41,7 @@ public class ChesspairingTournamentTest {
 
 	/**
 	 * Just as the name implies this is just a simple snippet that shows a
-	 * simple way to create a {@link ChessparingTournament} object from a json
+	 * simple way to create a {@link ChesspairingTournament} object from a json
 	 * file.
 	 * 
 	 * @throws UnsupportedEncodingException
@@ -54,7 +54,7 @@ public class ChesspairingTournamentTest {
 		Gson gson = Tools.getGson();
 
 		// line that loads from file
-		ChessparingTournament tournament = gson.fromJson(reader, ChessparingTournament.class);
+		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
 
 		// simple line that tests that wee have the correct data
 		Assert.assertTrue("Not the expected data", tournament.getName().equals("Tournament 1"));
@@ -74,7 +74,7 @@ public class ChesspairingTournamentTest {
 		Writer writer = new FileWriter(tournament1FilePath);
 		Gson gson = Tools.getGson();
 
-		ChessparingTournament tournament = TestUtils.buildTournament("Tournament 1");
+		ChesspairingTournament tournament = TestUtils.buildTournament("Tournament 1");
 
 		// write tournament to file
 		gson.toJson(tournament, writer);

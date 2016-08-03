@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -13,9 +14,14 @@ import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
+import eu.chessdata.chesspairing.model.ChesspairingGame;
+import eu.chessdata.chesspairing.model.ChesspairingPlayer;
+import eu.chessdata.chesspairing.model.ChesspairingResult;
+import eu.chessdata.chesspairing.model.ChesspairingRound;
+import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.ChesspairingTournamentTest;
-import eu.chessdata.chesspairing.model.ChessparingTournament;
-import eu.chessdata.chesspairing.model.ParringSummary;
+import eu.chessdata.chesspairing.model.PairingSummary;
+import eu.chessdata.chesspairing.model.TestUtils;
 
 public class FideSwissDutchAlgorithmTest {
 
@@ -25,7 +31,7 @@ public class FideSwissDutchAlgorithmTest {
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/zeroRounds.json");
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
-		ChessparingTournament tournament = gson.fromJson(reader, ChessparingTournament.class);
+		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
 		tournament.setTotalRounds(7);
 		tournament.setName("FirstRoundTest1 (just a name)");
 		tournament.setDescription("This is the description. It could be quite long if you so desire. ");
@@ -43,12 +49,12 @@ public class FideSwissDutchAlgorithmTest {
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/testValiateOrder1.json");
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
-		ChessparingTournament tournament = gson.fromJson(reader, ChessparingTournament.class);
+		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
 		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
 		tournament = algorithm.generateNextRound(tournament);
-		ParringSummary parringSummary = tournament.getParringSummary();
+		PairingSummary parringSummary = tournament.getParringSummary();
 
-		assertTrue(parringSummary.getShortMessage().equals(ParringSummary.PARRING_NOT_OK));
+		assertTrue(parringSummary.getShortMessage().equals(PairingSummary.PARRING_NOT_OK));
 		// System.out.println(parringSummary.getLongMessage());
 		// TestUtils.writeToFile(tournament, "testValiateOrder1.json");
 	}
@@ -59,12 +65,12 @@ public class FideSwissDutchAlgorithmTest {
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/testValiateOrder2.json");
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
-		ChessparingTournament tournament = gson.fromJson(reader, ChessparingTournament.class);
+		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
 		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
 		tournament = algorithm.generateNextRound(tournament);
-		ParringSummary parringSummary = tournament.getParringSummary();
+		PairingSummary parringSummary = tournament.getParringSummary();
 
-		assertTrue(parringSummary.getShortMessage().equals(ParringSummary.PARRING_NOT_OK));
+		assertTrue(parringSummary.getShortMessage().equals(PairingSummary.PARRING_NOT_OK));
 		// System.out.println(parringSummary.getLongMessage());
 	}
 
@@ -82,14 +88,12 @@ public class FideSwissDutchAlgorithmTest {
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/testPareSecondRound01.json");
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
-		ChessparingTournament tournament = gson.fromJson(reader, ChessparingTournament.class);
+		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
+		
 		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
-		
-		
 		tournament = algorithm.generateNextRound(tournament);
-		ParringSummary parringSummary = tournament.getParringSummary();
+		PairingSummary parringSummary = tournament.getParringSummary();
 		System.out.println(parringSummary.getLongMessage());
-		assertTrue(parringSummary.getShortMessage().equals(ParringSummary.PARRING_OK));
-		
+		assertTrue(parringSummary.getShortMessage().equals(PairingSummary.PARRING_OK));
 	}
 }

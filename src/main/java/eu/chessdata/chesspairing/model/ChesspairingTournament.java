@@ -3,7 +3,7 @@ package eu.chessdata.chesspairing.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChessparingTournament {
+public class ChesspairingTournament {
 	private String name;
 	private String description;
 	/**
@@ -11,9 +11,9 @@ public class ChessparingTournament {
 	 * If you try to pare over this number some algorithms will just crash. 
 	 */
 	private int totalRounds;
-	private List<ChessparingPlayer> players = new ArrayList<ChessparingPlayer>();
-	private List<ChessparingRound> rounds = new ArrayList<ChessparingRound>();
-	private ParringSummary parringSummary;
+	private List<ChesspairingPlayer> players = new ArrayList<ChesspairingPlayer>();
+	private List<ChesspairingRound> rounds = new ArrayList<ChesspairingRound>();
+	private PairingSummary parringSummary;
 
 	public String getName() {
 		return name;
@@ -39,27 +39,27 @@ public class ChessparingTournament {
 		this.totalRounds = totalRounds;
 	}
 
-	public List<ChessparingRound> getRounds() {
+	public List<ChesspairingRound> getRounds() {
 		return rounds;
 	}
 
-	public void setRounds(List<ChessparingRound> rounds) {
+	public void setRounds(List<ChesspairingRound> rounds) {
 		this.rounds = rounds;
 	}
 
-	public List<ChessparingPlayer> getPlayers() {
+	public List<ChesspairingPlayer> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(List<ChessparingPlayer> players) {
+	public void setPlayers(List<ChesspairingPlayer> players) {
 		this.players = players;
 	}
 
-	public ParringSummary getParringSummary() {
+	public PairingSummary getParringSummary() {
 		return parringSummary;
 	}
 
-	public void setParringSummary(ParringSummary parringSummary) {
+	public void setParringSummary(PairingSummary parringSummary) {
 		this.parringSummary = parringSummary;
 	}
 	

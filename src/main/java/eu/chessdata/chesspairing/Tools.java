@@ -2,7 +2,7 @@ package eu.chessdata.chesspairing;
 
 import com.google.gson.Gson;
 
-import eu.chessdata.chesspairing.model.ParringSummary;
+import eu.chessdata.chesspairing.model.PairingSummary;
 
 public class Tools {
 	public static final String GENERATED_FILES = "generatedFiles";
@@ -16,9 +16,9 @@ public class Tools {
 		return new Gson();
 	}
 
-	public static ParringSummary buildParringStarted() {
-		ParringSummary parringSummary = new ParringSummary();
-		parringSummary.setShortMessage(ParringSummary.PARRING_NOT_PERFORMED);
+	public static PairingSummary buildParringStarted() {
+		PairingSummary parringSummary = new PairingSummary();
+		parringSummary.setShortMessage(PairingSummary.PARRING_NOT_PERFORMED);
 		parringSummary.setLongMessage("Parring was not performed");
 		return parringSummary;
 	}

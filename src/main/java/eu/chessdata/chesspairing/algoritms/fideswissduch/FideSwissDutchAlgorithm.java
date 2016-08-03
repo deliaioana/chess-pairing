@@ -6,25 +6,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sun.org.apache.xerces.internal.impl.xs.SchemaSymbols;
-
 import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.algoritms.comparators.ByElo;
-import eu.chessdata.chesspairing.model.ChessparingGame;
-import eu.chessdata.chesspairing.model.ChessparingPlayer;
-import eu.chessdata.chesspairing.model.ChessparingRound;
-import eu.chessdata.chesspairing.model.ChessparingTournament;
-import eu.chessdata.chesspairing.model.ParringSummary;
+import eu.chessdata.chesspairing.model.ChesspairingResult;
+import eu.chessdata.chesspairing.model.ChesspairingGame;
+import eu.chessdata.chesspairing.model.ChesspairingPlayer;
+import eu.chessdata.chesspairing.model.ChesspairingRound;
+import eu.chessdata.chesspairing.model.ChesspairingTournament;
+import eu.chessdata.chesspairing.model.PairingSummary;
 
 public class FideSwissDutchAlgorithm implements Algorithm {
-	private ChessparingTournament mTournament;
+	private ChesspairingTournament mTournament;
 
 	/**
 	 * groups of players The key
 	 */
-	private Map<Long, Map<String, ChessparingPlayer>> playersByResult;
+	private Map<Long, Map<String, ChesspairingPlayer>> playersByResult;
 
-	public ChessparingTournament generateNextRound(ChessparingTournament tournament) {
+	public ChesspairingTournament generateNextRound(ChesspairingTournament tournament) {
 		this.mTournament = tournament;
 		this.mTournament.setParringSummary(Tools.buildParringStarted());
 		// more tan 1 players
@@ -43,7 +42,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			return mTournament;
 		}
 
-		List<ChessparingRound> rounds = this.mTournament.getRounds();
+		List<ChesspairingRound> rounds = this.mTournament.getRounds();
 		if (rounds.size() <= 0) {
 			generateFirstRound();
 			return this.mTournament;
@@ -51,7 +50,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 
 		// make sure that the next round can be generated
 		if (!canIGenerateNextRound()) {
-			mTournament.getParringSummary().setShortMessage(ParringSummary.PARRING_NOT_OK);
+			mTournament.getParringSummary().setShortMessage(PairingSummary.PARRING_NOT_OK);
 			mTournament.getParringSummary().setLongMessage("You can not generate the next round!");
 			return mTournament;
 		}
@@ -71,15 +70,14 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		// get the current round
 		// reset playersByResult;
 		this.playersByResult = new HashMap<>();
-		ChessparingRound currentRound = getRound(roundNumber);
 		
 		// players key
 		Map<String, Double> currentPoints = new HashMap<>();
 
 		for (int i = 1; i < roundNumber; i++) {
-			ChessparingRound round = getRound(i);
-			List<ChessparingGame> games = round.getGames();
-			for (ChessparingGame game : games) {
+			ChesspairingRound round = getRound(i);
+			List<ChesspairingGame> games = round.getGames();
+			for (ChesspairingGame game : games) {
 
 				String whiteKey = game.getWhitePlayer().getPlayerKey();
 				Double whitePoints = currentPoints.get(whiteKey);
@@ -87,10 +85,10 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 					whitePoints = 0.0;
 					currentPoints.put(whiteKey, whitePoints);
 				}
-				if (game.getResult() == ChessparingGame.RESULT_WITE_WINS) {
+				if (game.getResult() == ChesspairingResult.WHITE_WINS) {
 					whitePoints = whitePoints + 1;
 				}
-				if (game.getResult() == ChessparingGame.RESULT_NO_PARTNER) {
+				if (game.getResult() == ChesspairingResult.BYE) {
 					whitePoints = whitePoints + 0.5;
 					// go to the next game
 					continue;
@@ -102,10 +100,10 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 					blackPoints = 0.0;
 					currentPoints.put(blackKey, blackPoints);
 				}
-				if (game.getResult() == ChessparingGame.RESULT_BLACK_WINS) {
+				if (game.getResult() == ChesspairingResult.BLACK_WINS) {
 					blackPoints = blackPoints + 1;
 				}
-				if (game.getResult() == ChessparingGame.RESULT_DRAW_GAME) {
+				if (game.getResult() == ChesspairingResult.DRAW_GAME) {
 					whitePoints = whitePoints + 0.5;
 					blackPoints = blackPoints + 0.5;
 				}
@@ -122,9 +120,9 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	 * @param roundNumber
 	 * @return
 	 */
-	private ChessparingRound getRound(int roundNumber) {
-		List<ChessparingRound> rounds = mTournament.getRounds();
-		for (ChessparingRound round : rounds) {
+	private ChesspairingRound getRound(int roundNumber) {
+		List<ChesspairingRound> rounds = mTournament.getRounds();
+		for (ChesspairingRound round : rounds) {
 			if (round.getRoundNumber() == roundNumber) {
 				return round;
 			}
@@ -137,13 +135,13 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	 * create the next round and copy the players presence
 	 */
 	private void prepareNextRound() {
-		ChessparingRound round = new ChessparingRound();
+		ChesspairingRound round = new ChesspairingRound();
 		int roundNumber = mTournament.getRounds().size() + 1;
 		round.setRoundNumber(roundNumber);
-		List<ChessparingPlayer> players = new ArrayList<>();
+		List<ChesspairingPlayer> players = new ArrayList<>();
 		// round.setRoundNumber(roundNumber);
-		for (ChessparingPlayer player : mTournament.getPlayers()) {
-			if (player.getPresence().equals(ChessparingPlayer.PRESENT)) {
+		for (ChesspairingPlayer player : mTournament.getPlayers()) {
+			if (player.getPresence().equals(ChesspairingPlayer.PRESENT)) {
 				players.add(player);
 			}
 		}
@@ -162,7 +160,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		int currentRouns = mTournament.getRounds().size();
 
 		List<Integer> roundNumbers = new ArrayList<>();
-		for (ChessparingRound round : mTournament.getRounds()) {
+		for (ChesspairingRound round : mTournament.getRounds()) {
 			if (roundNumbers.contains(round.getRoundNumber())) {
 				// you have 2 rounds with the same id
 				return false;
@@ -188,33 +186,34 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		}
 
 		Collections.sort(mTournament.getPlayers(), new ByElo());
-		List<ChessparingGame> games = new ArrayList<>();
-		List<ChessparingPlayer> players = mTournament.getPlayers();
+		List<ChesspairingGame> games = new ArrayList<>();
+		List<ChesspairingPlayer> players = mTournament.getPlayers();
 		int count = 0;
-		ChessparingGame game = new ChessparingGame();
+		ChesspairingGame game = new ChesspairingGame();
 		game.setTableNumber(0);
-		for (ChessparingPlayer player : players) {
+		for (ChesspairingPlayer player : players) {
 			count++;
 			if (count % 2 == 1) {
 				int tableNumber = game.getTableNumber() + 1;
-				game = new ChessparingGame();
+				game = new ChesspairingGame();
 				game.setTableNumber(tableNumber);
 				game.setWhitePlayer(player);
 				if (count == players.size()) {
-					game.setResult(ChessparingGame.RESULT_WITE_WINS);
+					game.setResult(ChesspairingResult.BYE);
 					games.add(game);
 				}
 			} else {
 				game.setBlackPlayer(player);
+				game.setResult(ChesspairingResult.NOT_DECIDED);
 				games.add(game);
 			}
 		}
-		ChessparingRound round = new ChessparingRound();
+		ChesspairingRound round = new ChesspairingRound();
 		round.setRoundNumber(1);
 		round.setGames(games);
 
 		// is the first round so wee can create all new data
-		List<ChessparingRound> rounds = new ArrayList<>();
+		List<ChesspairingRound> rounds = new ArrayList<>();
 
 		// add the round
 		rounds.add(round);
@@ -222,8 +221,8 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		// and wee set the rounds
 		mTournament.setRounds(rounds);
 
-		ParringSummary firstRoundOk = new ParringSummary();
-		firstRoundOk.setShortMessage(ParringSummary.PARRING_OK);
+		PairingSummary firstRoundOk = new PairingSummary();
+		firstRoundOk.setShortMessage(PairingSummary.PARRING_OK);
 		firstRoundOk.setLongMessage("First round was generated");
 		mTournament.setParringSummary(firstRoundOk);
 	}
@@ -238,8 +237,8 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	private boolean validateOrder() {
 		// players with no id
 		List<String> playersNoId = new ArrayList<>();
-		List<ChessparingPlayer> players = mTournament.getPlayers();
-		for (ChessparingPlayer player : players) {
+		List<ChesspairingPlayer> players = mTournament.getPlayers();
+		for (ChesspairingPlayer player : players) {
 			if (player.getInitialOrderId() <= 0) {
 				playersNoId.add(player.getName());
 			}
@@ -252,23 +251,23 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			}
 			int id = sb.lastIndexOf(", ");
 			sb.replace(id, sb.length(), "");
-			ParringSummary parringSummary = new ParringSummary();
-			parringSummary.setShortMessage(ParringSummary.PARRING_NOT_OK);
+			PairingSummary parringSummary = new PairingSummary();
+			parringSummary.setShortMessage(PairingSummary.PARRING_NOT_OK);
 			parringSummary.setLongMessage(sb.toString());
 			mTournament.setParringSummary(parringSummary);
 			return false;
 		}
 
 		// players with the same id
-		Map<Integer, ChessparingPlayer> map = new HashMap<>();
-		for (ChessparingPlayer player : players) {
+		Map<Integer, ChesspairingPlayer> map = new HashMap<>();
+		for (ChesspairingPlayer player : players) {
 			if (map.containsKey(player.getInitialOrderId())) {
 				StringBuffer sb = new StringBuffer();
 				sb.append("You have players with the same initialOrderId: ");
 				sb.append(map.get(player.getInitialOrderId()).getName() + " and ");
 				sb.append(player.getName());
-				ParringSummary parringSummary = new ParringSummary();
-				parringSummary.setShortMessage(ParringSummary.PARRING_NOT_OK);
+				PairingSummary parringSummary = new PairingSummary();
+				parringSummary.setShortMessage(PairingSummary.PARRING_NOT_OK);
 				parringSummary.setLongMessage(sb.toString());
 				mTournament.setParringSummary(parringSummary);
 				return false;

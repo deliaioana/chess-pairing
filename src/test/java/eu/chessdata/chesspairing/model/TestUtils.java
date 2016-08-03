@@ -10,8 +10,8 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Tools;
-import eu.chessdata.chesspairing.model.ChessparingPlayer;
-import eu.chessdata.chesspairing.model.ChessparingTournament;
+import eu.chessdata.chesspairing.model.ChesspairingPlayer;
+import eu.chessdata.chesspairing.model.ChesspairingTournament;
 
 public class TestUtils {
 	/**
@@ -33,15 +33,15 @@ public class TestUtils {
 		return;
 	}
 
-	public static ChessparingTournament buildTournament(String tournamentName) {
-		ChessparingTournament tournament = new ChessparingTournament();
+	public static ChesspairingTournament buildTournament(String tournamentName) {
+		ChesspairingTournament tournament = new ChesspairingTournament();
 		tournament.setName(tournamentName);
 		tournament.setPlayers(buildPlayers());
 		return tournament;
 	}
 
-	public static List<ChessparingPlayer> buildPlayers() {
-		List<ChessparingPlayer> players = new ArrayList<ChessparingPlayer>();
+	public static List<ChesspairingPlayer> buildPlayers() {
+		List<ChesspairingPlayer> players = new ArrayList<ChesspairingPlayer>();
 		players.add(buildPlayer("Bogdan Marian", 1450));
 		players.add(buildPlayer("Lacramioara", 1320));
 		players.add(buildPlayer("Calin Constantin", 1550));
@@ -53,8 +53,8 @@ public class TestUtils {
 		return players;
 	}
 
-	public static ChessparingPlayer buildPlayer(String playerName, int elo) {
-		ChessparingPlayer player = new ChessparingPlayer();
+	public static ChesspairingPlayer buildPlayer(String playerName, int elo) {
+		ChesspairingPlayer player = new ChesspairingPlayer();
 		player.setName(playerName);
 		player.setElo(elo);
 		player.setPlayerKey(String.valueOf(elo) + playerName);
@@ -70,7 +70,7 @@ public class TestUtils {
 	 * @param fileName
 	 *            is where the tournament will be serialized
 	 */
-	public static void writeToFile(ChessparingTournament tournament, String fileName) {
+	public static void writeToFile(ChesspairingTournament tournament, String fileName) {
 		createIfNotPresentGeneratedFilesFolder();
 		String filePath = Tools.GENERATED_FILES + "/" + fileName;
 		try {

@@ -2,14 +2,14 @@ package eu.chessdata.chesspairing.model;
 /**
  * This is a simple class that can be used to represent different results
  * of a peering algorithm or just to package useful information to the
- * coller inside the {@link ChessparingTournament} class. 
+ * coller inside the {@link ChesspairingTournament} class. 
  * @author bogdan
  *
  */
-public class ParringSummary {
-	public static final String PARRING_OK = "parringOK";
-	public static final String PARRING_NOT_OK = "parringNotOK";
-	public static final String PARRING_NOT_PERFORMED = "parringNotPerformed";
+public class PairingSummary {
+	public static final String PARRING_OK = "pairingOK";
+	public static final String PARRING_NOT_OK = "pairingNotOK";
+	public static final String PARRING_NOT_PERFORMED = "pairingNotPerformed";
 
 	private String shortMessage;
 	private String longMessage;
