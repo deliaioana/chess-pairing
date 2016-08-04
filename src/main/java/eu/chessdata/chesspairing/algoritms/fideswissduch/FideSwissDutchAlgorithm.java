@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.algoritms.comparators.ByElo;
 import eu.chessdata.chesspairing.model.ChesspairingResult;
+import eu.chessdata.chesspairing.model.ChesspairingColour;
 import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
@@ -18,17 +19,20 @@ import eu.chessdata.chesspairing.model.PairingSummary;
 
 public class FideSwissDutchAlgorithm implements Algorithm {
 	private ChesspairingTournament mTournament;
-	
 
 	/**
 	 * groups of players The key
 	 */
+	private List<String> presentPlayerKeys;
 	private Map<String, Double> currentPoints;
 	private Map<Double, Map<String, ChesspairingPlayer>> playersByResult;
 	private List<Double> orderedResults;
-	//PlayerKey to color string
-	private Map<String, String> playerKeystoColorStrings;
-	
+	// playerKey to color string
+	private Map<String, List<ChesspairingColour>> playerKeystoColorHistory;
+	// playerKey to partners keys
+	private Map<String, List<String>> partnerHistory;
+	// playerKey to upfloat counts
+	private Map<String, Integer> upfloatCounts; //TODO implement upfloat count
 
 	public ChesspairingTournament generateNextRound(ChesspairingTournament tournament) {
 		this.mTournament = tournament;
@@ -64,28 +68,118 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		prepareNextRound();
 		int roundNumber = mTournament.getRounds().size();
 		computeCurrentResults(roundNumber);
-		computeCollorStrings();
+		computeCollorHistory(roundNumber);
+		computePartnersHistory(roundNumber);
+		computeUpfloatCounts(roundNumber);
 
 		throw new UnsupportedOperationException("Please implement this");
-	}
-
-	private void computeCollorStrings() {
-		throw new UnsupportedOperationException("Please implement this");
-		
 	}
 
 	/**
-	 * compute all players results from the previous rounds
-	 * and orders the results in the descending order
+	 * compute upfloat counts for the previous rounds
+	 * @param roundNumber
+	 */
+	private void computeUpfloatCounts(int roundNumber) {
+		this.upfloatCounts = new HashMap<>();
+		for (String playerKey: this.presentPlayerKeys){
+			this.upfloatCounts.put(playerKey, new Integer(0));
+		}
+		
+		for(int i=1;i<roundNumber;i++){
+			for(ChesspairingPlayer upfloater: getRound(i).getUpfloaters()){
+				Integer count = this.upfloatCounts.get(upfloater.getPlayerKey())+1;
+				this.upfloatCounts.put(upfloater.getPlayerKey(), count);
+			}
+		}
+	}
+
+	/**
+	 * compute the partner history for the previous rounds,
+	 * 
+	 * @param roundNumber
+	 */
+	private void computePartnersHistory(int roundNumber) {
+		this.partnerHistory = new HashMap<>();
+		for (String playerKey : this.presentPlayerKeys) {
+			List<String> newPartnerList = new ArrayList<>();
+			this.partnerHistory.put(playerKey, newPartnerList);
+		}
+
+		// iterate over rounds and collect the data
+		for (int i = 1; i < roundNumber; i++) {
+			for (ChesspairingGame game : getRound(i).getGames()) {
+				if (game.getResult() != ChesspairingResult.BYE) {
+					String whiteKey = game.getWhitePlayer().getPlayerKey();
+					String blackKey = game.getBlackPlayer().getPlayerKey();
+					utilAddPartnerToHistory(whiteKey, blackKey);
+					utilAddPartnerToHistory(blackKey, whiteKey);
+				}
+			}
+		}
+	}
+
+	/**
+	 * utility function used to populate the partners history
+	 * 
+	 * @param playerKey
+	 * @param parnerKey
+	 */
+	private void utilAddPartnerToHistory(String playerKey, String parnerKey) {
+		if(playerKey.equals(parnerKey)){
+			throw new IllegalStateException(playerKey+ " was paired against himself! ");
+		}
+		List<String> partners = this.partnerHistory.get(playerKey);
+		if (partners.contains(parnerKey)) {
+			// for the moment just throw exception
+			throw new IllegalStateException(playerKey + " was paired with " + parnerKey + " more then once");
+		}
+		partners.add(parnerKey);
+	}
+
+	/**
+	 * compute the color history considering the previous rounds, for the moment
+	 * I'm just ignoring buys
+	 * 
+	 * @param roundNumber
+	 */
+	private void computeCollorHistory(int roundNumber) {
+		this.playerKeystoColorHistory = new HashMap<>();
+		// create the arrays for the present players
+		for (Entry<String, Double> entry : currentPoints.entrySet()) {
+			String key = entry.getKey();
+			List<ChesspairingColour> newList = new ArrayList<>();
+			playerKeystoColorHistory.put(key, newList);
+		}
+
+		for (int i = 1; i < roundNumber; i++) {
+			for (ChesspairingGame game : getRound(i).getGames()) {
+				// ignoring the buy
+				if (game.getResult() != ChesspairingResult.BYE) {
+					String whiteKey = game.getWhitePlayer().getPlayerKey();
+					if (playerKeystoColorHistory.containsKey(whiteKey)) {
+						playerKeystoColorHistory.get(whiteKey).add(ChesspairingColour.WHITE);
+					}
+					String blackKey = game.getBlackPlayer().getPlayerKey();
+					if (playerKeystoColorHistory.containsKey(blackKey)) {
+						playerKeystoColorHistory.get(blackKey).add(ChesspairingColour.BLACK);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * compute all players results from the previous rounds and orders the
+	 * results in the descending order
 	 * 
 	 * @param roundNumber
 	 */
 	private void computeCurrentResults(int roundNumber) {
-		
+
 		// reset playersByResult;
 		this.playersByResult = new HashMap<>();
 		this.orderedResults = new ArrayList<>();
-		
+
 		// players key
 		this.currentPoints = new HashMap<>();
 
@@ -124,30 +218,39 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 				}
 			}
 		}
-		
-		//collect only the points from the present players;
+
+		// collect only the points from the present players;
 		List<ChesspairingPlayer> allPlayers = mTournament.getPlayers();
-		for (ChesspairingPlayer player: allPlayers){
-			if (!player.isPresent()){
+		for (ChesspairingPlayer player : allPlayers) {
+			if (!player.isPresent()) {
 				this.currentPoints.remove(player.getPlayerKey());
 			}
 		}
-		
-		//put the results in playersByResult
-		for (Entry<String, Double> entry: currentPoints.entrySet()){
-			//if playersByResult group does not exist then create it
+
+		// set the present players
+		this.presentPlayerKeys = new ArrayList<>();
+		for (Entry<String, Double> entry : this.currentPoints.entrySet()) {
+			presentPlayerKeys.add(entry.getKey());
+		}
+		if (presentPlayerKeys.size() <= 0) {
+			throw new IllegalStateException("No present players. Please set atleast one player as present");
+		}
+
+		// put the results in playersByResult
+		for (Entry<String, Double> entry : currentPoints.entrySet()) {
+			// if playersByResult group does not exist then create it
 			Double result = entry.getValue();
-			if (!this.playersByResult.containsKey(result)){
+			if (!this.playersByResult.containsKey(result)) {
 				Map<String, ChesspairingPlayer> newGroup = new HashMap<>();
 				this.playersByResult.put(result, newGroup);
 				this.orderedResults.add(result);
 			}
-			Map<String,ChesspairingPlayer> group = playersByResult.get(result);
+			Map<String, ChesspairingPlayer> group = playersByResult.get(result);
 			String playerKey = entry.getKey();
 			ChesspairingPlayer player = getPlayer(playerKey);
 			group.put(playerKey, player);
 		}
-		//order the results
+		// order the results
 		Collections.reverse(this.orderedResults);
 	}
 
@@ -314,13 +417,13 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		}
 		return true;
 	}
-	
-	private ChesspairingPlayer getPlayer(String playerKey){
-		for (ChesspairingPlayer player: mTournament.getPlayers()){
-			if (player.getPlayerKey().equals(playerKey)){
+
+	private ChesspairingPlayer getPlayer(String playerKey) {
+		for (ChesspairingPlayer player : mTournament.getPlayers()) {
+			if (player.getPlayerKey().equals(playerKey)) {
 				return player;
 			}
 		}
-		throw new IllegalStateException("You are surching by the wronk key: "+playerKey);
+		throw new IllegalStateException("You are surching by the wrong key: " + playerKey);
 	}
 }
