@@ -88,7 +88,7 @@
 						"elo": 1750,
 						"initialOrderId": 6,
 						"playerKey": "1750Catalin Ioan",
-						"isPresent": false,
+						"isPresent": true,
 						"acceleratedPoints": 0
 					},
 					"blackPlayer": {
@@ -96,7 +96,7 @@
 						"elo": 1750,
 						"initialOrderId": 8,
 						"playerKey": "1750Delia Ioana",
-						"isPresent": false,
+						"isPresent": true,
 						"acceleratedPoints": 0
 					},
 					"result": "BLACK_WINS"
@@ -108,7 +108,7 @@
 						"elo": 1700,
 						"initialOrderId": 7,
 						"playerKey": "1700Maria",
-						"isPresent": false,
+						"isPresent": true,
 						"acceleratedPoints": 0
 					},
 					"blackPlayer": {
@@ -116,7 +116,7 @@
 						"elo": 1600,
 						"initialOrderId": 5,
 						"playerKey": "1600Rares",
-						"isPresent": false,
+						"isPresent": true,
 						"acceleratedPoints": 0
 					},
 					"result": "DRAW_GAME"
@@ -128,7 +128,7 @@
 						"elo": 1550,
 						"initialOrderId": 3,
 						"playerKey": "1550Calin Constantin",
-						"isPresent": false,
+						"isPresent": true,
 						"acceleratedPoints": 0
 					},
 					"blackPlayer": {
@@ -136,7 +136,7 @@
 						"elo": 1450,
 						"initialOrderId": 1,
 						"playerKey": "1450Bogdan Marian",
-						"isPresent": false,
+						"isPresent": true,
 						"acceleratedPoints": 0
 					},
 					"result": "WHITE_WINS"
@@ -148,14 +148,15 @@
 						"elo": 1320,
 						"initialOrderId": 2,
 						"playerKey": "1320Lacramioara",
-						"isPresent": false,
+						"isPresent": true,
 						"acceleratedPoints": 0
 					},
 					"blackPlayer": {
 						"name": "Jhon Doe",
 						"elo": 1315,
 						"initialOrderId": 9,
-						"isPresent": false,
+						"playerKey": "1315Jhon Doe",
+						"isPresent": true,
 						"acceleratedPoints": 0
 					},
 					"result": "BLACK_WINS"
@@ -167,7 +168,7 @@
 						"elo": 1200,
 						"initialOrderId": 4,
 						"playerKey": "1200Cezar Andrei",
-						"isPresent": false,
+						"isPresent": true,
 						"acceleratedPoints": 0
 					},
 					"result": "BYE"
