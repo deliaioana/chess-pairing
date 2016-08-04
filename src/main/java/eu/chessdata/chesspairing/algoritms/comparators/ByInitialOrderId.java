@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 
-public class ByElo implements Comparator<ChesspairingPlayer>{
+public class ByInitialOrderId implements Comparator<ChesspairingPlayer>{
 
 	@Override
 	public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
@@ -14,10 +14,8 @@ public class ByElo implements Comparator<ChesspairingPlayer>{
 		if (o2 == null){
 			throw new IllegalStateException("Player o2 is null");
 		}
-		
-		int elo1 = o1.getElo();
-		int elo2 = o2.getElo();
-		//just use the default Integer compare
-		return  Integer.compare(elo1, elo2);
+		//use the default integer compare
+		return Integer.compare(o1.getInitialOrderId(), o2.getInitialOrderId());
 	}
+	
 }

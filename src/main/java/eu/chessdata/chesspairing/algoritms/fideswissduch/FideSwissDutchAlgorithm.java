@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 
 import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.algoritms.comparators.ByElo;
+import eu.chessdata.chesspairing.algoritms.comparators.ByEloReverce;
+import eu.chessdata.chesspairing.algoritms.comparators.ByInitialOrderIdReverce;
 import eu.chessdata.chesspairing.model.ChesspairingResult;
 import eu.chessdata.chesspairing.model.ChesspairingColour;
 import eu.chessdata.chesspairing.model.ChesspairingGame;
@@ -25,15 +27,20 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	 */
 	private List<String> presentPlayerKeys;
 	private Map<String, Double> currentPoints;
-	private Map<Double, Map<String, ChesspairingPlayer>> playersByResult;
-	private List<Double> orderedResults;
+	private Map<Double, Map<String, ChesspairingPlayer>> groupsByResult;
+	private List<Double> orderedGroupKeys;
 	// playerKey to color string
 	private Map<String, List<ChesspairingColour>> playerKeystoColorHistory;
 	// playerKey to partners keys
 	private Map<String, List<String>> partnerHistory;
 	// playerKey to upfloat counts
-	private Map<String, Integer> upfloatCounts; //TODO implement upfloat count
+	private Map<String, Integer> upfloatCounts;
+	private Map<String, String> currentDownfloaters;
 
+	/**
+	 * perform basic initializations and computations before the actual paring
+	 * algorithm is started
+	 */
 	public ChesspairingTournament generateNextRound(ChesspairingTournament tournament) {
 		this.mTournament = tournament;
 		this.mTournament.setParringSummary(Tools.buildParringStarted());
@@ -72,22 +79,24 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		computePartnersHistory(roundNumber);
 		computeUpfloatCounts(roundNumber);
 
+		computeNextRound();
 		throw new UnsupportedOperationException("Please implement this");
 	}
 
 	/**
 	 * compute upfloat counts for the previous rounds
+	 * 
 	 * @param roundNumber
 	 */
 	private void computeUpfloatCounts(int roundNumber) {
 		this.upfloatCounts = new HashMap<>();
-		for (String playerKey: this.presentPlayerKeys){
+		for (String playerKey : this.presentPlayerKeys) {
 			this.upfloatCounts.put(playerKey, new Integer(0));
 		}
-		
-		for(int i=1;i<roundNumber;i++){
-			for(ChesspairingPlayer upfloater: getRound(i).getUpfloaters()){
-				Integer count = this.upfloatCounts.get(upfloater.getPlayerKey())+1;
+
+		for (int i = 1; i < roundNumber; i++) {
+			for (ChesspairingPlayer upfloater : getRound(i).getUpfloaters()) {
+				Integer count = this.upfloatCounts.get(upfloater.getPlayerKey()) + 1;
 				this.upfloatCounts.put(upfloater.getPlayerKey(), count);
 			}
 		}
@@ -125,8 +134,8 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	 * @param parnerKey
 	 */
 	private void utilAddPartnerToHistory(String playerKey, String parnerKey) {
-		if(playerKey.equals(parnerKey)){
-			throw new IllegalStateException(playerKey+ " was paired against himself! ");
+		if (playerKey.equals(parnerKey)) {
+			throw new IllegalStateException(playerKey + " was paired against himself! ");
 		}
 		List<String> partners = this.partnerHistory.get(playerKey);
 		if (partners.contains(parnerKey)) {
@@ -177,8 +186,8 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	private void computeCurrentResults(int roundNumber) {
 
 		// reset playersByResult;
-		this.playersByResult = new HashMap<>();
-		this.orderedResults = new ArrayList<>();
+		this.groupsByResult = new HashMap<>();
+		this.orderedGroupKeys = new ArrayList<>();
 
 		// players key
 		this.currentPoints = new HashMap<>();
@@ -240,18 +249,18 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		for (Entry<String, Double> entry : currentPoints.entrySet()) {
 			// if playersByResult group does not exist then create it
 			Double result = entry.getValue();
-			if (!this.playersByResult.containsKey(result)) {
+			if (!this.groupsByResult.containsKey(result)) {
 				Map<String, ChesspairingPlayer> newGroup = new HashMap<>();
-				this.playersByResult.put(result, newGroup);
-				this.orderedResults.add(result);
+				this.groupsByResult.put(result, newGroup);
+				this.orderedGroupKeys.add(result);
 			}
-			Map<String, ChesspairingPlayer> group = playersByResult.get(result);
+			Map<String, ChesspairingPlayer> group = groupsByResult.get(result);
 			String playerKey = entry.getKey();
 			ChesspairingPlayer player = getPlayer(playerKey);
 			group.put(playerKey, player);
 		}
 		// order the results
-		Collections.reverse(this.orderedResults);
+		Collections.reverse(this.orderedGroupKeys);
 	}
 
 	/**
@@ -325,7 +334,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			throw new IllegalStateException("Tournament allready contains round 1");
 		}
 
-		Collections.sort(mTournament.getPlayers(), new ByElo());
+		Collections.sort(mTournament.getPlayers(), new ByEloReverce());
 		List<ChesspairingGame> games = new ArrayList<>();
 		List<ChesspairingPlayer> players = mTournament.getPlayers();
 		int count = 0;
@@ -424,6 +433,58 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 				return player;
 			}
 		}
-		throw new IllegalStateException("You are surching by the wrong key: " + playerKey);
+		throw new IllegalStateException("You are searching by the wrong key: " + playerKey);
+	}
+
+	private void computeNextRound() {
+		this.currentDownfloaters = new HashMap<>();
+
+		// start the iteration over groups in the descending order
+		for (Double groupKey : orderedGroupKeys) {
+			Map<String, ChesspairingPlayer> group = groupsByResult.get(groupKey);
+			int size = group.size();
+			// if modulo 2 != 0 then find a downfloater
+			if ((size % 2) != 0) {
+				boolean downfloatWasOK = downfloatSomeone(groupKey);
+			}
+		}
+
+		throw new IllegalStateException("Please finish computeNextRound");
+	}
+
+	/**
+	 * if only one player then downfloat order by rank and then by initial
+	 * position starting from the last find in reverse order first available
+	 * downfloater TODO if all of them are downfloaters for the moment just
+	 * throw an error (fix this).
+	 * 
+	 * @return
+	 */
+	private boolean downfloatSomeone(Double groupKey) {
+		int lastIndex = this.orderedGroupKeys.size()-1;
+		int thisIndex = this.orderedGroupKeys.indexOf(groupKey);
+		Map<String, ChesspairingPlayer> group = groupsByResult.get(groupKey);
+		
+		//order the players
+		List<ChesspairingPlayer> players = new ArrayList<>();
+		for (Entry<String, ChesspairingPlayer> entry: group.entrySet()){
+			players.add(entry.getValue());
+		}
+		
+		Collections.sort(players, new ByElo());
+		Collections.sort(players, new ByInitialOrderIdReverce());
+		// order the players
+		for (ChesspairingPlayer player: players){
+			if (!currentDownfloaters.containsKey(player.getPlayerKey())){
+				
+				if (lastIndex == thisIndex){
+					throw new IllegalStateException("What shoud ld I do now?");
+				}
+				Double nextKey = this.orderedGroupKeys.get(thisIndex+1);
+				//time to go to seep. I will finish this tomorrow
+			}
+		}
+
+		throw new IllegalStateException("Please Implement this and then! keep text: For the moment I do not know what to do when I can not downfloat someone");
 	}
 }
