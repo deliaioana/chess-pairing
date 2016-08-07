@@ -492,7 +492,12 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			if (!currentDownfloaters.containsKey(player.getPlayerKey())){
 				
 				if (lastIndex == thisIndex){
-					throw new IllegalStateException("What shoud ld I do now?");
+					//if size grater then 1 then select the last one and create a new group
+					/**
+					 * if size of this last index is 1 then set this as the buy player
+					 */
+					
+					throw new IllegalStateException("What shoud I do now?");
 				}
 				Double nextKey = this.orderedGroupKeys.get(thisIndex+1);
 				//time to go to seep. I will finish this tomorrow
