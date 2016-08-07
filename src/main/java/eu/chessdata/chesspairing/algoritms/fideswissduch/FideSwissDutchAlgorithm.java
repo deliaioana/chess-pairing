@@ -20,22 +20,22 @@ import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.PairingSummary;
 
 public class FideSwissDutchAlgorithm implements Algorithm {
-	private ChesspairingTournament mTournament;
+	protected ChesspairingTournament mTournament;
 
 	/**
 	 * groups of players The key
 	 */
-	private List<String> presentPlayerKeys;
-	private Map<String, Double> currentPoints;
-	private Map<Double, Map<String, ChesspairingPlayer>> groupsByResult;
-	private List<Double> orderedGroupKeys;
+	protected List<String> presentPlayerKeys;
+	protected Map<String, Double> currentPoints;
+	protected Map<Double, Map<String, ChesspairingPlayer>> groupsByResult;
+	protected List<Double> orderedGroupKeys;
 	// playerKey to color string
-	private Map<String, List<ChesspairingColour>> playerKeystoColorHistory;
+	protected Map<String, List<ChesspairingColour>> playerKeystoColorHistory;
 	// playerKey to partners keys
-	private Map<String, List<String>> partnerHistory;
+	protected Map<String, List<String>> partnerHistory;
 	// playerKey to upfloat counts
-	private Map<String, Integer> upfloatCounts;
-	private Map<String, String> currentDownfloaters;
+	protected Map<String, Integer> upfloatCounts;
+	protected Map<String, String> currentDownfloaters;
 
 	/**
 	 * perform basic initializations and computations before the actual paring
@@ -74,13 +74,25 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		}
 		prepareNextRound();
 		int roundNumber = mTournament.getRounds().size();
+		computeInitialTournamentState(roundNumber);
+		
+//		computeCurrentResults(roundNumber);
+//		computeCollorHistory(roundNumber);
+//		computePartnersHistory(roundNumber);
+//		computeUpfloatCounts(roundNumber);
+
+		computeNextRound();
+		throw new UnsupportedOperationException("Please implement this");
+	}
+	
+	/**
+	 * utility class that helps to set up vital properties required at next round computation
+	 */
+	protected void computeInitialTournamentState(int roundNumber){
 		computeCurrentResults(roundNumber);
 		computeCollorHistory(roundNumber);
 		computePartnersHistory(roundNumber);
 		computeUpfloatCounts(roundNumber);
-
-		computeNextRound();
-		throw new UnsupportedOperationException("Please implement this");
 	}
 
 	/**
@@ -225,6 +237,8 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 					whitePoints = whitePoints + 0.5;
 					blackPoints = blackPoints + 0.5;
 				}
+				this.currentPoints.put(whiteKey, whitePoints);
+				this.currentPoints.put(blackKey, blackPoints);
 			}
 		}
 

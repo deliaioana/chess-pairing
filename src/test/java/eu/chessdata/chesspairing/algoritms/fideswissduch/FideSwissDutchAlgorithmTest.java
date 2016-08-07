@@ -1,4 +1,4 @@
-package eu.chessdata.chesspairing.algoritms;
+package eu.chessdata.chesspairing.algoritms.fideswissduch;
 
 import static org.junit.Assert.assertTrue;
 
@@ -20,7 +20,7 @@ import eu.chessdata.chesspairing.model.ChesspairingTournamentTest;
 import eu.chessdata.chesspairing.model.PairingSummary;
 import eu.chessdata.chesspairing.model.TestUtils;
 
-public class FideSwissDutchAlgorithmTest {
+public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 
 	@Test
 	public void firstRoundTest1() throws UnsupportedEncodingException {
@@ -80,7 +80,7 @@ public class FideSwissDutchAlgorithmTest {
 	 * @throws UnsupportedEncodingException
 	 */
 	@Test
-	public void testPareSecondRound01() throws UnsupportedEncodingException {
+	public void testPareSecondround01() throws UnsupportedEncodingException {
 		InputStream inputStream = ChesspairingTournamentTest.class
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/testPareSecondRound01.json");
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
@@ -95,13 +95,16 @@ public class FideSwissDutchAlgorithmTest {
 				presentPlayers++;
 			}
 		}
-		assertTrue("all plaeyrs should be present", players.size()==presentPlayers);
+		assertTrue("all players should be present", players.size()==presentPlayers);
 		//TestUtils.writeToFile(tournament, "testPareSecondRound01.json");
 		
-		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
-		tournament = algorithm.generateNextRound(tournament);
-		PairingSummary parringSummary = tournament.getParringSummary();
-		System.out.println(parringSummary.getLongMessage());
-		assertTrue(parringSummary.getShortMessage().equals(PairingSummary.PARRING_OK));
+		//FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
+		this.mTournament = tournament;
+		
+		this.computeInitialTournamentState(2);
+		Double deliaPoints = this.currentPoints.get("1750Delia Ioana");
+		assertTrue("Delia should have 1.0 points",Double.valueOf(1.0).equals(deliaPoints));
+		
+		tournament = this.generateNextRound(tournament);
 	}
 }
