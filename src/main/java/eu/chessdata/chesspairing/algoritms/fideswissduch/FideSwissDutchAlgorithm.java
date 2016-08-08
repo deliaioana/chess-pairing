@@ -2,6 +2,7 @@ package eu.chessdata.chesspairing.algoritms.fideswissduch;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,20 +76,21 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		prepareNextRound();
 		int roundNumber = mTournament.getRounds().size();
 		computeInitialTournamentState(roundNumber);
-		
-//		computeCurrentResults(roundNumber);
-//		computeCollorHistory(roundNumber);
-//		computePartnersHistory(roundNumber);
-//		computeUpfloatCounts(roundNumber);
+
+		// computeCurrentResults(roundNumber);
+		// computeCollorHistory(roundNumber);
+		// computePartnersHistory(roundNumber);
+		// computeUpfloatCounts(roundNumber);
 
 		computeNextRound();
 		throw new UnsupportedOperationException("Please implement this");
 	}
-	
+
 	/**
-	 * utility class that helps to set up vital properties required at next round computation
+	 * utility class that helps to set up vital properties required at next
+	 * round computation
 	 */
-	protected void computeInitialTournamentState(int roundNumber){
+	protected void computeInitialTournamentState(int roundNumber) {
 		computeCurrentResults(roundNumber);
 		computeCollorHistory(roundNumber);
 		computePartnersHistory(roundNumber);
@@ -459,7 +461,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			int size = group.size();
 			// if modulo 2 != 0 then find a downfloater
 			if ((size % 2) != 0) {
-				boolean downfloatWasOK = downfloatSomeone(groupKey);
+				boolean downfloatWasOK = downfloatSomeoneInGroup(groupKey);
 			}
 		}
 
@@ -474,36 +476,50 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	 * 
 	 * @return
 	 */
-	private boolean downfloatSomeone(Double groupKey) {
-		int lastIndex = this.orderedGroupKeys.size()-1;
+	private boolean downfloatSomeoneInGroup(Double groupKey) {
+		int lastIndex = this.orderedGroupKeys.size() - 1;
 		int thisIndex = this.orderedGroupKeys.indexOf(groupKey);
 		Map<String, ChesspairingPlayer> group = groupsByResult.get(groupKey);
-		
-		//order the players
+
+		// order the players
 		List<ChesspairingPlayer> players = new ArrayList<>();
-		for (Entry<String, ChesspairingPlayer> entry: group.entrySet()){
+		for (Entry<String, ChesspairingPlayer> entry : group.entrySet()) {
 			players.add(entry.getValue());
 		}
-		
+
 		Collections.sort(players, new ByElo());
 		Collections.sort(players, new ByInitialOrderIdReverce());
-		// order the players
-		for (ChesspairingPlayer player: players){
-			if (!currentDownfloaters.containsKey(player.getPlayerKey())){
-				
-				if (lastIndex == thisIndex){
-					//if size grater then 1 then select the last one and create a new group
-					/**
-					 * if size of this last index is 1 then set this as the buy player
-					 */
+
+		for (ChesspairingPlayer player : players) {
+			if (!currentDownfloaters.containsKey(player.getPlayerKey())) {
+
+				if (lastIndex == thisIndex) {
+					
+					// order by the number of downfloats
+					Collections.sort(players, new Comparator<ChesspairingPlayer>() {
+						@Override
+						public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
+							int countO1 = 0;
+							if (currentDownfloaters.containsKey(o1.getPlayerKey())) {
+								countO1++;
+							}
+							int countO2 = 0;
+							if (currentDownfloaters.containsKey(o2.getPlayerKey())) {
+								countO2++;
+							}
+							return Integer.compare(countO1, countO2);
+						}
+					});
+					//int (smallestNumberOfDownfloats)
 					
 					throw new IllegalStateException("What shoud I do now?");
 				}
-				Double nextKey = this.orderedGroupKeys.get(thisIndex+1);
-				//time to go to seep. I will finish this tomorrow
+				Double nextKey = this.orderedGroupKeys.get(thisIndex + 1);
+				// time to go to seep. I will finish this tomorrow
 			}
 		}
 
-		throw new IllegalStateException("Please Implement this and then! keep text: For the moment I do not know what to do when I can not downfloat someone");
+		throw new IllegalStateException(
+				"Please Implement this and then! keep text: For the moment I do not know what to do when I can not downfloat someone");
 	}
 }
