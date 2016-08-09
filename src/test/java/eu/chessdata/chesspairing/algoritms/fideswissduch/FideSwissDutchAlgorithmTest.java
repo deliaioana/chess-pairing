@@ -13,12 +13,10 @@ import org.junit.Test;
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Tools;
-import eu.chessdata.chesspairing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.ChesspairingTournamentTest;
 import eu.chessdata.chesspairing.model.PairingSummary;
-import eu.chessdata.chesspairing.model.TestUtils;
 
 public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 

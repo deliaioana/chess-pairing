@@ -38,6 +38,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	protected Map<String, Integer> upfloatCounts;
 	protected Map<String, Integer> downfloatCounts;
 	protected Map<String, String> currentDownfloaters;
+	protected ChesspairingGame buyGame;
 
 	/**
 	 * perform basic initializations and computations before the actual paring
@@ -117,21 +118,21 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			}
 		}
 	}
-	
+
 	/**
 	 * compute the downfloat counts from the previous rounds
 	 * 
 	 * @param roundNumber
 	 */
-	protected void computeDlownFloatCounts (int roundNumber){
+	protected void computeDlownFloatCounts(int roundNumber) {
 		this.downfloatCounts = new HashMap<>();
-		for (String playerKey: this.presentPlayerKeys){
+		for (String playerKey : this.presentPlayerKeys) {
 			this.downfloatCounts.put(playerKey, new Integer(0));
 		}
-		
-		for (int i=1;i<roundNumber;i++){
-			for(ChesspairingPlayer downflaoter: getRound(i).getDownfloaters()){
-				Integer count = this.downfloatCounts.get(downflaoter.getPlayerKey())+1;
+
+		for (int i = 1; i < roundNumber; i++) {
+			for (ChesspairingPlayer downflaoter : getRound(i).getDownfloaters()) {
+				Integer count = this.downfloatCounts.get(downflaoter.getPlayerKey()) + 1;
 				this.downfloatCounts.put(downflaoter.getPlayerKey(), count);
 			}
 		}
@@ -477,21 +478,47 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		this.currentDownfloaters = new HashMap<>();
 
 		/**
-		 *  start the iteration over groups in the descending order. In order to avoid thread weird
-		 *  behaviour because the group keys wee copy the keys before wee iterate
+		 * start the iteration over groups in the descending order. In order to
+		 * avoid thread weird behaviour because the group keys wee copy the keys
+		 * before wee iterate
 		 */
 		List<Double> copyGroupKeys = new ArrayList<>(orderedGroupKeys);
-		
-		for (Double groupKey : copyGroupKeys) {
-			Map<String, ChesspairingPlayer> group = groupsByResult.get(groupKey);
-			int size = group.size();
-			// if modulo 2 != 0 then find a downfloater
-			if ((size % 2) != 0) {
-				boolean downfloatWasOK = downfloatSomeoneInGroup(groupKey);
+
+		// while no need to downfloat then keep downfloating
+		boolean someoneWasDownfloated = true;
+		while (someoneWasDownfloated) {
+			someoneWasDownfloated = false;
+			for (Double groupKey : copyGroupKeys) {
+				Map<String, ChesspairingPlayer> group = groupsByResult.get(groupKey);
+				int size = group.size();
+				// if modulo 2 != 0 then find a downfloater
+				if ((size % 2) != 0) {
+					someoneWasDownfloated = true;
+					downfloatSomeoneInGroup(groupKey);
+				}
 			}
 		}
+		
 
-		throw new IllegalStateException("Please finish computeNextRound");
+		for (Double groupKey: copyGroupKeys){
+			boolean paringOK = pareGroup(groupKey);
+			if (!paringOK){
+				throw new IllegalStateException("What to do when group was not able to be pared?");
+			}
+		}
+	}
+	
+	/**
+	 * It tries to pare a group
+	 * 
+	 * @param groupKey
+	 * @return
+	 */
+	private boolean pareGroup(Double groupKey){
+		//order the group
+		
+		//try natural paring
+		throw new IllegalStateException("Please finish pareGroup");
 	}
 
 	/**
@@ -515,37 +542,56 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 
 		Collections.sort(players, new ByElo());
 		Collections.sort(players, new ByInitialOrderIdReverce());
+		Collections.sort(players, new Comparator<ChesspairingPlayer>() {
+			@Override
+			public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
+				int countO1 = 0;
+				if (currentDownfloaters.containsKey(o1.getPlayerKey())) {
+					countO1++;
+				}
+				int countO2 = 0;
+				if (currentDownfloaters.containsKey(o2.getPlayerKey())) {
+					countO2++;
+				}
+				return Integer.compare(countO1, countO2);
+			}
+		});
 
 		for (ChesspairingPlayer player : players) {
 			if (!currentDownfloaters.containsKey(player.getPlayerKey())) {
-
 				if (lastIndex == thisIndex) {
-					
-					// order by the number of downfloats
-					Collections.sort(players, new Comparator<ChesspairingPlayer>() {
-						@Override
-						public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
-							int countO1 = 0;
-							if (currentDownfloaters.containsKey(o1.getPlayerKey())) {
-								countO1++;
-							}
-							int countO2 = 0;
-							if (currentDownfloaters.containsKey(o2.getPlayerKey())) {
-								countO2++;
-							}
-							return Integer.compare(countO1, countO2);
-						}
-					});
-					//int (smallestNumberOfDownfloats)
-					
-					throw new IllegalStateException("What shoud I do now?");
+					/**
+					 * this is the player that will get a buy set as buy and
+					 * remove from group
+					 */
+					setAsBuy(player);
+					group.remove(player.getPlayerKey());
+					return true;
+				} else {
+					// increase player downfloat count
+					String key = player.getPlayerKey();
+					int count = downfloatCounts.get(key) + 1;
+					downfloatCounts.put(key, count);
+					// move player to the next group
+					Double nextKey = this.orderedGroupKeys.get(thisIndex + 1);
+					Map<String, ChesspairingPlayer> nextGroup = groupsByResult.get(nextKey);
+					group.remove(key);
+					nextGroup.put(key, player);
+					return true;
 				}
-				Double nextKey = this.orderedGroupKeys.get(thisIndex + 1);
-				// time to go to seep. I will finish this tomorrow
+
 			}
 		}
 
-		throw new IllegalStateException(
-				"Please Implement this and then! keep text: For the moment I do not know what to do when I can not downfloat someone");
+		throw new IllegalStateException("You should allway have bean able to downfloat someone. Please investigate");
+	}
+
+	private void setAsBuy(ChesspairingPlayer player) {
+		if (this.buyGame != null) {
+			throw new IllegalStateException("You should have set a player as buy only one time!");
+		}
+		this.buyGame = new ChesspairingGame();
+		this.buyGame.setWhitePlayer(player);
+		this.buyGame.setResult(ChesspairingResult.BYE);
 	}
 }
