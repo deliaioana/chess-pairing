@@ -515,17 +515,31 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	 * @return
 	 */
 	private boolean pareGroup(Double groupKey){
+		Map<String,ChesspairingPlayer> group = this.groupsByResult.get(groupKey);
+		
+		List<ChesspairingPlayer> players = new ArrayList<>();
+		for (Entry<String, ChesspairingPlayer> entry : group.entrySet()) {
+			players.add(entry.getValue());
+		}
 		//order the group
+		Collections.sort(players, new ByInitialOrderIdReverce());
+		Collections.sort(players, new ByElo());
+		//by points just in case it was a downfloater in the group
+		Collections.sort(players, new Comparator<ChesspairingPlayer>() {
+			@Override
+			public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
+				Double pointsO1 = currentPoints.get(o1.getPlayerKey());
+				Double pointsO2 = currentPoints.get(o2.getPlayerKey());
+				return Double.compare(pointsO1, pointsO2);
+			}
+		});
 		
 		//try natural paring
 		throw new IllegalStateException("Please finish pareGroup");
 	}
 
 	/**
-	 * if only one player then downfloat order by rank and then by initial
-	 * position starting from the last find in reverse order first available
-	 * downfloater TODO if all of them are downfloaters for the moment just
-	 * throw an error (fix this).
+	 * 
 	 * 
 	 * @return
 	 */
