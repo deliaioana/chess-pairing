@@ -533,6 +533,10 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 				return Double.compare(pointsO1, pointsO2);
 			}
 		});
+		if (players.size()%2 != 0){
+			throw new IllegalStateException("You should have resulved groups count before");
+		}
+		//first set the initial order
 		
 		//try natural paring
 		throw new IllegalStateException("Please finish pareGroup");
