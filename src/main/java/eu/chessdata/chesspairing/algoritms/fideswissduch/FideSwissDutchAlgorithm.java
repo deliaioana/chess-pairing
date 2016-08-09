@@ -36,6 +36,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	protected Map<String, List<String>> partnerHistory;
 	// playerKey to upfloat counts
 	protected Map<String, Integer> upfloatCounts;
+	protected Map<String, Integer> downfloatCounts;
 	protected Map<String, String> currentDownfloaters;
 
 	/**
@@ -95,6 +96,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		computeCollorHistory(roundNumber);
 		computePartnersHistory(roundNumber);
 		computeUpfloatCounts(roundNumber);
+		computeDlownFloatCounts(roundNumber);
 	}
 
 	/**
@@ -102,7 +104,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	 * 
 	 * @param roundNumber
 	 */
-	private void computeUpfloatCounts(int roundNumber) {
+	protected void computeUpfloatCounts(int roundNumber) {
 		this.upfloatCounts = new HashMap<>();
 		for (String playerKey : this.presentPlayerKeys) {
 			this.upfloatCounts.put(playerKey, new Integer(0));
@@ -112,6 +114,25 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			for (ChesspairingPlayer upfloater : getRound(i).getUpfloaters()) {
 				Integer count = this.upfloatCounts.get(upfloater.getPlayerKey()) + 1;
 				this.upfloatCounts.put(upfloater.getPlayerKey(), count);
+			}
+		}
+	}
+	
+	/**
+	 * compute the downfloat counts from the previous rounds
+	 * 
+	 * @param roundNumber
+	 */
+	protected void computeDlownFloatCounts (int roundNumber){
+		this.downfloatCounts = new HashMap<>();
+		for (String playerKey: this.presentPlayerKeys){
+			this.downfloatCounts.put(playerKey, new Integer(0));
+		}
+		
+		for (int i=1;i<roundNumber;i++){
+			for(ChesspairingPlayer downflaoter: getRound(i).getDownfloaters()){
+				Integer count = this.downfloatCounts.get(downflaoter.getPlayerKey())+1;
+				this.downfloatCounts.put(downflaoter.getPlayerKey(), count);
 			}
 		}
 	}
@@ -455,8 +476,13 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	private void computeNextRound() {
 		this.currentDownfloaters = new HashMap<>();
 
-		// start the iteration over groups in the descending order
-		for (Double groupKey : orderedGroupKeys) {
+		/**
+		 *  start the iteration over groups in the descending order. In order to avoid thread weird
+		 *  behaviour because the group keys wee copy the keys before wee iterate
+		 */
+		List<Double> copyGroupKeys = new ArrayList<>(orderedGroupKeys);
+		
+		for (Double groupKey : copyGroupKeys) {
 			Map<String, ChesspairingPlayer> group = groupsByResult.get(groupKey);
 			int size = group.size();
 			// if modulo 2 != 0 then find a downfloater

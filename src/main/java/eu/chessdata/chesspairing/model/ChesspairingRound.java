@@ -7,6 +7,7 @@ public class ChesspairingRound {
 	private int roundNumber;
 	private List<ChesspairingPlayer> presentPlayers = new ArrayList<>();
 	private List<ChesspairingPlayer> upfloaters = new ArrayList<>();
+	private List<ChesspairingPlayer> downfloaters = new ArrayList<>();
 	private List<ChesspairingGame> games = new ArrayList<>();
 	
 	public int getRoundNumber() {
@@ -32,6 +33,12 @@ public class ChesspairingRound {
 	}
 	public void setPresentPlayers(List<ChesspairingPlayer> presentPlayers) {
 		this.presentPlayers = presentPlayers;
+	}
+	public List<ChesspairingPlayer> getDownfloaters() {
+		return downfloaters;
+	}
+	public void setDownfloaters(List<ChesspairingPlayer> downfloaters) {
+		this.downfloaters = downfloaters;
 	}
 	
 }
