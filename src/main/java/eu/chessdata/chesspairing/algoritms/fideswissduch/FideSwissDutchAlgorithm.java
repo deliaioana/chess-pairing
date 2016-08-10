@@ -498,33 +498,32 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 				}
 			}
 		}
-		
 
-		for (Double groupKey: copyGroupKeys){
+		for (Double groupKey : copyGroupKeys) {
 			boolean paringOK = pareGroup(groupKey);
-			if (!paringOK){
+			if (!paringOK) {
 				throw new IllegalStateException("What to do when group was not able to be pared?");
 			}
 		}
 	}
-	
+
 	/**
 	 * It tries to pare a group
 	 * 
 	 * @param groupKey
 	 * @return
 	 */
-	private boolean pareGroup(Double groupKey){
-		Map<String,ChesspairingPlayer> group = this.groupsByResult.get(groupKey);
-		
+	private boolean pareGroup(Double groupKey) {
+		Map<String, ChesspairingPlayer> group = this.groupsByResult.get(groupKey);
+
 		List<ChesspairingPlayer> players = new ArrayList<>();
 		for (Entry<String, ChesspairingPlayer> entry : group.entrySet()) {
 			players.add(entry.getValue());
 		}
-		//order the group
+		// order the group
 		Collections.sort(players, new ByInitialOrderIdReverce());
 		Collections.sort(players, new ByElo());
-		//by points just in case it was a downfloater in the group
+		// by points just in case it was a downfloater in the group
 		Collections.sort(players, new Comparator<ChesspairingPlayer>() {
 			@Override
 			public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
@@ -533,16 +532,16 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 				return Double.compare(pointsO1, pointsO2);
 			}
 		});
-		if (players.size()%2 != 0){
-			throw new IllegalStateException("You should have resulved groups count before");
+		if (players.size() % 2 != 0) {
+			throw new IllegalStateException("You should have resolved groups count before");
 		}
-		//first set the initial order
-		
-		for (int i=0;i<players.size();i++){
-			
+		// first set the initial order
+
+		for (int i = 0; i < players.size(); i++) {
+
 		}
-		
-		//try natural paring
+
+		// try natural paring
 		throw new IllegalStateException("Please finish pareGroup");
 	}
 
