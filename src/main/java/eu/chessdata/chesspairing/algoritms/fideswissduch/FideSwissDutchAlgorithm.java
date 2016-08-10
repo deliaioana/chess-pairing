@@ -538,6 +538,10 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		}
 		//first set the initial order
 		
+		for (int i=0;i<players.size();i++){
+			
+		}
+		
 		//try natural paring
 		throw new IllegalStateException("Please finish pareGroup");
 	}
