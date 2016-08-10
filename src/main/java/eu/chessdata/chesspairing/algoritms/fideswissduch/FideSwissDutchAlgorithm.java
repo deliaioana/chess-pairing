@@ -562,9 +562,14 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			}
 		}
 		if (validPermutations.size() == 0) {
+			// drop the group and restart the paring. move all players down?
 			throw new IllegalStateException(
+
 					"Please decide what to do when no permutations are valid! Time to change the rules");
 		}
+		//for the moment just take the first permutation and pare the players
+		Integer[]s2 = validPermutations.iterator().next();
+		 
 		// try natural paring
 		throw new IllegalStateException("Please finish pareGroup");
 	}
@@ -579,7 +584,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	private boolean testIfPermutationIsValid(Integer[] s1, Integer[] s2, List<ChesspairingPlayer> players) {
 		for (int i = 0; i < s1.length; i++) {
 			int indexA = s1[i];
-			int indexB = s1[i];
+			int indexB = s2[i];
 			ChesspairingGame game = new ChesspairingGame();
 			game.setWhitePlayer(players.get(indexA));
 			game.setBlackPlayer(players.get(indexB));
@@ -600,11 +605,71 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	 * @return
 	 */
 	private boolean testIfGameIsValid(ChesspairingGame game) {
-
 		ChesspairingPlayer playerA = game.getWhitePlayer();
+		String keyA = playerA.getPlayerKey();
 		ChesspairingPlayer playerB = game.getBlackPlayer();
-		throw new IllegalStateException("Please implement testIfGameIsValid");
+		String keyB = playerB.getPlayerKey();
+		if (keyA.equals(keyB)) {
+			throw new IllegalStateException("You shuld never try to pare a players agains himself");
+		}
+		/**
+		 * two players shall not meet more than once
+		 */
+		List<String> partnersA = partnerHistory.get(keyA);
+		if (partnersA.contains(keyB)) {
+			return false;
+		}
+		List<String> partnersB = partnerHistory.get(keyB);
+		if (partnersB.contains(keyA)) {
+			return false;
+		}
 
+		/**
+		 * the color difference is the number of games played with white minus
+		 * the number of games played with black
+		 * 
+		 * -2 < diff < 2
+		 */
+		int aHistoryColor = getColorDifference(keyA);
+		int bHistoryColor = getColorDifference(keyB);
+
+		// if a is white
+		int aWhite = aHistoryColor + 1;
+		int bBlach = bHistoryColor - 1;
+		boolean aPlaysWite = false;
+		if ((-2 < aWhite) && (aWhite < 2) && (-2 < bBlach) && (bBlach < 2)) {
+			aPlaysWite = true;
+		}
+
+		// if a is black
+		boolean aPlaysBlack = false;
+		if (!aPlaysWite) {
+			int aBlack = aHistoryColor - 1;
+			int bWhite = bHistoryColor + 1;
+			if ((-2 < aBlack) && (aBlack < 2) && (-2 < bWhite) && (bWhite < 2)) {
+				aPlaysBlack = true;
+			}
+		}
+
+		if (!aPlaysWite && !aPlaysBlack) {
+			return false;
+		}
+
+		// basic tests have passed. time to return true
+		return true;
+	}
+
+	private int getColorDifference(String playerKey) {
+		int diff = 0;
+		List<ChesspairingColour> hisory = playerKeystoColorHistory.get(playerKey);
+		for (ChesspairingColour color : hisory) {
+			if (color.equals(ChesspairingColour.WHITE)) {
+				diff++;
+			} else {
+				diff--;
+			}
+		}
+		return diff;
 	}
 
 	/**
