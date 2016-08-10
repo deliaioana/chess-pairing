@@ -1,7 +1,10 @@
 package eu.chessdata.chesspairing;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gson.Gson;
 
@@ -53,5 +56,43 @@ public class Tools {
 			throw new IllegalStateException("Someting is worng with my basic math understanding");
 		}
 		return splitLists;
+	}
+	
+	public static Set<Integer[]> getPermutations(Integer[] intArray) {
+		if (intArray == null) {
+			throw new IllegalStateException("You are trying to generate permutations of a null array");
+		}
+
+		Set<Integer[]> permutations = new HashSet<>();
+
+		/**
+		 * the base case
+		 */
+		if (intArray.length == 0) {
+			permutations.add(new Integer[0]);
+			return permutations;
+		}
+
+		/**
+		 * select the first item and then sub permutation of the remaining items
+		 * and then insert the first item into each position of each sub
+		 * permutation recursively
+		 */
+
+		int first = intArray[0];
+		Integer[] remainder = Arrays.copyOfRange(intArray, 1, intArray.length);
+		Set<Integer[]> subPerms = getPermutations(remainder);
+		for (Integer[] subPerm : subPerms) {
+			for (int i = 0; i <= subPerm.length; i++) {
+				Integer[] newPerm = Arrays.copyOf(subPerm, subPerm.length + 1);
+				for (int j = newPerm.length - 1; j > i; --j) {
+					newPerm[j] = newPerm[j - 1];
+				}
+				newPerm[i] = first;
+				permutations.add(newPerm);
+			}
+		}
+
+		return permutations;
 	}
 }
