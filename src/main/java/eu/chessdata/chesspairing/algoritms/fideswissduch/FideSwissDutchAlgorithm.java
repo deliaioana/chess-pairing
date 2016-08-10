@@ -1,5 +1,6 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,6 +42,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	protected Map<String, Integer> downfloatCounts;
 	protected Map<String, String> currentDownfloaters;
 	protected ChesspairingGame buyGame;
+	protected ChesspairingRound generatedRound = new ChesspairingRound();
 
 	/**
 	 * perform basic initializations and computations before the actual paring
@@ -86,7 +88,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		// computePartnersHistory(roundNumber);
 		// computeUpfloatCounts(roundNumber);
 
-		computeNextRound();
+		computeNextRound(roundNumber);
 		throw new UnsupportedOperationException("Please implement this");
 	}
 
@@ -324,9 +326,9 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	 * create the next round and copy the players presence
 	 */
 	private void prepareNextRound() {
-		ChesspairingRound round = new ChesspairingRound();
+		this.generatedRound = new ChesspairingRound();
 		int roundNumber = mTournament.getRounds().size() + 1;
-		round.setRoundNumber(roundNumber);
+		generatedRound.setRoundNumber(roundNumber);
 		List<ChesspairingPlayer> players = new ArrayList<>();
 		// round.setRoundNumber(roundNumber);
 		for (ChesspairingPlayer player : mTournament.getPlayers()) {
@@ -334,8 +336,8 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 				players.add(player);
 			}
 		}
-		round.setPresentPlayers(players);
-		mTournament.getRounds().add(round);
+		generatedRound.setPresentPlayers(players);
+		mTournament.getRounds().add(generatedRound);
 	}
 
 	/**
@@ -476,7 +478,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		throw new IllegalStateException("You are searching by the wrong key: " + playerKey);
 	}
 
-	private void computeNextRound() {
+	private void computeNextRound(int roundNumber) {
 		this.currentDownfloaters = new HashMap<>();
 
 		/**
@@ -501,8 +503,12 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			}
 		}
 
+		// remove the games from the generatedRound
+		List<ChesspairingGame> games = new ArrayList<>();
+		this.generatedRound.setGames(games);
+
 		for (Double groupKey : copyGroupKeys) {
-			boolean paringOK = pareGroup(groupKey);
+			boolean paringOK = pareGroup(groupKey, roundNumber);
 			if (!paringOK) {
 				throw new IllegalStateException("What to do when group was not able to be pared?");
 			}
@@ -513,9 +519,10 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	 * It tries to pare a group
 	 * 
 	 * @param groupKey
+	 * @param roundNumber
 	 * @return
 	 */
-	private boolean pareGroup(Double groupKey) {
+	private boolean pareGroup(Double groupKey, int roundNumber) {
 		Map<String, ChesspairingPlayer> group = this.groupsByResult.get(groupKey);
 
 		List<ChesspairingPlayer> players = new ArrayList<>();
@@ -564,14 +571,89 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		if (validPermutations.size() == 0) {
 			// drop the group and restart the paring. move all players down?
 			throw new IllegalStateException(
-
 					"Please decide what to do when no permutations are valid! Time to change the rules");
 		}
-		//for the moment just take the first permutation and pare the players
-		Integer[]s2 = validPermutations.iterator().next();
-		 
-		// try natural paring
-		throw new IllegalStateException("Please finish pareGroup");
+		// for the moment just take the first permutation and pare the players
+		Integer[] s2 = validPermutations.iterator().next();
+		List<ChesspairingGame> games = buildGamesFromPermutation(s1, s2, players);
+		this.generatedRound.getGames().addAll(games);
+		return true;
+	}
+
+	private List<ChesspairingGame> buildGamesFromPermutation(Integer[] s1, Integer[] s2,
+			List<ChesspairingPlayer> players) {
+		List<ChesspairingGame> games = new ArrayList<>();
+		for (int i = 0; i < s1.length; i++) {
+			int indexA = s1[i];
+			int indexB = s2[i];
+			ChesspairingPlayer playerA = players.get(indexA);
+			ChesspairingPlayer playerB = players.get(indexB);
+			games.add(parePlayers(playerA, playerB));
+		}
+		return games;
+	}
+
+	/**
+	 * it builds a game is something is not write will throw exception. You have
+	 * to be sure that the game you will build be legal
+	 * 
+	 * @param playerA
+	 * @param playerB
+	 * @return
+	 */
+	private ChesspairingGame parePlayers(ChesspairingPlayer playerA, ChesspairingPlayer playerB) {
+		String keyA = playerA.getPlayerKey();
+		String keyB = playerB.getPlayerKey();
+		if (keyA.equals(keyB)) {
+			throw new IllegalStateException("You shuld never try to pare a players agains himself");
+		}
+		/**
+		 * two players shall not meet more than once
+		 */
+		List<String> partnersA = partnerHistory.get(keyA);
+		if (partnersA.contains(keyB)) {
+			throw new IllegalStateException("two players shall not meet more than once");
+		}
+		List<String> partnersB = partnerHistory.get(keyB);
+		if (partnersB.contains(keyA)) {
+			throw new IllegalStateException("two players shall not meet more than once");
+		}
+
+		/**
+		 * the color difference is the number of games played with white minus
+		 * the number of games played with black
+		 * 
+		 * -2 < diff < 2
+		 */
+		int aHistoryColor = getColorDifference(keyA);
+		int bHistoryColor = getColorDifference(keyB);
+
+		// if a is white
+		int aWhite = aHistoryColor + 1;
+		int bBlach = bHistoryColor - 1;
+
+		if ((-2 < aWhite) && (aWhite < 2) && (-2 < bBlach) && (bBlach < 2)) {
+			// this works
+			ChesspairingGame game = new ChesspairingGame();
+			game.setWhitePlayer(playerA);
+			game.setBlackPlayer(playerB);
+			game.setTableNumber(0);
+			game.setResult(ChesspairingResult.NOT_DECIDED);
+			return game;
+		}
+
+		// if a is black
+		int aBlack = aHistoryColor - 1;
+		int bWhite = bHistoryColor + 1;
+		if ((-2 < aBlack) && (aBlack < 2) && (-2 < bWhite) && (bWhite < 2)) {
+			ChesspairingGame game = new ChesspairingGame();
+			game.setWhitePlayer(playerB);
+			game.setBlackPlayer(playerA);
+			game.setTableNumber(0);
+			game.setResult(ChesspairingResult.NOT_DECIDED);
+			return game;
+		}
+		throw new IllegalStateException("You have tried to generate a game that was not legal");
 	}
 
 	/**
