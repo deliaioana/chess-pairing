@@ -4,18 +4,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.algoritms.comparators.ByElo;
 import eu.chessdata.chesspairing.algoritms.comparators.ByEloReverce;
 import eu.chessdata.chesspairing.algoritms.comparators.ByInitialOrderIdReverce;
-import eu.chessdata.chesspairing.model.ChesspairingResult;
 import eu.chessdata.chesspairing.model.ChesspairingColour;
 import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
+import eu.chessdata.chesspairing.model.ChesspairingResult;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.PairingSummary;
@@ -532,17 +534,77 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 				return Double.compare(pointsO1, pointsO2);
 			}
 		});
+
 		if (players.size() % 2 != 0) {
 			throw new IllegalStateException("You should have resolved groups count before");
 		}
-		// first set the initial order
 
-		for (int i = 0; i < players.size(); i++) {
-
+		/**
+		 * split the list indexes and build the s1 and s2
+		 */
+		List<List<Integer>> split = Tools.initialSplitList(players.size());
+		List<Integer> list1 = split.get(0);
+		List<Integer> list2 = split.get(1);
+		int size = list2.size();
+		Integer[] newArray = new Integer[size];
+		Integer[] s1 = new Integer[size];
+		// copy the elements
+		for (int i = 0; i < size; i++) {
+			newArray[i] = list2.get(i);
+			s1[i] = list1.get(i);
 		}
-
+		Set<Integer[]> permutations = Tools.getPermutations(newArray);
+		// for each permutation test if paring is valid
+		Set<Integer[]> validPermutations = new HashSet<>();
+		for (Integer[] s2 : permutations) {
+			if (testIfPermutationIsValid(s1, s2, players)) {
+				validPermutations.add(s2);
+			}
+		}
+		if (validPermutations.size() == 0) {
+			throw new IllegalStateException(
+					"Please decide what to do when no permutations are valid! Time to change the rules");
+		}
 		// try natural paring
 		throw new IllegalStateException("Please finish pareGroup");
+	}
+
+	/**
+	 * build the games and test if the games are valid
+	 * 
+	 * @param s1
+	 * @param s2
+	 * @param players
+	 */
+	private boolean testIfPermutationIsValid(Integer[] s1, Integer[] s2, List<ChesspairingPlayer> players) {
+		for (int i = 0; i < s1.length; i++) {
+			int indexA = s1[i];
+			int indexB = s1[i];
+			ChesspairingGame game = new ChesspairingGame();
+			game.setWhitePlayer(players.get(indexA));
+			game.setBlackPlayer(players.get(indexB));
+			boolean gameIsValid = testIfGameIsValid(game);
+			if (!gameIsValid) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * it tests if the game is valid It also tires to swap players if any of the
+	 * players in the initial order it plays with the same coller 3 times in a
+	 * row
+	 * 
+	 * @param game
+	 * @return
+	 */
+	private boolean testIfGameIsValid(ChesspairingGame game) {
+
+		ChesspairingPlayer playerA = game.getWhitePlayer();
+		ChesspairingPlayer playerB = game.getBlackPlayer();
+		throw new IllegalStateException("Please implement testIfGameIsValid");
+
 	}
 
 	/**
