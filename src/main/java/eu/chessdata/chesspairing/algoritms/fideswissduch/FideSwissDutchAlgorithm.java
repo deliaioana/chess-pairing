@@ -41,7 +41,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	protected Map<String, Integer> downfloatCounts;
 	protected Map<String, String> currentDownfloaters;
 	protected ChesspairingGame buyGame;
-	protected ChesspairingRound generatedRound = new ChesspairingRound();
+	protected ChesspairingRound generatedRound;
 
 	/**
 	 * perform basic initializations and computations before the actual paring
@@ -119,14 +119,16 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 				return -1 * Double.compare(pointsO1, pointsO2);
 			}
 		});
-		
+
 		/**
 		 * number the games
 		 */
-		int i=1;
-		for (ChesspairingGame game: games){
+		int i = 1;
+		for (ChesspairingGame game : games) {
 			game.setTableNumber(i++);
 		}
+		// add the generated round to the tournament
+		this.setRound(this.generatedRound);
 		return this.mTournament;
 	}
 
@@ -349,6 +351,8 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			}
 		}
 
+		//<debug>
+		
 		// collect only the points from the present players;
 		List<ChesspairingPlayer> allPlayers = mTournament.getPlayers();
 		for (ChesspairingPlayer player : allPlayers) {
@@ -365,6 +369,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		if (presentPlayerKeys.size() <= 0) {
 			throw new IllegalStateException("No present players. Please set atleast one player as present");
 		}
+		//<debug>
 
 		// put the results in playersByResult
 		for (Entry<String, Double> entry : currentPoints.entrySet()) {
@@ -402,21 +407,21 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	}
 
 	/**
-	 * create the next round and copy the players presence
+	 * TODO copy the players presence into the round at the end
 	 */
 	private void prepareNextRound() {
-		this.generatedRound = new ChesspairingRound();
-		int roundNumber = mTournament.getRounds().size() + 1;
-		generatedRound.setRoundNumber(roundNumber);
-		List<ChesspairingPlayer> players = new ArrayList<>();
-		// round.setRoundNumber(roundNumber);
-		for (ChesspairingPlayer player : mTournament.getPlayers()) {
-			if (player.isPresent()) {
-				players.add(player);
-			}
-		}
-		generatedRound.setPresentPlayers(players);
-		mTournament.getRounds().add(generatedRound);
+//		this.generatedRound = new ChesspairingRound();
+//		int roundNumber = mTournament.getRounds().size() + 1;
+//		generatedRound.setRoundNumber(roundNumber);
+//		List<ChesspairingPlayer> players = new ArrayList<>();
+//		// round.setRoundNumber(roundNumber);
+//		for (ChesspairingPlayer player : mTournament.getPlayers()) {
+//			if (player.isPresent()) {
+//				players.add(player);
+//			}
+//		}
+//		generatedRound.setPresentPlayers(players);
+//		mTournament.getRounds().add(generatedRound);
 	}
 
 	/**
@@ -558,6 +563,12 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	}
 
 	private void computeNextRound(int roundNumber) {
+		// remove the games from the generatedRound
+		List<ChesspairingGame> games = new ArrayList<>();
+		this.generatedRound = new ChesspairingRound();
+		this.generatedRound.setGames(games);
+		this.generatedRound.setRoundNumber(roundNumber);
+
 		this.currentDownfloaters = new HashMap<>();
 
 		/**
@@ -581,10 +592,6 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 				}
 			}
 		}
-
-		// remove the games from the generatedRound
-		List<ChesspairingGame> games = new ArrayList<>();
-		this.generatedRound.setGames(games);
 
 		for (Double groupKey : copyGroupKeys) {
 			boolean paringOK = pareGroup(groupKey, roundNumber);
@@ -935,11 +942,10 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 					nextGroup.put(key, player);
 					return true;
 				}
-
 			}
 		}
 
-		throw new IllegalStateException("You should allway have bean able to downfloat someone. Please investigate");
+		throw new IllegalStateException("You should allways should be able to downfloat someone. Please investigate");
 	}
 
 	private void setAsBuy(ChesspairingPlayer player) {
@@ -949,5 +955,21 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		this.buyGame = new ChesspairingGame();
 		this.buyGame.setWhitePlayer(player);
 		this.buyGame.setResult(ChesspairingResult.BYE);
+	}
+
+	/**
+	 * get the round number from the round object and assigns the respective to
+	 * the round
+	 * 
+	 * @param round
+	 */
+	private void setRound(ChesspairingRound round) {
+		int rNumber = round.getRoundNumber();
+		if (rNumber < 1) {
+			throw new IllegalStateException();
+		}
+		List<ChesspairingRound> rounds = mTournament.getRounds();
+		rounds.remove(rNumber - 1);
+		rounds.add(rNumber - 1, round);
 	}
 }

@@ -15,8 +15,13 @@ public class ChesspairingPlayer {
 	private boolean isPresent;
 	private int acceleratedPoints;
 	private int tournamentPoints;
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.playerKey;
+	}
 	
-	
+	//getters and setters
 	public String getName() {
 		return name;
 	}

@@ -101,9 +101,6 @@ public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 		//FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
 		this.mTournament = tournament;
 		
-		this.computeInitialTournamentState(2);
-		Double deliaPoints = this.currentPoints.get("1750Delia Ioana");
-		assertTrue("Delia should have 1.0 points",Double.valueOf(1.0).equals(deliaPoints));
 		
 		tournament = this.generateNextRound(tournament);
 		assertTrue("Tournament should have 2 rounds", tournament.getRounds().size()==2);
