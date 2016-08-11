@@ -14,6 +14,7 @@ public class ChesspairingPlayer {
 	private String playerKey;
 	private boolean isPresent;
 	private int acceleratedPoints;
+	private int tournamentPoints;
 	
 	
 	public String getName() {
@@ -52,6 +53,12 @@ public class ChesspairingPlayer {
 	}
 	public void setPresent(boolean isPresent) {
 		this.isPresent = isPresent;
+	}
+	public int getTournamentPoints() {
+		return tournamentPoints;
+	}
+	public void setTournamentPoints(int tournamentPoints) {
+		this.tournamentPoints = tournamentPoints;
 	}
 	
 }

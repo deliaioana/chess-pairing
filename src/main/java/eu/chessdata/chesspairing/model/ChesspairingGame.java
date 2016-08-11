@@ -18,6 +18,13 @@ public class ChesspairingGame {
 	 */
 	private ChesspairingResult result = ChesspairingResult.NOT_DECIDED;
 
+	@Override
+	public String toString() {
+		return (String.valueOf(tableNumber) + "(" + whitePlayer.getPlayerKey() + "-" + blackPlayer.getPlayerKey()
+				+ ")");
+	}
+
+	// getters and setters
 	public int getTableNumber() {
 		return tableNumber;
 	}

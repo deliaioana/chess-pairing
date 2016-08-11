@@ -1,6 +1,5 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch;
 
-import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -83,12 +82,51 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		int roundNumber = mTournament.getRounds().size();
 		computeInitialTournamentState(roundNumber);
 
-		// computeCurrentResults(roundNumber);
-		// computeCollorHistory(roundNumber);
-		// computePartnersHistory(roundNumber);
-		// computeUpfloatCounts(roundNumber);
-
 		computeNextRound(roundNumber);
+		// order games points,elo,index
+
+		List<ChesspairingGame> games = this.generatedRound.getGames();
+		// index
+		// the smallest index first
+		Collections.sort(games, new Comparator<ChesspairingGame>() {
+			@Override
+			public int compare(ChesspairingGame o1, ChesspairingGame o2) {
+				int indexO1 = getHighestIndex(o1);
+				int indexO2 = getHighestIndex(o2);
+				return Integer.compare(indexO1, indexO2);
+			}
+		});
+
+		// the highest elo first
+		Collections.sort(games, new Comparator<ChesspairingGame>() {
+			@Override
+			public int compare(ChesspairingGame o1, ChesspairingGame o2) {
+				int eloO1 = getHighestElo(o1);
+				int eloO2 = getHighestElo(o2);
+				// the highest value should be ordered first so wee multiply by
+				// -1
+				return -1 * Integer.compare(eloO1, eloO2);
+			}
+		});
+
+		// the highest points first
+		Collections.sort(games, new Comparator<ChesspairingGame>() {
+
+			@Override
+			public int compare(ChesspairingGame o1, ChesspairingGame o2) {
+				Double pointsO1 = getHighestPoints(o1);
+				Double pointsO2 = getHighestPoints(o2);
+				return -1 * Double.compare(pointsO1, pointsO2);
+			}
+		});
+		
+		/**
+		 * number the games
+		 */
+		int i=1;
+		for (ChesspairingGame game: games){
+			game.setTableNumber(i++);
+		}
 		return this.mTournament;
 	}
 
@@ -102,6 +140,47 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		computePartnersHistory(roundNumber);
 		computeUpfloatCounts(roundNumber);
 		computeDlownFloatCounts(roundNumber);
+	}
+
+	private Double getHighestPoints(ChesspairingGame game) {
+		if (game.getResult() == ChesspairingResult.BYE) {
+			throw new IllegalStateException("It makes no sence to use this for a buy game");
+		}
+		ChesspairingPlayer player1 = game.getWhitePlayer();
+		ChesspairingPlayer player2 = game.getBlackPlayer();
+		Double pointsA = this.currentPoints.get(player1.getPlayerKey());
+		Double pointsB = this.currentPoints.get(player2.getPlayerKey());
+		if (pointsA < pointsB) {
+			return pointsB;
+		} else {
+			return pointsA;
+		}
+	}
+
+	private int getHighestIndex(ChesspairingGame game) {
+		if (game.getResult() == ChesspairingResult.BYE) {
+			throw new IllegalStateException("It makes no sence to use this for a buy game");
+		}
+		ChesspairingPlayer player1 = game.getWhitePlayer();
+		ChesspairingPlayer player2 = game.getBlackPlayer();
+		return getHighestNumber(player1.getInitialOrderId(), player2.getInitialOrderId());
+	}
+
+	private int getHighestElo(ChesspairingGame game) {
+		if (game.getResult() == ChesspairingResult.BYE) {
+			throw new IllegalStateException("It makes no sence to use this for a buy game");
+		}
+		ChesspairingPlayer player1 = game.getWhitePlayer();
+		ChesspairingPlayer player2 = game.getBlackPlayer();
+		return getHighestNumber(player1.getElo(), player2.getElo());
+	}
+
+	private int getHighestNumber(int a, int b) {
+		if (a > b) {
+			return a;
+		} else {
+			return b;
+		}
 	}
 
 	/**
@@ -518,27 +597,26 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 				 * can not be pared. For the moment downfloating all will do.
 				 */
 				// if this is the last group then join with the previous group
-				if (copyGroupKeys.size()==1){
+				if (copyGroupKeys.size() == 1) {
 					throw new IllegalStateException("What should I do when I only have one group?");
 				}
 				Double sourceGroup = -1.0;
 				Double destGroup = -1.0;
-				//if this is the last index then join with the previous index
-				if (copyGroupKeys.indexOf(groupKey) == copyGroupKeys.size()-1){
+				// if this is the last index then join with the previous index
+				if (copyGroupKeys.indexOf(groupKey) == copyGroupKeys.size() - 1) {
 					int indexSource = copyGroupKeys.indexOf(groupKey);
-					int indexDestination = indexSource -1;
+					int indexDestination = indexSource - 1;
 					sourceGroup = orderedGroupKeys.get(indexSource);
 					destGroup = orderedGroupKeys.get(indexDestination);
-				}else{
+				} else {
 					int indexSource = copyGroupKeys.indexOf(groupKey);
-					int indexDestination = indexSource +1;
+					int indexDestination = indexSource + 1;
 					sourceGroup = orderedGroupKeys.get(indexSource);
 					destGroup = orderedGroupKeys.get(indexDestination);
 				}
 				joinGroups(sourceGroup, destGroup);
-				//and start again
+				// and start again
 				computeNextRound(roundNumber);
-				//throw new IllegalStateException("What to do when group was not able to be pared?");
 			}
 		}
 	}
@@ -553,13 +631,13 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	public void joinGroups(Double sourceGroup, Double destGroup) {
 		Map<String, ChesspairingPlayer> sourcePlayers = groupsByResult.get(sourceGroup);
 		Map<String, ChesspairingPlayer> destPlayers = groupsByResult.get(destGroup);
-		//add all players to destGroup
-		for (Entry<String, ChesspairingPlayer> item: sourcePlayers.entrySet()){
+		// add all players to destGroup
+		for (Entry<String, ChesspairingPlayer> item : sourcePlayers.entrySet()) {
 			destPlayers.put(item.getKey(), item.getValue());
 		}
-		//remove the group
+		// remove the group
 		groupsByResult.remove(sourceGroup);
-		//remove from order
+		// remove from order
 		orderedGroupKeys.remove(sourceGroup);
 	}
 
