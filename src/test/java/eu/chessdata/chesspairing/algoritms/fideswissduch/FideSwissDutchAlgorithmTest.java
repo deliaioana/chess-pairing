@@ -13,7 +13,9 @@ import org.junit.Test;
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Tools;
+import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
+import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.ChesspairingTournamentTest;
 import eu.chessdata.chesspairing.model.PairingSummary;
@@ -104,5 +106,9 @@ public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 		assertTrue("Delia should have 1.0 points",Double.valueOf(1.0).equals(deliaPoints));
 		
 		tournament = this.generateNextRound(tournament);
+		assertTrue("Tournament should have 2 rounds", tournament.getRounds().size()==2);
+		ChesspairingRound round2 = tournament.getRounds().get(1);
+		List<ChesspairingGame> games = round2.getGames();
+		System.out.println(games);
 	}
 }

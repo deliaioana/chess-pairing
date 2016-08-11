@@ -89,7 +89,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		// computeUpfloatCounts(roundNumber);
 
 		computeNextRound(roundNumber);
-		throw new UnsupportedOperationException("Please implement this");
+		return this.mTournament;
 	}
 
 	/**
@@ -510,9 +510,57 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		for (Double groupKey : copyGroupKeys) {
 			boolean paringOK = pareGroup(groupKey, roundNumber);
 			if (!paringOK) {
-				throw new IllegalStateException("What to do when group was not able to be pared?");
+
+				/*
+				 * downfloat all players from group and then start again all
+				 * parings. Note for the future: you should see if you have
+				 * players that can be pared and then downfloat only those that
+				 * can not be pared. For the moment downfloating all will do.
+				 */
+				// if this is the last group then join with the previous group
+				if (copyGroupKeys.size()==1){
+					throw new IllegalStateException("What should I do when I only have one group?");
+				}
+				Double sourceGroup = -1.0;
+				Double destGroup = -1.0;
+				//if this is the last index then join with the previous index
+				if (copyGroupKeys.indexOf(groupKey) == copyGroupKeys.size()-1){
+					int indexSource = copyGroupKeys.indexOf(groupKey);
+					int indexDestination = indexSource -1;
+					sourceGroup = orderedGroupKeys.get(indexSource);
+					destGroup = orderedGroupKeys.get(indexDestination);
+				}else{
+					int indexSource = copyGroupKeys.indexOf(groupKey);
+					int indexDestination = indexSource +1;
+					sourceGroup = orderedGroupKeys.get(indexSource);
+					destGroup = orderedGroupKeys.get(indexDestination);
+				}
+				joinGroups(sourceGroup, destGroup);
+				//and start again
+				computeNextRound(roundNumber);
+				//throw new IllegalStateException("What to do when group was not able to be pared?");
 			}
 		}
+	}
+
+	/**
+	 * It moves the players from the sourceGroup in the destGroup and then
+	 * remove the sourceGroup from groupsByResut and from orderedGroupKeys
+	 * 
+	 * @param sourceGroup
+	 * @param destGroup
+	 */
+	public void joinGroups(Double sourceGroup, Double destGroup) {
+		Map<String, ChesspairingPlayer> sourcePlayers = groupsByResult.get(sourceGroup);
+		Map<String, ChesspairingPlayer> destPlayers = groupsByResult.get(destGroup);
+		//add all players to destGroup
+		for (Entry<String, ChesspairingPlayer> item: sourcePlayers.entrySet()){
+			destPlayers.put(item.getKey(), item.getValue());
+		}
+		//remove the group
+		groupsByResult.remove(sourceGroup);
+		//remove from order
+		orderedGroupKeys.remove(sourceGroup);
 	}
 
 	/**
@@ -570,8 +618,8 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		}
 		if (validPermutations.size() == 0) {
 			// drop the group and restart the paring. move all players down?
-			throw new IllegalStateException(
-					"Please decide what to do when no permutations are valid! Time to change the rules");
+			// Yes!
+			return false;
 		}
 		// for the moment just take the first permutation and pare the players
 		Integer[] s2 = validPermutations.iterator().next();
