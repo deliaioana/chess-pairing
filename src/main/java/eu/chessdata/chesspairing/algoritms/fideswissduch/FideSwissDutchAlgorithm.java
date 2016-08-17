@@ -78,11 +78,11 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			mTournament.getParringSummary().setLongMessage("You can not generate the next round!");
 			return mTournament;
 		}
-		prepareNextRound();
+
 		int roundNumber = mTournament.getRounds().size();
 		computeInitialTournamentState(roundNumber);
 
-		computeNextRound(roundNumber);
+		computeNextRound(roundNumber + 1);
 		// order games points,elo,index
 
 		List<ChesspairingGame> games = this.generatedRound.getGames();
@@ -127,6 +127,11 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		for (ChesspairingGame game : games) {
 			game.setTableNumber(i++);
 		}
+		//if buy game ad this game also to the games list
+		if (this.buyGame != null){
+			this.buyGame.setTableNumber(i);
+			games.add(this.buyGame);
+		}
 		// add the generated round to the tournament
 		this.setRound(this.generatedRound);
 		return this.mTournament;
@@ -137,6 +142,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	 * round computation
 	 */
 	protected void computeInitialTournamentState(int roundNumber) {
+		computePresentPleyers();
 		computeCurrentResults(roundNumber);
 		computeCollorHistory(roundNumber);
 		computePartnersHistory(roundNumber);
@@ -299,6 +305,22 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	}
 
 	/**
+	 * it collects the presents players state from the players list at the
+	 * tournament level
+	 * 
+	 * @param roundNumber
+	 */
+	private void computePresentPleyers() {
+		this.presentPlayerKeys = new ArrayList<>();
+		List<ChesspairingPlayer> players = mTournament.getPlayers();
+		for (ChesspairingPlayer player : players) {
+			if (player.isPresent()) {
+				this.presentPlayerKeys.add(player.getPlayerKey());
+			}
+		}
+	}
+
+	/**
 	 * compute all players results from the previous rounds and orders the
 	 * results in the descending order
 	 * 
@@ -313,64 +335,54 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		// players key
 		this.currentPoints = new HashMap<>();
 
-		for (int i = 1; i < roundNumber; i++) {
+		for (int i = 1; i <= roundNumber; i++) {
 			ChesspairingRound round = getRound(i);
 			List<ChesspairingGame> games = round.getGames();
 			for (ChesspairingGame game : games) {
 
 				String whiteKey = game.getWhitePlayer().getPlayerKey();
-				Double whitePoints = this.currentPoints.get(whiteKey);
-				if (whitePoints == null) {
-					whitePoints = 0.0;
-					this.currentPoints.put(whiteKey, whitePoints);
-				}
-				if (game.getResult() == ChesspairingResult.WHITE_WINS) {
-					whitePoints = whitePoints + 1;
-				}
-				if (game.getResult() == ChesspairingResult.BYE) {
-					whitePoints = whitePoints + 0.5;
-					// go to the next game
-					continue;
-				}
+				// if white is present
+				if (this.presentPlayerKeys.contains(whiteKey)) {
+					Double whitePoints = this.currentPoints.get(whiteKey);
+					if (whitePoints == null) {
+						whitePoints = 0.0;
+						this.currentPoints.put(whiteKey, whitePoints);
+					}
+					if (game.getResult() == ChesspairingResult.WHITE_WINS) {
+						whitePoints = whitePoints + 1;
+					}
+					if (game.getResult() == ChesspairingResult.BYE) {
+						whitePoints = whitePoints + 0.5;
+						// go to the next game
+						continue;
+					}
+					String blackKey = game.getBlackPlayer().getPlayerKey();
+					if (this.presentPlayerKeys.contains(blackKey)) {
+						Double blackPoints = this.currentPoints.get(blackKey);
+						if (blackPoints == null) {
+							blackPoints = 0.0;
+							this.currentPoints.put(blackKey, blackPoints);
+						}
+						if (game.getResult() == ChesspairingResult.BLACK_WINS) {
+							blackPoints = blackPoints + 1;
+						}
+						if (game.getResult() == ChesspairingResult.DRAW_GAME) {
+							whitePoints = whitePoints + 0.5;
+							blackPoints = blackPoints + 0.5;
+						}
+						this.currentPoints.put(whiteKey, whitePoints);
+						this.currentPoints.put(blackKey, blackPoints);
+					}
 
-				String blackKey = game.getBlackPlayer().getPlayerKey();
-				Double blackPoints = this.currentPoints.get(blackKey);
-				if (blackPoints == null) {
-					blackPoints = 0.0;
-					this.currentPoints.put(blackKey, blackPoints);
 				}
-				if (game.getResult() == ChesspairingResult.BLACK_WINS) {
-					blackPoints = blackPoints + 1;
-				}
-				if (game.getResult() == ChesspairingResult.DRAW_GAME) {
-					whitePoints = whitePoints + 0.5;
-					blackPoints = blackPoints + 0.5;
-				}
-				this.currentPoints.put(whiteKey, whitePoints);
-				this.currentPoints.put(blackKey, blackPoints);
 			}
+
 		}
 
-		//<debug>
-		
-		// collect only the points from the present players;
-		List<ChesspairingPlayer> allPlayers = mTournament.getPlayers();
-		for (ChesspairingPlayer player : allPlayers) {
-			if (!player.isPresent()) {
-				this.currentPoints.remove(player.getPlayerKey());
-			}
+		// simple test to validate some aspects are in order
+		if (presentPlayerKeys.size() != this.currentPoints.entrySet().size()) {
+			throw new IllegalStateException("Present players size not the same as currentPoints set size");
 		}
-
-		// set the present players
-		this.presentPlayerKeys = new ArrayList<>();
-		for (Entry<String, Double> entry : this.currentPoints.entrySet()) {
-			presentPlayerKeys.add(entry.getKey());
-		}
-		if (presentPlayerKeys.size() <= 0) {
-			throw new IllegalStateException("No present players. Please set atleast one player as present");
-		}
-		//<debug>
-
 		// put the results in playersByResult
 		for (Entry<String, Double> entry : currentPoints.entrySet()) {
 			// if playersByResult group does not exist then create it
@@ -404,24 +416,6 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		}
 		throw new IllegalStateException(
 				"Tournament in inconsistent state! Not able to find roundNumber = " + roundNumber);
-	}
-
-	/**
-	 * TODO copy the players presence into the round at the end
-	 */
-	private void prepareNextRound() {
-//		this.generatedRound = new ChesspairingRound();
-//		int roundNumber = mTournament.getRounds().size() + 1;
-//		generatedRound.setRoundNumber(roundNumber);
-//		List<ChesspairingPlayer> players = new ArrayList<>();
-//		// round.setRoundNumber(roundNumber);
-//		for (ChesspairingPlayer player : mTournament.getPlayers()) {
-//			if (player.isPresent()) {
-//				players.add(player);
-//			}
-//		}
-//		generatedRound.setPresentPlayers(players);
-//		mTournament.getRounds().add(generatedRound);
 	}
 
 	/**
@@ -969,7 +963,9 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 			throw new IllegalStateException();
 		}
 		List<ChesspairingRound> rounds = mTournament.getRounds();
-		rounds.remove(rNumber - 1);
+		if (rounds.size() >= rNumber) {
+			rounds.remove(rNumber - 1);
+		}
 		rounds.add(rNumber - 1, round);
 	}
 }

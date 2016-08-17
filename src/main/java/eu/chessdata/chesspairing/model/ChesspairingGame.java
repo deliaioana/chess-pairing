@@ -20,7 +20,12 @@ public class ChesspairingGame {
 
 	@Override
 	public String toString() {
-		return (String.valueOf(tableNumber) + "(" + whitePlayer.getPlayerKey() + "-" + blackPlayer.getPlayerKey()
+		String whitePlayerKey = whitePlayer.getPlayerKey();
+		String blackPlayerKey = "buy";
+		if (this.result!= ChesspairingResult.BYE){
+			blackPlayerKey = blackPlayer.getPlayerKey();
+		}
+		return (String.valueOf(tableNumber) + "(" + whitePlayerKey + "-" + blackPlayerKey
 				+ ")");
 	}
 

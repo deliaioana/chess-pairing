@@ -106,6 +106,6 @@ public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 		assertTrue("Tournament should have 2 rounds", tournament.getRounds().size()==2);
 		ChesspairingRound round2 = tournament.getRounds().get(1);
 		List<ChesspairingGame> games = round2.getGames();
-		System.out.println(games);
+		//System.out.println(games);
 	}
 }
