@@ -1,0 +1,339 @@
+{
+	"description": "turneu12",
+	"name": "turneu12",
+	"players": [
+		{
+			"name": "bogdan-cezar",
+			"playerKey": "-KK4PfAzRXC1pJRZ7qtf",
+			"acceleratedPoints": 0,
+			"elo": 0,
+			"initialOrderId": 1,
+			"isPresent": false,
+			"tournamentPoints": 0
+		},
+		{
+			"name": "bogdan-calin",
+			"playerKey": "-KK4PmJdjHdj77r0NZy6",
+			"acceleratedPoints": 0,
+			"elo": 0,
+			"initialOrderId": 2,
+			"isPresent": true,
+			"tournamentPoints": 0
+		},
+		{
+			"name": "bogdan-marian",
+			"playerKey": "-KK4Psw2LOj9QZDFSY8F",
+			"acceleratedPoints": 0,
+			"elo": 0,
+			"initialOrderId": 3,
+			"isPresent": true,
+			"tournamentPoints": 0
+		},
+		{
+			"name": "Lacra",
+			"playerKey": "-KKtMd3vCIJYpLvpeKX3",
+			"acceleratedPoints": 0,
+			"elo": 0,
+			"initialOrderId": 4,
+			"isPresent": true,
+			"tournamentPoints": 0
+		},
+		{
+			"name": "Catalin",
+			"playerKey": "-KKtt0OkvrEuE1s0aEqb",
+			"acceleratedPoints": 0,
+			"elo": 0,
+			"initialOrderId": 5,
+			"isPresent": true,
+			"tournamentPoints": 0
+		},
+		{
+			"name": "Florin",
+			"playerKey": "-KKtt3zvO9vrdn5YoAz5",
+			"acceleratedPoints": 0,
+			"elo": 0,
+			"initialOrderId": 6,
+			"isPresent": false,
+			"tournamentPoints": 0
+		},
+		{
+			"name": "Anca",
+			"playerKey": "-KKtt6BUXw80SFZPxClf",
+			"acceleratedPoints": 0,
+			"elo": 0,
+			"initialOrderId": 7,
+			"isPresent": true,
+			"tournamentPoints": 0
+		},
+		{
+			"name": "Cemil",
+			"playerKey": "-KMDl3KITCII80fhtdjL",
+			"acceleratedPoints": 0,
+			"elo": 0,
+			"initialOrderId": 8,
+			"isPresent": true,
+			"tournamentPoints": 0
+		},
+		{
+			"name": "newElo01",
+			"playerKey": "-KRL9axykaGKj8HvsAot",
+			"acceleratedPoints": 0,
+			"elo": 0,
+			"initialOrderId": 9,
+			"isPresent": false,
+			"tournamentPoints": 0
+		},
+		{
+			"name": "elo02",
+			"playerKey": "-KRLAB-LDuNtW42tyBrq",
+			"acceleratedPoints": 0,
+			"elo": 0,
+			"initialOrderId": 10,
+			"isPresent": true,
+			"tournamentPoints": 0
+		},
+		{
+			"name": "elo100",
+			"playerKey": "-KRLCD2IWvYYNA2WUD5J",
+			"acceleratedPoints": 0,
+			"elo": 100,
+			"initialOrderId": 11,
+			"isPresent": false,
+			"tournamentPoints": 0
+		}
+	],
+	"rounds": [
+		{
+			"downfloaters": [],
+			"games": [
+				{
+					"blackPlayer": {
+						"name": "bogdan-cezar",
+						"playerKey": "-KK4PfAzRXC1pJRZ7qtf",
+						"acceleratedPoints": 0,
+						"elo": 0,
+						"initialOrderId": 0,
+						"isPresent": false,
+						"tournamentPoints": 0
+					},
+					"result": "WHITE_WINS",
+					"whitePlayer": {
+						"name": "elo100",
+						"playerKey": "-KRLCD2IWvYYNA2WUD5J",
+						"acceleratedPoints": 0,
+						"elo": 100,
+						"initialOrderId": 0,
+						"isPresent": false,
+						"tournamentPoints": 0
+					},
+					"tableNumber": 3
+				},
+				{
+					"blackPlayer": {
+						"name": "bogdan-marian",
+						"playerKey": "-KK4Psw2LOj9QZDFSY8F",
+						"acceleratedPoints": 0,
+						"elo": 0,
+						"initialOrderId": 0,
+						"isPresent": false,
+						"tournamentPoints": 0
+					},
+					"result": "WHITE_WINS",
+					"whitePlayer": {
+						"name": "bogdan-calin",
+						"playerKey": "-KK4PmJdjHdj77r0NZy6",
+						"acceleratedPoints": 0,
+						"elo": 0,
+						"initialOrderId": 0,
+						"isPresent": false,
+						"tournamentPoints": 0
+					},
+					"tableNumber": 4
+				},
+				{
+					"blackPlayer": {
+						"name": "Catalin",
+						"playerKey": "-KKtt0OkvrEuE1s0aEqb",
+						"acceleratedPoints": 0,
+						"elo": 0,
+						"initialOrderId": 0,
+						"isPresent": false,
+						"tournamentPoints": 0
+					},
+					"result": "WHITE_WINS",
+					"whitePlayer": {
+						"name": "Lacra",
+						"playerKey": "-KKtMd3vCIJYpLvpeKX3",
+						"acceleratedPoints": 0,
+						"elo": 0,
+						"initialOrderId": 0,
+						"isPresent": false,
+						"tournamentPoints": 0
+					},
+					"tableNumber": 5
+				},
+				{
+					"blackPlayer": {
+						"name": "Anca",
+						"playerKey": "-KKtt6BUXw80SFZPxClf",
+						"acceleratedPoints": 0,
+						"elo": 0,
+						"initialOrderId": 0,
+						"isPresent": false,
+						"tournamentPoints": 0
+					},
+					"result": "WHITE_WINS",
+					"whitePlayer": {
+						"name": "Florin",
+						"playerKey": "-KKtt3zvO9vrdn5YoAz5",
+						"acceleratedPoints": 0,
+						"elo": 0,
+						"initialOrderId": 0,
+						"isPresent": false,
+						"tournamentPoints": 0
+					},
+					"tableNumber": 6
+				},
+				{
+					"blackPlayer": {
+						"name": "newElo01",
+						"playerKey": "-KRL9axykaGKj8HvsAot",
+						"acceleratedPoints": 0,
+						"elo": 0,
+						"initialOrderId": 0,
+						"isPresent": false,
+						"tournamentPoints": 0
+					},
+					"result": "WHITE_WINS",
+					"whitePlayer": {
+						"name": "Cemil",
+						"playerKey": "-KMDl3KITCII80fhtdjL",
+						"acceleratedPoints": 0,
+						"elo": 0,
+						"initialOrderId": 0,
+						"isPresent": false,
+						"tournamentPoints": 0
+					},
+					"tableNumber": 7
+				},
+				{
+					"result": "BYE",
+					"whitePlayer": {
+						"name": "elo02",
+						"playerKey": "-KRLAB-LDuNtW42tyBrq",
+						"acceleratedPoints": 0,
+						"elo": 0,
+						"initialOrderId": 0,
+						"isPresent": false,
+						"tournamentPoints": 0
+					},
+					"tableNumber": 8
+				}
+			],
+			"presentPlayers": [
+				{
+					"name": "elo100",
+					"playerKey": "-KRLCD2IWvYYNA2WUD5J",
+					"acceleratedPoints": 0,
+					"elo": 100,
+					"initialOrderId": 0,
+					"isPresent": false,
+					"tournamentPoints": 0
+				},
+				{
+					"name": "bogdan-cezar",
+					"playerKey": "-KK4PfAzRXC1pJRZ7qtf",
+					"acceleratedPoints": 0,
+					"elo": 0,
+					"initialOrderId": 0,
+					"isPresent": false,
+					"tournamentPoints": 0
+				},
+				{
+					"name": "bogdan-calin",
+					"playerKey": "-KK4PmJdjHdj77r0NZy6",
+					"acceleratedPoints": 0,
+					"elo": 0,
+					"initialOrderId": 0,
+					"isPresent": false,
+					"tournamentPoints": 0
+				},
+				{
+					"name": "bogdan-marian",
+					"playerKey": "-KK4Psw2LOj9QZDFSY8F",
+					"acceleratedPoints": 0,
+					"elo": 0,
+					"initialOrderId": 0,
+					"isPresent": false,
+					"tournamentPoints": 0
+				},
+				{
+					"name": "Lacra",
+					"playerKey": "-KKtMd3vCIJYpLvpeKX3",
+					"acceleratedPoints": 0,
+					"elo": 0,
+					"initialOrderId": 0,
+					"isPresent": false,
+					"tournamentPoints": 0
+				},
+				{
+					"name": "Catalin",
+					"playerKey": "-KKtt0OkvrEuE1s0aEqb",
+					"acceleratedPoints": 0,
+					"elo": 0,
+					"initialOrderId": 0,
+					"isPresent": false,
+					"tournamentPoints": 0
+				},
+				{
+					"name": "Florin",
+					"playerKey": "-KKtt3zvO9vrdn5YoAz5",
+					"acceleratedPoints": 0,
+					"elo": 0,
+					"initialOrderId": 0,
+					"isPresent": false,
+					"tournamentPoints": 0
+				},
+				{
+					"name": "Anca",
+					"playerKey": "-KKtt6BUXw80SFZPxClf",
+					"acceleratedPoints": 0,
+					"elo": 0,
+					"initialOrderId": 0,
+					"isPresent": false,
+					"tournamentPoints": 0
+				},
+				{
+					"name": "Cemil",
+					"playerKey": "-KMDl3KITCII80fhtdjL",
+					"acceleratedPoints": 0,
+					"elo": 0,
+					"initialOrderId": 0,
+					"isPresent": false,
+					"tournamentPoints": 0
+				},
+				{
+					"name": "newElo01",
+					"playerKey": "-KRL9axykaGKj8HvsAot",
+					"acceleratedPoints": 0,
+					"elo": 0,
+					"initialOrderId": 0,
+					"isPresent": false,
+					"tournamentPoints": 0
+				},
+				{
+					"name": "elo02",
+					"playerKey": "-KRLAB-LDuNtW42tyBrq",
+					"acceleratedPoints": 0,
+					"elo": 0,
+					"initialOrderId": 0,
+					"isPresent": false,
+					"tournamentPoints": 0
+				}
+			],
+			"upfloaters": [],
+			"roundNumber": 1
+		}
+	],
+	"totalRounds": 7
+}

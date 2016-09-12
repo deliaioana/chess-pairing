@@ -108,4 +108,17 @@ public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 		List<ChesspairingGame> games = round2.getGames();
 		//System.out.println(games);
 	}
+	
+	@Test
+	public void testDebugChessData01() throws UnsupportedEncodingException{
+		InputStream inputStream = FideSwissDutchAlgorithmTest.class
+				.getResourceAsStream("/fideSwissDutchAlgorithmTest/debug-chess-data-01.json");
+		
+		Reader reader = new InputStreamReader(inputStream, "UTF-8");
+		Gson gson = Tools.getGson();
+		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
+		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
+		ChesspairingTournament paredTournament = algorithm.generateNextRound(tournament);
+		System.out.println("End test " + paredTournament.getName());
+	}
 }
