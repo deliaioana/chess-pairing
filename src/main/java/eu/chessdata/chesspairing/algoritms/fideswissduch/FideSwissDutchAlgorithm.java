@@ -322,7 +322,7 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 
 	/**
 	 * compute all players results from the previous rounds and orders the
-	 * results in the descending order
+	 * results in the descending order. 
 	 * 
 	 * @param roundNumber
 	 */
@@ -376,7 +376,14 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 
 				}
 			}
-
+			
+			//iterate over present players and if no current points then add 0 points
+			for (String key: presentPlayerKeys){
+				if (!currentPoints.containsKey(key)){
+					this.currentPoints.put(key, 0.0);
+				}
+			}
+			System.out.println("debug: End current points");
 		}
 
 		// simple test to validate some aspects are in order

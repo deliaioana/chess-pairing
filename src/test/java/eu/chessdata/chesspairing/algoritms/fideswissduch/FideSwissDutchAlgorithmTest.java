@@ -109,6 +109,10 @@ public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 		//System.out.println(games);
 	}
 	
+	/**
+	 * This is the first bug detected on the mobile application. The algorithm is fixed now
+	 * @throws UnsupportedEncodingException
+	 */
 	@Test
 	public void testDebugChessData01() throws UnsupportedEncodingException{
 		InputStream inputStream = FideSwissDutchAlgorithmTest.class
