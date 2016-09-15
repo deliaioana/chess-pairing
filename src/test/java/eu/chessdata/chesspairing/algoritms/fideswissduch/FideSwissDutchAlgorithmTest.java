@@ -6,7 +6,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -123,7 +127,8 @@ public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
 		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
 		ChesspairingTournament paredTournament = algorithm.generateNextRound(tournament);
-		System.out.println("End test " + paredTournament.getName());
+		//just to avoid eclipse warning use the stuff
+		paredTournament.getName();
 	}
 	
 	@Test
@@ -136,6 +141,34 @@ public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
 		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
 		ChesspairingTournament paredTournament = algorithm.generateNextRound(tournament);
-		System.out.println("End test " + paredTournament.getName());
+		
+		Set<String> players = new HashSet<>();
+		
+		//get the 3rd round
+		List<ChesspairingRound> rounds = paredTournament.getRounds();
+		ChesspairingRound round = rounds.get(2);
+		List<ChesspairingGame> games = round.getGames();
+		
+		//make sure that the same player does not get peered more then one time
+		for (ChesspairingGame game: games){
+			//white player
+			ChesspairingPlayer player = game.getWhitePlayer();
+			String whiteKey = player.getPlayerKey();
+			if (players.contains(whiteKey)){
+				throw new IllegalStateException(player.getName()+"Has allready bean pared");
+			}
+			players.add(whiteKey);
+			player = game.getBlackPlayer();
+			if (player != null){
+				String blackKey = player.getPlayerKey();
+				if (players.contains(blackKey)){
+					throw new IllegalStateException(player.getName()+"Has allready bean pared");
+				}
+				players.add(blackKey);
+			}
+		}
+		
+		System.out.println("End test debugChessData02 " + paredTournament.getName());
+		
 	}
 }

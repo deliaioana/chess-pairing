@@ -383,7 +383,6 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 					this.currentPoints.put(key, 0.0);
 				}
 			}
-			System.out.println("debug: End current points");
 		}
 
 		// simple test to validate some aspects are in order
@@ -595,6 +594,15 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 		}
 
 		for (Double groupKey : copyGroupKeys) {
+			/**
+			 * check to make sure the group still exists
+			 * this is related to bug 02
+			 */
+			if (this.groupsByResult.get(groupKey)== null){
+				//just move on
+				continue;
+			}
+			
 			boolean paringOK = pareGroup(groupKey, roundNumber);
 			if (!paringOK) {
 
@@ -658,7 +666,11 @@ public class FideSwissDutchAlgorithm implements Algorithm {
 	 */
 	private boolean pareGroup(Double groupKey, int roundNumber) {
 		Map<String, ChesspairingPlayer> group = this.groupsByResult.get(groupKey);
-
+		//<debug>
+		if (group == null){
+			System.out.println("group is null");
+		}
+		//</debug>
 		List<ChesspairingPlayer> players = new ArrayList<>();
 		for (Entry<String, ChesspairingPlayer> entry : group.entrySet()) {
 			players.add(entry.getValue());
