@@ -22,7 +22,7 @@ import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.PairingSummary;
 
-public class FideSwissDutchAlgorithm implements Algorithm {
+public class FideSwissDutchAlgorithmV1 implements Algorithm {
 	protected ChesspairingTournament mTournament;
 
 	/**

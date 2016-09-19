@@ -1,13 +1,13 @@
 package eu.chessdata.chesspairing.model;
 
-import eu.chessdata.chesspairing.algoritms.fideswissduch.FideSwissDutchAlgorithm;
+import eu.chessdata.chesspairing.algoritms.fideswissduch.FideSwissDutchAlgorithmV1;
 
 public class ChesspairingPlayer {
 	private String name;
 	private int elo;
 	/**
 	 * this is the the natural order that you wish to be considered for a tournament. 
-	 *  {@link FideSwissDutchAlgorithm} also uses this number in making paring decisions. 
+	 *  {@link FideSwissDutchAlgorithmV1} also uses this number in making paring decisions. 
 	 */
 	private int initialOrderId;
 	

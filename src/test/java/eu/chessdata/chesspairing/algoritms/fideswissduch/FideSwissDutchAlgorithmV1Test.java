@@ -24,7 +24,7 @@ import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.ChesspairingTournamentTest;
 import eu.chessdata.chesspairing.model.PairingSummary;
 
-public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
+public class FideSwissDutchAlgorithmV1Test extends FideSwissDutchAlgorithmV1{
 
 	@Test
 	public void firstRoundTest1() throws UnsupportedEncodingException {
@@ -38,7 +38,7 @@ public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 		tournament.setDescription("This is the description. It could be quite long if you so desire. ");
 		assertTrue("Not the expected file content", tournament.getName().contains("FirstRoundTest1"));
 		assertTrue("Tournament sould contain 0 rounds", tournament.getRounds().size() == 0);
-		FideSwissDutchAlgorithm algoritm = new FideSwissDutchAlgorithm();
+		FideSwissDutchAlgorithmV1 algoritm = new FideSwissDutchAlgorithmV1();
 		tournament = algoritm.generateNextRound(tournament);
 		assertTrue("Tournament should contain only one round", tournament.getRounds().size() == 1);
 		// TestUtils.writeToFile(tournament, "firstRound.json");
@@ -51,7 +51,7 @@ public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
 		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
-		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
+		FideSwissDutchAlgorithmV1 algorithm = new FideSwissDutchAlgorithmV1();
 		tournament = algorithm.generateNextRound(tournament);
 		PairingSummary parringSummary = tournament.getParringSummary();
 
@@ -67,7 +67,7 @@ public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
 		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
-		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
+		FideSwissDutchAlgorithmV1 algorithm = new FideSwissDutchAlgorithmV1();
 		tournament = algorithm.generateNextRound(tournament);
 		PairingSummary parringSummary = tournament.getParringSummary();
 
@@ -119,13 +119,13 @@ public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 	 */
 	@Test
 	public void testDebugChessData01() throws UnsupportedEncodingException{
-		InputStream inputStream = FideSwissDutchAlgorithmTest.class
+		InputStream inputStream = FideSwissDutchAlgorithmV1Test.class
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/debug-chess-data-01.json");
 		
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
 		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
-		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
+		FideSwissDutchAlgorithmV1 algorithm = new FideSwissDutchAlgorithmV1();
 		ChesspairingTournament paredTournament = algorithm.generateNextRound(tournament);
 		//just to avoid eclipse warning use the stuff
 		paredTournament.getName();
@@ -133,13 +133,13 @@ public class FideSwissDutchAlgorithmTest extends FideSwissDutchAlgorithm{
 	
 	@Test
 	public void debugChessData02()throws UnsupportedEncodingException{
-		InputStream inputStream = FideSwissDutchAlgorithmTest.class
+		InputStream inputStream = FideSwissDutchAlgorithmV1Test.class
 				.getResourceAsStream("/fideSwissDutchAlgorithmTest/debug-chess-data-02.json");
 		
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 		Gson gson = Tools.getGson();
 		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
-		FideSwissDutchAlgorithm algorithm = new FideSwissDutchAlgorithm();
+		FideSwissDutchAlgorithmV1 algorithm = new FideSwissDutchAlgorithmV1();
 		ChesspairingTournament paredTournament = algorithm.generateNextRound(tournament);
 		
 		Set<String> players = new HashSet<>();
