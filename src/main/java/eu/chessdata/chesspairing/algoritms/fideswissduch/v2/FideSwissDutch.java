@@ -8,6 +8,7 @@ public class FideSwissDutch implements Algorithm{
 	@Override
 	public ChesspairingTournament generateNextRound(ChesspairingTournament tournament) {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
