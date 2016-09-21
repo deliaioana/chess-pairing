@@ -17,6 +17,8 @@ public class FideSwissDutch implements Algorithm {
 	private Set<String> presentPlayers;
 	private Map<Integer, ChesspairingRound> roundsMap;
 
+	private Map<Integer, List<Integer>> colourHistory;
+
 	/**
 	 * this is the round that wee will generate
 	 */
@@ -35,6 +37,21 @@ public class FideSwissDutch implements Algorithm {
 		computeRoundsMap();
 		computeGenerationRoundId();
 		computePresentPlayers();
+		computeColourHistory();
+	}
+
+	/**
+	 * A.7 rules from
+	 * https://www.fide.com/fide/handbook.html?id=167&view=article
+	 * 
+	 * The colour difference of a player is the number of games played with
+	 * white minus the number of games played with black
+	 */
+	private void computeColourHistory() {
+		this.colourHistory = new HashMap<>();
+		for (int i = 1; i < this.generationRoundId; i++) {
+			
+		}
 	}
 
 	private void computePresentPlayers() {
