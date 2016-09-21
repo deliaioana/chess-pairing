@@ -1,5 +1,6 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -7,7 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 import eu.chessdata.chesspairing.algoritms.fideswissduch.Algorithm;
+import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
+import eu.chessdata.chesspairing.model.ChesspairingResult;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 
@@ -16,8 +19,9 @@ public class FideSwissDutch implements Algorithm {
 	private Map<String, ChesspairingPlayer> playersMap;
 	private Set<String> presentPlayers;
 	private Map<Integer, ChesspairingRound> roundsMap;
-
-	private Map<Integer, List<Integer>> colourHistory;
+	private Map<String, List<Integer>> colourHistory;
+	private Map<String, List<String>> opponentsHistory;
+	
 
 	/**
 	 * this is the round that wee will generate
@@ -38,20 +42,94 @@ public class FideSwissDutch implements Algorithm {
 		computeGenerationRoundId();
 		computePresentPlayers();
 		computeColourHistory();
+		computeOpponentsHistory();
+	}
+
+	private void computeOpponentsHistory() {
+		this.opponentsHistory = new HashMap<>();
+		for (int i=1;i<this.generationRoundId;i++){
+			ChesspairingRound round = getRound(i);
+			List<ChesspairingGame> games = round.getGames();
+			for (ChesspairingGame game: games){
+				ChesspairingResult result = game.getResult();
+				if (result != ChesspairingResult.BYE){
+					//wee have the partners
+					String whiteKey = game.getWhitePlayer().getPlayerKey();
+					String blackKey = game.getBlackPlayer().getPlayerKey();
+					addToOpponentsHistory(whiteKey, blackKey);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * it updates the players opponents history of these 2 players
+	 * @param whiteKey
+	 * @param blackKey
+	 */
+	private void addToOpponentsHistory(String whiteKey, String blackKey){
+		List<String> whiteHistory = getOponentsHistory(whiteKey);
+		if (whiteHistory.contains(blackKey)){
+			throw new IllegalStateException("Wee have 2 players that have played against more then one time");
+		}
+		whiteHistory.add(blackKey);
+		
+		List<String>blackHistory = getOponentsHistory(blackKey);
+		if (blackHistory.contains(whiteKey)){
+			throw new IllegalStateException("Wee have 2 players that have played against more then one time");
+		}
+		blackHistory.add(whiteKey);
+	}
+	
+	private List<String> getOponentsHistory(String palyerKey){
+		List<String> adversers = this.opponentsHistory.get(palyerKey);
+		if (adversers == null){
+			adversers = new ArrayList<>();
+			this.opponentsHistory.put(palyerKey, adversers);
+		}
+		return adversers;
 	}
 
 	/**
 	 * A.7 rules from
 	 * https://www.fide.com/fide/handbook.html?id=167&view=article
 	 * 
-	 * The colour difference of a player is the number of games played with
+	 * The color difference of a player is the number of games played with
 	 * white minus the number of games played with black
 	 */
 	private void computeColourHistory() {
 		this.colourHistory = new HashMap<>();
 		for (int i = 1; i < this.generationRoundId; i++) {
-			
+			ChesspairingRound round = getRound(i);
+			List<ChesspairingGame> games = round.getGames();
+
+			for (ChesspairingGame game : games) {
+				ChesspairingResult result = game.getResult();
+				if (result == ChesspairingResult.NOT_DECIDED) {
+					throw new IllegalStateException("Found game with no result");
+				}
+
+				// wee are only interested if the color history if no buy
+				if (result != ChesspairingResult.BYE) {
+					ChesspairingPlayer whitePlayer = game.getWhitePlayer();
+					List<Integer> whitePlayerHistory = getColorHistory(whitePlayer.getPlayerKey());
+					whitePlayerHistory.add(1);
+					
+					ChesspairingPlayer blackPlayer = game.getBlackPlayer();
+					List<Integer> blackPlayerHistory = getColorHistory(blackPlayer.getPlayerKey());
+					blackPlayerHistory.add(-1);
+				}
+			}
 		}
+	}
+
+	private List<Integer> getColorHistory(String playerKey) {
+		List<Integer> history = this.colourHistory.get(playerKey);
+		if (history == null) {
+			history = new ArrayList<>();
+			this.colourHistory.put(playerKey, history);
+		}
+		return history;
 	}
 
 	private void computePresentPlayers() {
