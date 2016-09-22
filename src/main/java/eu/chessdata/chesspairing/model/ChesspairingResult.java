@@ -1,5 +1,5 @@
 package eu.chessdata.chesspairing.model;
 
 public enum ChesspairingResult {
-	NOT_DECIDED, WHITE_WINS, BLACK_WINS, DRAW_GAME, BYE,
+	NOT_DECIDED, WHITE_WINS, BLACK_WINS, DRAW_GAME, BYE, WHITE_WINS_OPONENT_ABSENT, BLACK_WINS_OPONENT_ABSENT
 }

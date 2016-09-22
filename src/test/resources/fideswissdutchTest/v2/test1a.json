@@ -395,7 +395,7 @@
 					"tableNumber": 6
 				},
 				{
-					"blackPlayer": {
+					"whitePlayer": {
 						"name": "bogdan-cezar",
 						"playerKey": "-KK4PfAzRXC1pJRZ7qtf",
 						"acceleratedPoints": 0,
@@ -404,16 +404,7 @@
 						"isPresent": false,
 						"tournamentPoints": 0
 					},
-					"result": "DRAW_GAME",
-					"whitePlayer": {
-						"name": "elo02",
-						"playerKey": "-KRLAB-LDuNtW42tyBrq",
-						"acceleratedPoints": 0,
-						"elo": 0,
-						"initialOrderId": 0,
-						"isPresent": false,
-						"tournamentPoints": 0
-					},
+					"result": "BYE",
 					"tableNumber": 7
 				}
 			],
@@ -484,15 +475,6 @@
 				{
 					"name": "bogdan-marian",
 					"playerKey": "-KK4Psw2LOj9QZDFSY8F",
-					"acceleratedPoints": 0,
-					"elo": 0,
-					"initialOrderId": 0,
-					"isPresent": false,
-					"tournamentPoints": 0
-				},
-				{
-					"name": "elo02",
-					"playerKey": "-KRLAB-LDuNtW42tyBrq",
 					"acceleratedPoints": 0,
 					"elo": 0,
 					"initialOrderId": 0,

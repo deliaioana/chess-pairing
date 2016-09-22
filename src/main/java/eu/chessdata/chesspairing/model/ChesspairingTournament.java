@@ -11,6 +11,7 @@ public class ChesspairingTournament {
 	 * If you try to pare over this number some algorithms will just crash. 
 	 */
 	private int totalRounds;
+	private ChesspairingByeValue chesspairingByeValue;
 	private List<ChesspairingPlayer> players = new ArrayList<ChesspairingPlayer>();
 	private List<ChesspairingRound> rounds = new ArrayList<ChesspairingRound>();
 	private PairingSummary parringSummary;
@@ -21,6 +22,15 @@ public class ChesspairingTournament {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	
+	public ChesspairingByeValue getChesspairingByeValue() {
+		return chesspairingByeValue;
+	}
+
+	public void setChesspairingByeValue(ChesspairingByeValue chesspairingByeValue) {
+		this.chesspairingByeValue = chesspairingByeValue;
 	}
 
 	public String getDescription() {

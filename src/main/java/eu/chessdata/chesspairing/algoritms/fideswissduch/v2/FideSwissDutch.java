@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import eu.chessdata.chesspairing.algoritms.fideswissduch.Algorithm;
+import eu.chessdata.chesspairing.model.ChesspairingByeValue;
 import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 import eu.chessdata.chesspairing.model.ChesspairingResult;
@@ -21,7 +22,12 @@ public class FideSwissDutch implements Algorithm {
 	private Map<Integer, ChesspairingRound> roundsMap;
 	private Map<String, List<Integer>> colourHistory;
 	private Map<String, List<String>> opponentsHistory;
-	
+	/**
+	 * if player got point buy buy or by the adversary not present then for
+	 * paring purposes only disregard that point.
+	 */
+
+	private Map<String, Double> pairingPoints;
 
 	/**
 	 * this is the round that wee will generate
@@ -43,17 +49,84 @@ public class FideSwissDutch implements Algorithm {
 		computePresentPlayers();
 		computeColourHistory();
 		computeOpponentsHistory();
+		computePairingScores();
+	}
+
+	/**
+	 * consider the buy only if it was given more then 2 rounds ago consider a
+	 * win buy absence only if it was given more then 2 rounds ago
+	 */
+	private void computePairingScores() {
+		this.pairingPoints = new HashMap<>();
+		for (int i = 1; i < this.generationRoundId; i++) {
+			ChesspairingRound round = getRound(i);
+			// if difference grater than 2
+			for (ChesspairingGame game : round.getGames()) {
+				ChesspairingResult result = game.getResult();
+				if (result == ChesspairingResult.WHITE_WINS) {
+					playerWinsIncrementPairingPoints(game.getWhitePlayer().getPlayerKey());
+				} else if (result == ChesspairingResult.BLACK_WINS) {
+					playerWinsIncrementPairingPoints(game.getBlackPlayer().getPlayerKey());
+				} else if ((this.generationRoundId - 1) > -2) {
+					// wee are computing points for this case only when
+					// they have bean wan more then 2 rounds ago
+					if (result == ChesspairingResult.WHITE_WINS_OPONENT_ABSENT) {
+						playerWinsIncrementPairingPoints(game.getWhitePlayer().getPlayerKey());
+					} else if (result == ChesspairingResult.BLACK_WINS_OPONENT_ABSENT) {
+						playerWinsIncrementPairingPoints(game.getBlackPlayer().getPlayerKey());
+					} else if (result == ChesspairingResult.BYE) {
+						playerGetsAbyeIncrementPairingPoints(game.getWhitePlayer().getPlayerKey());
+					}
+				}
+
+			}
+		}
+		if (this.pairingPoints.size()==0 && this.generationRoundId > 1){
+			throw new IllegalStateException("pairing points should contain some data");
+		}
+	}
+
+	private void playerGetsAbyeIncrementPairingPoints(String playerKey) {
+		Double byeValue = 0.0;
+		ChesspairingByeValue chesspairingByeValue = this.tournament.getChesspairingByeValue();
+		if (chesspairingByeValue == null){
+			throw new IllegalStateException("No byeValue set for the tournament");
+		}
+		switch (chesspairingByeValue) {
+		case ONE_POINT:
+			byeValue = 1.0;
+			break;
+		case HALF_A_POINT:
+			byeValue = 0.5;
+			break;
+		default:
+			throw new IllegalStateException("One more case? Please update this section");
+		}
+		Double incrementedPoints = getPairingPoints(playerKey) + byeValue;
+		this.pairingPoints.put(playerKey, incrementedPoints);
+	}
+
+	private void playerWinsIncrementPairingPoints(String playerKey) {
+		Double incrementedPoints = getPairingPoints(playerKey)+1.0;
+		this.pairingPoints.put(playerKey, incrementedPoints);
+	}
+	
+	private double getPairingPoints(String playerKey){
+		if (!this.pairingPoints.containsKey(playerKey)){
+			pairingPoints.put(playerKey, Double.valueOf(0.0));
+		}
+		return this.pairingPoints.get(playerKey);
 	}
 
 	private void computeOpponentsHistory() {
 		this.opponentsHistory = new HashMap<>();
-		for (int i=1;i<this.generationRoundId;i++){
+		for (int i = 1; i < this.generationRoundId; i++) {
 			ChesspairingRound round = getRound(i);
 			List<ChesspairingGame> games = round.getGames();
-			for (ChesspairingGame game: games){
+			for (ChesspairingGame game : games) {
 				ChesspairingResult result = game.getResult();
-				if (result != ChesspairingResult.BYE){
-					//wee have the partners
+				if (result != ChesspairingResult.BYE) {
+					// wee have the partners
 					String whiteKey = game.getWhitePlayer().getPlayerKey();
 					String blackKey = game.getBlackPlayer().getPlayerKey();
 					addToOpponentsHistory(whiteKey, blackKey);
@@ -61,29 +134,30 @@ public class FideSwissDutch implements Algorithm {
 			}
 		}
 	}
-	
+
 	/**
 	 * it updates the players opponents history of these 2 players
+	 * 
 	 * @param whiteKey
 	 * @param blackKey
 	 */
-	private void addToOpponentsHistory(String whiteKey, String blackKey){
+	private void addToOpponentsHistory(String whiteKey, String blackKey) {
 		List<String> whiteHistory = getOponentsHistory(whiteKey);
-		if (whiteHistory.contains(blackKey)){
+		if (whiteHistory.contains(blackKey)) {
 			throw new IllegalStateException("Wee have 2 players that have played against more then one time");
 		}
 		whiteHistory.add(blackKey);
-		
-		List<String>blackHistory = getOponentsHistory(blackKey);
-		if (blackHistory.contains(whiteKey)){
+
+		List<String> blackHistory = getOponentsHistory(blackKey);
+		if (blackHistory.contains(whiteKey)) {
 			throw new IllegalStateException("Wee have 2 players that have played against more then one time");
 		}
 		blackHistory.add(whiteKey);
 	}
-	
-	private List<String> getOponentsHistory(String palyerKey){
+
+	private List<String> getOponentsHistory(String palyerKey) {
 		List<String> adversers = this.opponentsHistory.get(palyerKey);
-		if (adversers == null){
+		if (adversers == null) {
 			adversers = new ArrayList<>();
 			this.opponentsHistory.put(palyerKey, adversers);
 		}
@@ -94,8 +168,8 @@ public class FideSwissDutch implements Algorithm {
 	 * A.7 rules from
 	 * https://www.fide.com/fide/handbook.html?id=167&view=article
 	 * 
-	 * The color difference of a player is the number of games played with
-	 * white minus the number of games played with black
+	 * The color difference of a player is the number of games played with white
+	 * minus the number of games played with black
 	 */
 	private void computeColourHistory() {
 		this.colourHistory = new HashMap<>();
@@ -114,7 +188,7 @@ public class FideSwissDutch implements Algorithm {
 					ChesspairingPlayer whitePlayer = game.getWhitePlayer();
 					List<Integer> whitePlayerHistory = getColorHistory(whitePlayer.getPlayerKey());
 					whitePlayerHistory.add(1);
-					
+
 					ChesspairingPlayer blackPlayer = game.getBlackPlayer();
 					List<Integer> blackPlayerHistory = getColorHistory(blackPlayer.getPlayerKey());
 					blackPlayerHistory.add(-1);
