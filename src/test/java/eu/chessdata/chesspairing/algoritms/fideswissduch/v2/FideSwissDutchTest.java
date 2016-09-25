@@ -11,13 +11,16 @@ import org.junit.Test;
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Tools;
+import eu.chessdata.chesspairing.algoritms.fideswissduch.Algorithm;
 import eu.chessdata.chesspairing.model.ChesspairingByeValue;
 import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingResult;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
+import eu.chessdata.chesspairing.model.TestUtils;
 
 public class FideSwissDutchTest {
+	private Algorithm algorithm = new FideSwissDutch();
 
 	private ChesspairingTournament loadFile(String fileProjectPath) {
 		InputStream inputStream = FideSwissDutchTest.class.getResourceAsStream(fileProjectPath);
@@ -59,13 +62,22 @@ public class FideSwissDutchTest {
 		dataTournament.getRounds().add(round);
 
 		FideSwissDutch algorithm = new FideSwissDutch();
-
+		
 		ChesspairingTournament newRoundTournament = algorithm.generateNextRound(dataTournament);
 		/*
 		 * if (newRoundTournament == null){ throw new
 		 * IllegalStateException("Null tournament from test This is OK"); }
 		 */
-		System.out.println("End test");
+		System.out.println("End test 1");
+	}
+	
+	@Test
+	public void test2(){
+		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/v02-test02.json");
+		dataTournament.setName("Test 2 tournament");
+		@SuppressWarnings("unused")
+		ChesspairingTournament newRoundTournament = algorithm.generateNextRound(dataTournament);
+		System.out.println("End test 2 ");
 	}
 
 }

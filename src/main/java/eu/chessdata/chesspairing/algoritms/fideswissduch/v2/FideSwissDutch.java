@@ -17,11 +17,13 @@ import eu.chessdata.chesspairing.model.ChesspairingTournament;
 
 public class FideSwissDutch implements Algorithm {
 	private ChesspairingTournament tournament;
-	private Map<String, ChesspairingPlayer> playersMap;
+	private Map<String, ChesspairingPlayer> allPlayersMap;
 	private Set<String> presentPlayers;
 	private Map<Integer, ChesspairingRound> roundsMap;
 	private Map<String, List<Integer>> colourHistory;
 	private Map<String, List<String>> opponentsHistory;
+	// <roundNumber,<playerKey,points>>
+	private Map<Integer, Map<String, Double>> roundPoints;
 	/**
 	 * if player got point buy buy or by the adversary not present then for
 	 * paring purposes only disregard that point.
@@ -43,13 +45,108 @@ public class FideSwissDutch implements Algorithm {
 	// meant to calculate current tournament state.
 	private void initializeAlgorithm(ChesspairingTournament tournament) {
 		this.tournament = tournament;
-		computePlayersMap();
+		computeAllPlayersMap();
 		computeRoundsMap();
 		computeGenerationRoundId();
 		computePresentPlayers();
 		computeColourHistory();
 		computeOpponentsHistory();
 		computePairingScores();
+		//please initialize score brackets
+	}
+
+	/**
+	 * it looks in the roundPoints and returns the value from there. if no value then
+	 * recursively get the value and add the result from the current round store the value in mem
+	 * and return it
+	 * @param roundNumber
+	 * @param playerKey
+	 */
+	private Double getRoundPoints(Integer roundNumber, String playerKey){
+		//initialization part
+		if (this.roundPoints == null){
+			this.roundPoints = new HashMap<>();
+		}
+		Map<String,Double> thisRoundResults = roundPoints.get(roundNumber);
+		if (thisRoundResults == null){
+			thisRoundResults = new HashMap<>();
+		}
+		
+		Double previousPoints = 0.0;
+		if (roundNumber > 1){
+			previousPoints = getRoundPoints(roundNumber-1, playerKey);
+		}
+		ChesspairingRound round = getRound(roundNumber);
+		for (ChesspairingGame game:round.getGames()){
+			boolean playerInGame;
+			String whiteKey = game.getWhitePlayer().getPlayerKey();
+			if (playerKey.equals(whiteKey)){
+				double currentPoints = previousPoints + getPoints(game, playerKey);
+				return currentPoints;
+			}
+			ChesspairingResult result = game.getResult();
+			if (result != ChesspairingResult.BYE){
+				//wee have a black player
+				String blackKey = game.getBlackPlayer().getPlayerKey();
+				if (playerKey.equals(blackKey)){
+					double currentPoints = previousPoints + getPoints(game, playerKey);
+					return currentPoints;
+				}
+			}
+		}
+		//if wee reach this place then the player is not in the round
+		return 0.0;
+	}
+	
+	/**
+	 * return the player points from the game
+	 * 
+	 * if player not in the game throw error
+	 * if player wins return 1
+	 * if player buy return 1
+	 * if draw return 0.5
+	 * if loses return 0
+	 * @param game
+	 * @param playerKey
+	 * @return
+	 */
+	private Double getPoints(ChesspairingGame game, String playerKey){
+		Double bye = 0.0;
+		ChesspairingByeValue byeValue = this.tournament.getChesspairingByeValue();
+		switch (byeValue) {
+		case HALF_A_POINT:
+			bye = 0.5;
+			break;
+		case ONE_POINT:
+			bye = 1.0;
+			break;
+		default:
+			throw new IllegalStateException("one more value for bye points? This does not sound write");
+		}
+		Double whin = 1.0;
+		Double lost = 0.0;
+		
+		final ChesspairingResult result = game.getResult();
+		
+		//buy case
+		if (result == ChesspairingResult.BYE){
+			//if key is not white the throw error
+			if (!playerKey.equals(game.getWhitePlayer().getPlayerKey())){
+				throw new IllegalStateException("player key not in the game");
+			}
+			return bye;
+		}
+		
+		String whiteKey = game.getWhitePlayer().getPlayerKey();
+		if (playerKey.equals(whiteKey)){
+			if ((result==ChesspairingResult.WHITE_WINS) || (result == ChesspairingResult.WHITE_WINS_OPONENT_ABSENT)){
+				return whin;
+			}else if ((result == ChesspairingResult.BLACK_WINS)||(result == ChesspairingResult.BLACK_WINS_OPONENT_ABSENT)){
+				return lost;
+			}
+		}
+		
+		throw new IllegalStateException("Have no idea what I have missed. Pleas investigate. Posible also no result yet. Still please investigate");
 	}
 
 	/**
@@ -81,7 +178,7 @@ public class FideSwissDutch implements Algorithm {
 
 			}
 		}
-		if (this.pairingPoints.size()==0 && this.generationRoundId > 1){
+		if (this.pairingPoints.size() == 0 && this.generationRoundId > 1) {
 			throw new IllegalStateException("pairing points should contain some data");
 		}
 	}
@@ -89,7 +186,7 @@ public class FideSwissDutch implements Algorithm {
 	private void playerGetsAbyeIncrementPairingPoints(String playerKey) {
 		Double byeValue = 0.0;
 		ChesspairingByeValue chesspairingByeValue = this.tournament.getChesspairingByeValue();
-		if (chesspairingByeValue == null){
+		if (chesspairingByeValue == null) {
 			throw new IllegalStateException("No byeValue set for the tournament");
 		}
 		switch (chesspairingByeValue) {
@@ -107,12 +204,12 @@ public class FideSwissDutch implements Algorithm {
 	}
 
 	private void playerWinsIncrementPairingPoints(String playerKey) {
-		Double incrementedPoints = getPairingPoints(playerKey)+1.0;
+		Double incrementedPoints = getPairingPoints(playerKey) + 1.0;
 		this.pairingPoints.put(playerKey, incrementedPoints);
 	}
-	
-	private double getPairingPoints(String playerKey){
-		if (!this.pairingPoints.containsKey(playerKey)){
+
+	private double getPairingPoints(String playerKey) {
+		if (!this.pairingPoints.containsKey(playerKey)) {
 			pairingPoints.put(playerKey, Double.valueOf(0.0));
 		}
 		return this.pairingPoints.get(playerKey);
@@ -211,7 +308,7 @@ public class FideSwissDutch implements Algorithm {
 		List<ChesspairingPlayer> players = round.getPresentPlayers();
 		this.presentPlayers = new HashSet<>();
 		for (ChesspairingPlayer player : players) {
-			if (!this.playersMap.containsKey(player.getPlayerKey())) {
+			if (!this.allPlayersMap.containsKey(player.getPlayerKey())) {
 				throw new IllegalStateException(
 						"playersMap does not conatin " + player.getPlayerKey() + "/" + player.getName());
 			}
@@ -227,11 +324,11 @@ public class FideSwissDutch implements Algorithm {
 		return round;
 	}
 
-	private void computePlayersMap() {
-		this.playersMap = new HashMap<>();
+	private void computeAllPlayersMap() {
+		this.allPlayersMap = new HashMap<>();
 		List<ChesspairingPlayer> list = this.tournament.getPlayers();
 		for (ChesspairingPlayer player : list) {
-			this.playersMap.put(player.getPlayerKey(), player);
+			this.allPlayersMap.put(player.getPlayerKey(), player);
 		}
 	}
 
@@ -277,7 +374,7 @@ public class FideSwissDutch implements Algorithm {
 	}
 
 	public Map<String, ChesspairingPlayer> getPlayersMap() {
-		return playersMap;
+		return allPlayersMap;
 	}
 
 	public Set<String> getPresentPlayers() {
