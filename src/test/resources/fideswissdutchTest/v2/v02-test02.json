@@ -413,7 +413,7 @@
 						"acceleratedPoints": 0,
 						"tournamentPoints": 0
 					},
-					"result": "WHITE_WINS"
+					"result": "BLACK_WINS"
 				},
 				{
 					"tableNumber": 4,
@@ -435,7 +435,7 @@
 						"acceleratedPoints": 0,
 						"tournamentPoints": 0
 					},
-					"result": "WHITE_WINS"
+					"result": "BYE"
 				},
 				{
 					"tableNumber": 5,

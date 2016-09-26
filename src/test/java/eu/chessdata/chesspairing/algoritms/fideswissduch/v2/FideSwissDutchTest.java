@@ -1,11 +1,14 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.gson.Gson;
@@ -20,7 +23,7 @@ import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.TestUtils;
 
 public class FideSwissDutchTest {
-	private Algorithm algorithm = new FideSwissDutch();
+	private FideSwissDutch algorithm = new FideSwissDutch();
 
 	private ChesspairingTournament loadFile(String fileProjectPath) {
 		InputStream inputStream = FideSwissDutchTest.class.getResourceAsStream(fileProjectPath);
@@ -77,6 +80,16 @@ public class FideSwissDutchTest {
 		dataTournament.setName("Test 2 tournament");
 		@SuppressWarnings("unused")
 		ChesspairingTournament newRoundTournament = algorithm.generateNextRound(dataTournament);
+		
+		Double p1 = algorithm.getRoundPoints(1, "-KRLCD2IWvYYNA2WUD5J");
+		Double p2 = algorithm.getRoundPoints(2, "-KRLCD2IWvYYNA2WUD5J");
+		System.out.println("points ello100 = " + p1+", " + p2);
+		assertTrue(p1 == 1.0);
+		assertTrue(p2 == 2.0);
+		
+		Double f2 = algorithm.getRoundPoints(2, "-KKtt3zvO9vrdn5YoAz5");
+		assertTrue(f2 == 1.5);
+		System.out.println("Florin points round 2 = " + f2);
 		System.out.println("End test 2 ");
 	}
 

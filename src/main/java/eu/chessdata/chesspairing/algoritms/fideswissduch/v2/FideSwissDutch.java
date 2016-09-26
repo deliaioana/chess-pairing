@@ -52,17 +52,15 @@ public class FideSwissDutch implements Algorithm {
 		computeColourHistory();
 		computeOpponentsHistory();
 		computePairingScores();
-		//please initialize score brackets
 	}
 
 	/**
-	 * it looks in the roundPoints and returns the value from there. if no value then
-	 * recursively get the value and add the result from the current round store the value in mem
-	 * and return it
+	 * it recursively computes the round points
 	 * @param roundNumber
 	 * @param playerKey
 	 */
-	private Double getRoundPoints(Integer roundNumber, String playerKey){
+	protected Double getRoundPoints(Integer roundNumber, String playerKey){
+		
 		//initialization part
 		if (this.roundPoints == null){
 			this.roundPoints = new HashMap<>();
@@ -95,7 +93,7 @@ public class FideSwissDutch implements Algorithm {
 			}
 		}
 		//if wee reach this place then the player is not in the round
-		return 0.0;
+		return previousPoints;
 	}
 	
 	/**
@@ -142,6 +140,15 @@ public class FideSwissDutch implements Algorithm {
 			if ((result==ChesspairingResult.WHITE_WINS) || (result == ChesspairingResult.WHITE_WINS_OPONENT_ABSENT)){
 				return whin;
 			}else if ((result == ChesspairingResult.BLACK_WINS)||(result == ChesspairingResult.BLACK_WINS_OPONENT_ABSENT)){
+				return lost;
+			}
+		}
+		
+		String blackKey = game.getBlackPlayer().getPlayerKey();
+		if (blackKey.equals(playerKey)){
+			if ((result == ChesspairingResult.BLACK_WINS)||(result == ChesspairingResult.BLACK_WINS_OPONENT_ABSENT)){
+				return whin;
+			}else if ((result == ChesspairingResult.WHITE_WINS)|| (result == ChesspairingResult.WHITE_WINS_OPONENT_ABSENT)){
 				return lost;
 			}
 		}
