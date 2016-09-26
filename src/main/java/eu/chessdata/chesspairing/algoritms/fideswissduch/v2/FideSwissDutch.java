@@ -22,8 +22,7 @@ public class FideSwissDutch implements Algorithm {
 	private Map<Integer, ChesspairingRound> roundsMap;
 	private Map<String, List<Integer>> colourHistory;
 	private Map<String, List<String>> opponentsHistory;
-	// <roundNumber,<playerKey,points>>
-	private Map<Integer, Map<String, Double>> roundPoints;
+
 	/**
 	 * if player got point buy buy or by the adversary not present then for
 	 * paring purposes only disregard that point.
@@ -51,64 +50,54 @@ public class FideSwissDutch implements Algorithm {
 		computePresentPlayers();
 		computeColourHistory();
 		computeOpponentsHistory();
-		computePairingScores();
+
 	}
 
 	/**
 	 * it recursively computes the round points
+	 * 
 	 * @param roundNumber
 	 * @param playerKey
 	 */
-	protected Double getRoundPoints(Integer roundNumber, String playerKey){
-		
-		//initialization part
-		if (this.roundPoints == null){
-			this.roundPoints = new HashMap<>();
-		}
-		Map<String,Double> thisRoundResults = roundPoints.get(roundNumber);
-		if (thisRoundResults == null){
-			thisRoundResults = new HashMap<>();
-		}
-		
+	protected Double getRoundPoints(Integer roundNumber, String playerKey) {
+
 		Double previousPoints = 0.0;
-		if (roundNumber > 1){
-			previousPoints = getRoundPoints(roundNumber-1, playerKey);
+		if (roundNumber > 1) {
+			previousPoints = getRoundPoints(roundNumber - 1, playerKey);
 		}
 		ChesspairingRound round = getRound(roundNumber);
-		for (ChesspairingGame game:round.getGames()){
-			boolean playerInGame;
+		for (ChesspairingGame game : round.getGames()) {
+
 			String whiteKey = game.getWhitePlayer().getPlayerKey();
-			if (playerKey.equals(whiteKey)){
-				double currentPoints = previousPoints + getPoints(game, playerKey);
+			if (playerKey.equals(whiteKey)) {
+				double currentPoints = previousPoints + getPointsFromGame(game, playerKey);
 				return currentPoints;
 			}
 			ChesspairingResult result = game.getResult();
-			if (result != ChesspairingResult.BYE){
-				//wee have a black player
+			if (result != ChesspairingResult.BYE) {
+				// wee have a black player
 				String blackKey = game.getBlackPlayer().getPlayerKey();
-				if (playerKey.equals(blackKey)){
-					double currentPoints = previousPoints + getPoints(game, playerKey);
+				if (playerKey.equals(blackKey)) {
+					double currentPoints = previousPoints + getPointsFromGame(game, playerKey);
 					return currentPoints;
 				}
 			}
 		}
-		//if wee reach this place then the player is not in the round
+		// if wee reach this place then the player is not in the round
 		return previousPoints;
 	}
-	
+
 	/**
 	 * return the player points from the game
 	 * 
-	 * if player not in the game throw error
-	 * if player wins return 1
-	 * if player buy return 1
-	 * if draw return 0.5
-	 * if loses return 0
+	 * if player not in the game throw error if player wins return 1 if player
+	 * buy return 1 if draw return 0.5 if loses return 0
+	 * 
 	 * @param game
 	 * @param playerKey
 	 * @return
 	 */
-	private Double getPoints(ChesspairingGame game, String playerKey){
+	private Double getPointsFromGame(ChesspairingGame game, String playerKey) {
 		Double bye = 0.0;
 		ChesspairingByeValue byeValue = this.tournament.getChesspairingByeValue();
 		switch (byeValue) {
@@ -123,103 +112,143 @@ public class FideSwissDutch implements Algorithm {
 		}
 		Double whin = 1.0;
 		Double lost = 0.0;
-		
+
 		final ChesspairingResult result = game.getResult();
-		
-		//buy case
-		if (result == ChesspairingResult.BYE){
-			//if key is not white the throw error
-			if (!playerKey.equals(game.getWhitePlayer().getPlayerKey())){
+
+		// buy case
+		if (result == ChesspairingResult.BYE) {
+			// if key is not white the throw error
+			if (!playerKey.equals(game.getWhitePlayer().getPlayerKey())) {
 				throw new IllegalStateException("player key not in the game");
 			}
 			return bye;
 		}
-		
+
 		String whiteKey = game.getWhitePlayer().getPlayerKey();
-		if (playerKey.equals(whiteKey)){
-			if ((result==ChesspairingResult.WHITE_WINS) || (result == ChesspairingResult.WHITE_WINS_OPONENT_ABSENT)){
+		if (playerKey.equals(whiteKey)) {
+			if ((result == ChesspairingResult.WHITE_WINS) || (result == ChesspairingResult.WHITE_WINS_OPONENT_ABSENT)) {
 				return whin;
-			}else if ((result == ChesspairingResult.BLACK_WINS)||(result == ChesspairingResult.BLACK_WINS_OPONENT_ABSENT)){
+			} else if ((result == ChesspairingResult.BLACK_WINS)
+					|| (result == ChesspairingResult.BLACK_WINS_OPONENT_ABSENT)) {
 				return lost;
 			}
 		}
-		
+
 		String blackKey = game.getBlackPlayer().getPlayerKey();
-		if (blackKey.equals(playerKey)){
-			if ((result == ChesspairingResult.BLACK_WINS)||(result == ChesspairingResult.BLACK_WINS_OPONENT_ABSENT)){
+		if (blackKey.equals(playerKey)) {
+			if ((result == ChesspairingResult.BLACK_WINS) || (result == ChesspairingResult.BLACK_WINS_OPONENT_ABSENT)) {
 				return whin;
-			}else if ((result == ChesspairingResult.WHITE_WINS)|| (result == ChesspairingResult.WHITE_WINS_OPONENT_ABSENT)){
+			} else if ((result == ChesspairingResult.WHITE_WINS)
+					|| (result == ChesspairingResult.WHITE_WINS_OPONENT_ABSENT)) {
 				return lost;
 			}
 		}
-		
-		throw new IllegalStateException("Have no idea what I have missed. Pleas investigate. Posible also no result yet. Still please investigate");
+
+		throw new IllegalStateException(
+				"Have no idea what I have missed. Pleas investigate. Posible also no result yet. Still please investigate");
 	}
 
 	/**
-	 * consider the buy only if it was given more then 2 rounds ago consider a
-	 * win buy absence only if it was given more then 2 rounds ago
+	 * it recursively computs the pairing points consider the buy only if it was
+	 * given more then 2 rounds ago consider a win buy absence only if it was
+	 * given more then 2 rounds ago
 	 */
-	private void computePairingScores() {
-		this.pairingPoints = new HashMap<>();
+	protected Double getPairingPoints(Integer roundNumber, String playerKey) {
+
+		int difference = this.generationRoundId - 2;
+		if (roundNumber <= difference) {
+			// normal computing strategy
+			return getRoundPoints(roundNumber, playerKey);
+		}
+
+		Double previousPoints = 0.0;
+		if (roundNumber > 1) {
+			previousPoints = getRoundPoints(roundNumber - 1, playerKey);
+		}
+
 		for (int i = 1; i < this.generationRoundId; i++) {
 			ChesspairingRound round = getRound(i);
-			// if difference grater than 2
+			// if difference smaller than 2
 			for (ChesspairingGame game : round.getGames()) {
-				ChesspairingResult result = game.getResult();
-				if (result == ChesspairingResult.WHITE_WINS) {
-					playerWinsIncrementPairingPoints(game.getWhitePlayer().getPlayerKey());
-				} else if (result == ChesspairingResult.BLACK_WINS) {
-					playerWinsIncrementPairingPoints(game.getBlackPlayer().getPlayerKey());
-				} else if ((this.generationRoundId - 1) > -2) {
-					// wee are computing points for this case only when
-					// they have bean wan more then 2 rounds ago
-					if (result == ChesspairingResult.WHITE_WINS_OPONENT_ABSENT) {
-						playerWinsIncrementPairingPoints(game.getWhitePlayer().getPlayerKey());
-					} else if (result == ChesspairingResult.BLACK_WINS_OPONENT_ABSENT) {
-						playerWinsIncrementPairingPoints(game.getBlackPlayer().getPlayerKey());
-					} else if (result == ChesspairingResult.BYE) {
-						playerGetsAbyeIncrementPairingPoints(game.getWhitePlayer().getPlayerKey());
-					}
+
+				String whiteKey = game.getWhitePlayer().getPlayerKey();
+				if (whiteKey.equals(playerKey)) {
+					double currentPoints = previousPoints
+							+ getPairingPointsFromGame(game, playerKey, round.getRoundNumber());
+					return currentPoints;
 				}
 
+				ChesspairingResult result = game.getResult();
+				if (result != ChesspairingResult.BYE) {
+					// wee have a black player
+					String blackKey = game.getBlackPlayer().getPlayerKey();
+					if (blackKey.equals(playerKey)) {
+						double currentPoints = previousPoints
+								+ getPairingPointsFromGame(game, playerKey, round.getRoundNumber());
+						return currentPoints;
+					}
+				}
 			}
 		}
-		if (this.pairingPoints.size() == 0 && this.generationRoundId > 1) {
-			throw new IllegalStateException("pairing points should contain some data");
-		}
+		// if wee reach this place then the player is not in the round
+		return previousPoints;
 	}
 
-	private void playerGetsAbyeIncrementPairingPoints(String playerKey) {
-		Double byeValue = 0.0;
-		ChesspairingByeValue chesspairingByeValue = this.tournament.getChesspairingByeValue();
-		if (chesspairingByeValue == null) {
-			throw new IllegalStateException("No byeValue set for the tournament");
+	/**
+	 * returns the player points from the game. If this game is part of the last
+	 * 2 rounds and the player wan by buy or by absence then return 0;
+	 * 
+	 * @param game
+	 * @param playerKey
+	 * @param roundId
+	 * @return
+	 */
+	private Double getPairingPointsFromGame(ChesspairingGame game, String playerKey, int roundId) {
+		int difference = this.generationRoundId - 2;
+		if (roundId <= difference) {
+			// standard evaluation applies;
+			return getPointsFromGame(game, playerKey);
 		}
-		switch (chesspairingByeValue) {
-		case ONE_POINT:
-			byeValue = 1.0;
-			break;
-		case HALF_A_POINT:
-			byeValue = 0.5;
-			break;
-		default:
-			throw new IllegalStateException("One more case? Please update this section");
-		}
-		Double incrementedPoints = getPairingPoints(playerKey) + byeValue;
-		this.pairingPoints.put(playerKey, incrementedPoints);
-	}
 
-	private void playerWinsIncrementPairingPoints(String playerKey) {
-		Double incrementedPoints = getPairingPoints(playerKey) + 1.0;
-		this.pairingPoints.put(playerKey, incrementedPoints);
-	}
+		Double whin = 1.0;
+		Double lost = 0.0;
 
-	private double getPairingPoints(String playerKey) {
-		if (!this.pairingPoints.containsKey(playerKey)) {
-			pairingPoints.put(playerKey, Double.valueOf(0.0));
+		final ChesspairingResult result = game.getResult();
+
+		// buy case
+		if (result == ChesspairingResult.BYE) {
+			// if key is not white the throw error
+			if (!playerKey.equals(game.getWhitePlayer().getPlayerKey())) {
+				throw new IllegalStateException("player key not in the game");
+			}
+			return lost;
 		}
-		return this.pairingPoints.get(playerKey);
+
+		String whiteKey = game.getWhitePlayer().getPlayerKey();
+		if (playerKey.equals(whiteKey)) {
+			if (result == ChesspairingResult.WHITE_WINS) {
+				return whin;
+			} else if ((result == ChesspairingResult.BLACK_WINS)
+					|| (result == ChesspairingResult.BLACK_WINS_OPONENT_ABSENT)
+					|| (result == ChesspairingResult.WHITE_WINS_OPONENT_ABSENT)) {
+				return lost;
+			}
+		}
+
+		String blackKey = game.getBlackPlayer().getPlayerKey();
+		if (blackKey.equals(playerKey)) {
+			if (result == ChesspairingResult.BLACK_WINS) {
+				return whin;
+			} else if ((result == ChesspairingResult.WHITE_WINS)
+					|| (result == ChesspairingResult.WHITE_WINS_OPONENT_ABSENT)
+					|| (result == ChesspairingResult.BLACK_WINS_OPONENT_ABSENT)) {
+				return lost;
+			}
+		}
+
+		throw new IllegalStateException(
+				"Have no idea what I have missed. Pleas investigate. Posible also no result yet. Still please investigate");
+
 	}
 
 	private void computeOpponentsHistory() {
