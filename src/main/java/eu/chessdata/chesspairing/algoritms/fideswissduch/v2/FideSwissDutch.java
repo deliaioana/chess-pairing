@@ -156,40 +156,39 @@ public class FideSwissDutch implements Algorithm {
 	protected Double getPairingPoints(Integer roundNumber, String playerKey) {
 
 		int difference = this.generationRoundId - 2;
-		if (roundNumber <= difference) {
+		if (roundNumber < difference) {
 			// normal computing strategy
 			return getRoundPoints(roundNumber, playerKey);
 		}
 
 		Double previousPoints = 0.0;
 		if (roundNumber > 1) {
-			previousPoints = getRoundPoints(roundNumber - 1, playerKey);
+			previousPoints = getPairingPoints(roundNumber - 1, playerKey);
 		}
 
-		for (int i = 1; i < this.generationRoundId; i++) {
-			ChesspairingRound round = getRound(i);
-			// if difference smaller than 2
-			for (ChesspairingGame game : round.getGames()) {
+		ChesspairingRound round = getRound(roundNumber);
+		// if difference smaller than 2
+		for (ChesspairingGame game : round.getGames()) {
 
-				String whiteKey = game.getWhitePlayer().getPlayerKey();
-				if (whiteKey.equals(playerKey)) {
+			String whiteKey = game.getWhitePlayer().getPlayerKey();
+			if (whiteKey.equals(playerKey)) {
+				double currentPoints = previousPoints
+						+ getPairingPointsFromGame(game, playerKey, round.getRoundNumber());
+				return currentPoints;
+			}
+
+			ChesspairingResult result = game.getResult();
+			if (result != ChesspairingResult.BYE) {
+				// wee have a black player
+				String blackKey = game.getBlackPlayer().getPlayerKey();
+				if (blackKey.equals(playerKey)) {
 					double currentPoints = previousPoints
 							+ getPairingPointsFromGame(game, playerKey, round.getRoundNumber());
 					return currentPoints;
 				}
-
-				ChesspairingResult result = game.getResult();
-				if (result != ChesspairingResult.BYE) {
-					// wee have a black player
-					String blackKey = game.getBlackPlayer().getPlayerKey();
-					if (blackKey.equals(playerKey)) {
-						double currentPoints = previousPoints
-								+ getPairingPointsFromGame(game, playerKey, round.getRoundNumber());
-						return currentPoints;
-					}
-				}
 			}
 		}
+
 		// if wee reach this place then the player is not in the round
 		return previousPoints;
 	}
