@@ -104,5 +104,12 @@ public class FideSwissDutchTest {
 		System.out.println("Florin points round 2 = " + f2);
 		assertTrue(f2 == 1.0);
 	}
+	
+	@Test
+	public void test4 (){
+		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/v02-test04.json");
+		dataTournament.setName("Test 4 tournament");
+		ChesspairingTournament newRoundTournament = algorithm.generateNextRound(dataTournament);
+	}
 
 }
