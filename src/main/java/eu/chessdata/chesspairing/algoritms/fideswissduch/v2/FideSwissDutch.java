@@ -22,13 +22,7 @@ public class FideSwissDutch implements Algorithm {
 	private Map<Integer, ChesspairingRound> roundsMap;
 	private Map<String, List<Integer>> colourHistory;
 	private Map<String, List<String>> opponentsHistory;
-
-	/**
-	 * if player got point buy buy or by the adversary not present then for
-	 * paring purposes only disregard that point.
-	 */
-
-	private Map<String, Double> pairingPoints;
+	private PairingTool pairingTool;
 
 	/**
 	 * this is the round that wee will generate
@@ -50,7 +44,17 @@ public class FideSwissDutch implements Algorithm {
 		computePresentPlayers();
 		computeColourHistory();
 		computeOpponentsHistory();
+		
+		computeGames();
+	}
 
+	/**
+	 * this is where the magic happens. Allot of my questions wore not
+	 * very clearly answered so I'm guessing that the first algorithm will 
+	 * be not quite compliant with the intended rules. 
+	 */
+	private void computeGames() {
+		this.pairingTool = new PairingTool(this);
 	}
 
 	/**
