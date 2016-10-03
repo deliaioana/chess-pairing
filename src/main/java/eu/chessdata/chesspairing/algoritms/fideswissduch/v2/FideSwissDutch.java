@@ -44,17 +44,18 @@ public class FideSwissDutch implements Algorithm {
 		computePresentPlayers();
 		computeColourHistory();
 		computeOpponentsHistory();
-		
+
 		computeGames();
 	}
 
 	/**
-	 * this is where the magic happens. Allot of my questions wore not
-	 * very clearly answered so I'm guessing that the first algorithm will 
-	 * be not quite compliant with the intended rules. 
+	 * this is where the magic happens. Allot of my questions wore not very
+	 * clearly answered so I'm guessing that the first algorithm will be not
+	 * quite compliant with the intended rules.
 	 */
 	private void computeGames() {
 		this.pairingTool = new PairingTool(this);
+		this.pairingTool.computeGames();
 	}
 
 	/**
@@ -428,4 +429,27 @@ public class FideSwissDutch implements Algorithm {
 		return generationRoundId;
 	}
 
+	protected List<ChesspairingPlayer> getPresentPlayersList() {
+		ChesspairingRound round = getRound(generationRoundId);
+		return round.getPresentPlayers();
+	}
+
+	public int getInitialRanking(String playerKey) {
+		int i = 0;
+		for (ChesspairingPlayer player : tournament.getPlayers()) {
+			i++;
+			String key = player.getPlayerKey();
+			if (key.equals(playerKey)) {
+				return i;
+			}
+		}
+		throw new IllegalStateException("You should never reatch this point");
+	}
+
+	protected List<String> getOponents(String playerKey){
+		if (!this.opponentsHistory.containsKey(playerKey)){
+			throw new IllegalStateException("This should never happen!?");
+		}
+		return this.opponentsHistory.get(playerKey);
+	}
 }
