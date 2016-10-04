@@ -9,11 +9,13 @@ import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 
 public class PairingTool {
 	private final FideSwissDutch fideSwissDutch;
-	private final Map<String, Player> players;
+	protected final Map<String, Player> players;
+	private final int generationRoundId;
 
 	public PairingTool(FideSwissDutch fideSwissDutch) {
 		this.fideSwissDutch = fideSwissDutch;
 		this.players = new HashMap<>();
+		this.generationRoundId = fideSwissDutch.getGenerationRoundId();
 	}
 
 	public void computeGames() {
@@ -24,7 +26,7 @@ public class PairingTool {
 	/**
 	 * it initializes only the present players;
 	 */
-	private void initializePlayers() {
+	protected void initializePlayers() {
 		// set the present players
 		List<ChesspairingPlayer> chesspairingPlayers = this.fideSwissDutch.getPresentPlayersList();
 		for (ChesspairingPlayer chesspairingPlayer : chesspairingPlayers) {
@@ -36,13 +38,11 @@ public class PairingTool {
 		}
 
 		// set the pairing points
-		for (Entry<String, Player> set : players.entrySet()) {
-			if (this.fideSwissDutch.getGenerationRoundId() == 1) {
-				break;
+		if (this.fideSwissDutch.getGenerationRoundId() > 1) {
+			for (Entry<String, Player> set : players.entrySet()) {
+				int roundNumber = this.fideSwissDutch.getGenerationRoundId() - 1;
+				set.getValue().setPairingPoints(this.fideSwissDutch.getPairingPoints(roundNumber, set.getKey()));
 			}
-
-			int roundNumber = this.fideSwissDutch.getGenerationRoundId() - 1;
-			set.getValue().setPairingPoints(this.fideSwissDutch.getPairingPoints(roundNumber, set.getKey()));
 		}
 
 		// set the paring history
@@ -55,10 +55,24 @@ public class PairingTool {
 				history.addAll(list);
 			}
 		}
-		
-		//set the points
-		if (this.fideSwissDutch.getGenerationRoundId()>1){
-			
+
+		// set the points
+		if (this.fideSwissDutch.getGenerationRoundId() > 1) {
+			for (Entry<String, Player> set: players.entrySet()){
+				String key = set.getKey();
+				Player player = set.getValue();
+				
+				int roundNr = this.generationRoundId -1;
+				Double pairingPoints = this.fideSwissDutch.getPairingPoints(roundNr, key);
+				player.setPairingPoints(pairingPoints);
+			}
 		}
+		
+		//compute the color preference
+		if (this.generationRoundId > 1){
+			throw new IllegalStateException("Please implement this");
+		}
+		
+		
 	}
 }

@@ -32,11 +32,15 @@ public class FideSwissDutch implements Algorithm {
 	@Override
 	public ChesspairingTournament generateNextRound(ChesspairingTournament tournament) {
 		initializeAlgorithm(tournament);
+		
+		this.pairingTool = new PairingTool(this);
+		this.pairingTool.computeGames();
+		
 		return null;
 	}
 
 	// meant to calculate current tournament state.
-	private void initializeAlgorithm(ChesspairingTournament tournament) {
+	protected void initializeAlgorithm(ChesspairingTournament tournament) {
 		this.tournament = tournament;
 		computeAllPlayersMap();
 		computeRoundsMap();
@@ -44,18 +48,6 @@ public class FideSwissDutch implements Algorithm {
 		computePresentPlayers();
 		computeColourHistory();
 		computeOpponentsHistory();
-
-		computeGames();
-	}
-
-	/**
-	 * this is where the magic happens. Allot of my questions wore not very
-	 * clearly answered so I'm guessing that the first algorithm will be not
-	 * quite compliant with the intended rules.
-	 */
-	private void computeGames() {
-		this.pairingTool = new PairingTool(this);
-		this.pairingTool.computeGames();
 	}
 
 	/**
@@ -208,6 +200,16 @@ public class FideSwissDutch implements Algorithm {
 	 * @return
 	 */
 	private Double getPairingPointsFromGame(ChesspairingGame game, String playerKey, int roundId) {
+		//make sure that the game contains the playerKey
+		List<String> keys = new ArrayList<>();
+		keys.add(game.getWhitePlayer().getPlayerKey());
+		if (game.getBlackPlayer()!= null){
+			keys.add(game.getBlackPlayer().getPlayerKey());
+		}
+		if (!keys.contains(playerKey)){
+			throw new IllegalStateException("The player does not play in this game");
+		}
+		
 		int difference = this.generationRoundId - 2;
 		if (roundId <= difference) {
 			// standard evaluation applies;
@@ -216,8 +218,16 @@ public class FideSwissDutch implements Algorithm {
 
 		Double whin = 1.0;
 		Double lost = 0.0;
+		Double draw = 0.5;
 
 		final ChesspairingResult result = game.getResult();
+		//draw game
+		if (result == ChesspairingResult.DRAW_GAME){
+			if (game.getBlackPlayer()== null){
+				throw new IllegalStateException("Imposible to have a draw game with no blackPlayer");
+			}
+			return draw;
+		}
 
 		// buy case
 		if (result == ChesspairingResult.BYE) {
