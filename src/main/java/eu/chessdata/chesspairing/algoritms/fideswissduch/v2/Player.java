@@ -10,7 +10,7 @@ public class Player {
 	String name;
 	Integer initialRanking;
 	Integer elo;
-	Integer colorPreference;
+	List<Integer> colourHistory;
 	List<String> playersHistory;
 	Double pairingPoints;
 
@@ -19,13 +19,26 @@ public class Player {
 		this.name = player.getName();
 		this.initialRanking = initialRanking;
 		this.elo = player.getElo();
-		this.colorPreference = 0;
 		this.playersHistory = new ArrayList<>();
+		this.colourHistory = new ArrayList<>();
 		this.pairingPoints = 0.0;
 	}
-
 	
-
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("Player: " + this.playerKey + " " + this.name
+				+ "\n\t initialRanking:\t"+initialRanking
+				+ "\n\t elo:\t"+elo
+				+ "\n\t points:\t"+pairingPoints
+				+ "\n\t colourHistory:\t"+colourHistory
+				+ "\n\t playersHistory:\t");
+		for (String key: playersHistory){
+			sb.append(key+", ");
+		}
+		return sb.toString();
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -48,6 +61,18 @@ public class Player {
 
 
 
+	public List<Integer> getColourHistory() {
+		return colourHistory;
+	}
+
+
+
+	public void setColourHistory(List<Integer> colourHistory) {
+		this.colourHistory = colourHistory;
+	}
+
+
+
 	public Integer getInitialRanking() {
 		return initialRanking;
 	}
@@ -63,14 +88,8 @@ public class Player {
 	public void setElo(Integer elo) {
 		this.elo = elo;
 	}
-
-	public Integer getColorPreference() {
-		return colorPreference;
-	}
-
-	public void setColorPreference(Integer colorPreference) {
-		this.colorPreference = colorPreference;
-	}
+	
+	
 
 	public List<String> getPlayersHistory() {
 		return playersHistory;

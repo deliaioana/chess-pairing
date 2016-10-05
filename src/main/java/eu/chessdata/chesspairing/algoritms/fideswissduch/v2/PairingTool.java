@@ -11,16 +11,26 @@ public class PairingTool {
 	private final FideSwissDutch fideSwissDutch;
 	protected final Map<String, Player> players;
 	private final int generationRoundId;
+	protected final Map<Double,List<ScoreBracket>> scoreBrackets;
 
 	public PairingTool(FideSwissDutch fideSwissDutch) {
 		this.fideSwissDutch = fideSwissDutch;
 		this.players = new HashMap<>();
 		this.generationRoundId = fideSwissDutch.getGenerationRoundId();
+		this.scoreBrackets = new HashMap<>();
 	}
 
 	public void computeGames() {
 		// TODO Auto-generated method stub
 		initializePlayers();
+		initializeScoreBrackets();
+	}
+
+	/**
+	 * for each player it puts him in his default bracket
+	 */
+	protected void initializeScoreBrackets() {
+		
 	}
 
 	/**
@@ -69,10 +79,15 @@ public class PairingTool {
 		}
 		
 		//compute the color preference
+		
 		if (this.generationRoundId > 1){
-			throw new IllegalStateException("Please implement this");
-		}
-		
-		
+			for (Entry<String,Player> set:players.entrySet()){
+				String key = set.getKey();
+				Player player = set.getValue();
+				List<Integer> list = this.fideSwissDutch.getColorHistory(key);
+				List<Integer> history = player.getColourHistory();
+				history.addAll(list);
+			}
+		}				
 	}
 }

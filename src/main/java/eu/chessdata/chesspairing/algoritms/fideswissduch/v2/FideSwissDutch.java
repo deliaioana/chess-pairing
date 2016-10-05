@@ -344,7 +344,7 @@ public class FideSwissDutch implements Algorithm {
 		}
 	}
 
-	private List<Integer> getColorHistory(String playerKey) {
+	protected List<Integer> getColorHistory(String playerKey) {
 		List<Integer> history = this.colourHistory.get(playerKey);
 		if (history == null) {
 			history = new ArrayList<>();
