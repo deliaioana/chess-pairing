@@ -1,21 +1,24 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 
 public class PairingTool {
 	private final FideSwissDutch fideSwissDutch;
-	protected final Map<String, Player> players;
+	protected final Set<Player> players;
 	private final int generationRoundId;
-	protected final Map<Double,List<ScoreBracket>> scoreBrackets;
+	protected final Map<Double, ScoreBracket> scoreBrackets;
 
 	public PairingTool(FideSwissDutch fideSwissDutch) {
 		this.fideSwissDutch = fideSwissDutch;
-		this.players = new HashMap<>();
+		this.players = new HashSet<>();
 		this.generationRoundId = fideSwissDutch.getGenerationRoundId();
 		this.scoreBrackets = new HashMap<>();
 	}
@@ -30,7 +33,19 @@ public class PairingTool {
 	 * for each player it puts him in his default bracket
 	 */
 	protected void initializeScoreBrackets() {
-		
+		int lastRound = this.fideSwissDutch.getGenerationRoundId() - 1;
+		for (Player player : this.players) {
+			String key = player.getPlayerKey();
+			Double score = this.fideSwissDutch.getPairingPoints(lastRound, key);
+			if (!this.scoreBrackets.containsKey(score)) {
+				ScoreBracket braket = new ScoreBracket(fideSwissDutch, score);
+				this.scoreBrackets.put(score, braket);
+			}
+			ScoreBracket braket = this.scoreBrackets.get(score);
+			// ad the player to the braket
+
+			braket.addPlayer(player);
+		}
 	}
 
 	/**
@@ -40,26 +55,26 @@ public class PairingTool {
 		// set the present players
 		List<ChesspairingPlayer> chesspairingPlayers = this.fideSwissDutch.getPresentPlayersList();
 		for (ChesspairingPlayer chesspairingPlayer : chesspairingPlayers) {
-			if (!this.players.containsKey(chesspairingPlayer.getPlayerKey())) {
-				int initialRanking = this.fideSwissDutch.getInitialRanking(chesspairingPlayer.getPlayerKey());
-				Player player = new Player(chesspairingPlayer, initialRanking);
-				this.players.put(player.getPlayerKey(), player);
+			int initialRanking = this.fideSwissDutch.getInitialRanking(chesspairingPlayer.getPlayerKey());
+			Player player = new Player(chesspairingPlayer, initialRanking);
+			if (!this.players.contains(player)) {
+
+				this.players.add(player);
 			}
 		}
 
 		// set the pairing points
 		if (this.fideSwissDutch.getGenerationRoundId() > 1) {
-			for (Entry<String, Player> set : players.entrySet()) {
+			for (Player player : players) {
 				int roundNumber = this.fideSwissDutch.getGenerationRoundId() - 1;
-				set.getValue().setPairingPoints(this.fideSwissDutch.getPairingPoints(roundNumber, set.getKey()));
+				player.setPairingPoints(this.fideSwissDutch.getPairingPoints(roundNumber, player.getPlayerKey()));
 			}
 		}
 
 		// set the paring history
 		if (this.fideSwissDutch.getGenerationRoundId() > 1) {
-			for (Entry<String, Player> set : players.entrySet()) {
-				String key = set.getKey();
-				Player player = set.getValue();
+			for (Player player : players) {
+				String key = player.getPlayerKey();
 				List<String> list = this.fideSwissDutch.getOponents(key);
 				List<String> history = player.getPlayersHistory();
 				history.addAll(list);
@@ -68,26 +83,39 @@ public class PairingTool {
 
 		// set the points
 		if (this.fideSwissDutch.getGenerationRoundId() > 1) {
-			for (Entry<String, Player> set: players.entrySet()){
-				String key = set.getKey();
-				Player player = set.getValue();
-				
-				int roundNr = this.generationRoundId -1;
+			for (Player player : players) {
+				String key = player.getPlayerKey();
+
+				int roundNr = this.generationRoundId - 1;
 				Double pairingPoints = this.fideSwissDutch.getPairingPoints(roundNr, key);
 				player.setPairingPoints(pairingPoints);
 			}
 		}
-		
-		//compute the color preference
-		
-		if (this.generationRoundId > 1){
-			for (Entry<String,Player> set:players.entrySet()){
-				String key = set.getKey();
-				Player player = set.getValue();
+
+		// compute the color preference
+
+		if (this.generationRoundId > 1) {
+			for (Player player : players) {
+				String key = player.getPlayerKey();
 				List<Integer> list = this.fideSwissDutch.getColorHistory(key);
 				List<Integer> history = player.getColourHistory();
 				history.addAll(list);
 			}
-		}				
+		}
+	}
+
+	/**
+	 * gets the player by player key
+	 * @param playerKey
+	 * @return
+	 */
+	public Player get(String key) {
+		for (Player player:players){
+			String playerKey = player.getPlayerKey();
+			if (key.equals(playerKey)){
+				return player;
+			}
+		}
+		throw new IllegalStateException("Player not in the players set");
 	}
 }

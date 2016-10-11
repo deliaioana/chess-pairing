@@ -41,7 +41,7 @@ public class PairingToolTest {
 		pairingTool.initializePlayers();
 		assertTrue(10 == pairingTool.players.size());
 		
-		Player player = pairingTool.players.get("-KMDl3KITCII80fhtdjL");
+		Player player = pairingTool.get("-KMDl3KITCII80fhtdjL");
 		System.out.println(player);
 		System.out.println("End test 1: "+ player.getName());
 	}

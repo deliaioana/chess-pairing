@@ -6,13 +6,14 @@ import java.util.List;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 
 public class Player {
-	String playerKey;
-	String name;
-	Integer initialRanking;
-	Integer elo;
-	List<Integer> colourHistory;
-	List<String> playersHistory;
-	Double pairingPoints;
+	protected String playerKey;
+	protected String name;
+	protected Integer initialRanking;
+	protected Integer elo;
+	protected List<Integer> colourHistory;
+	protected List<String> playersHistory;
+	protected Double pairingPoints;
+	protected FloatingState floatingState;
 
 	public Player(ChesspairingPlayer player, int initialRanking) {
 		this.playerKey = player.getPlayerKey();
@@ -105,5 +106,40 @@ public class Player {
 
 	public void setPairingPoints(Double pairingPoints) {
 		this.pairingPoints = pairingPoints;
+	}
+	
+	
+
+	public FloatingState getFloatingState() {
+		return floatingState;
+	}
+
+	public void setFloatingState(FloatingState floatingState) {
+		this.floatingState = floatingState;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((playerKey == null) ? 0 : playerKey.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Player other = (Player) obj;
+		if (playerKey == null) {
+			if (other.playerKey != null)
+				return false;
+		} else if (!playerKey.equals(other.playerKey))
+			return false;
+		return true;
 	}
 }
