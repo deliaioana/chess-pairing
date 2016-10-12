@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -40,6 +41,15 @@ public class PairingToolTest {
 		PairingTool pairingTool = new PairingTool(algorithm);
 		pairingTool.initializePlayers();
 		assertTrue(10 == pairingTool.players.size());
+		
+		pairingTool.initializeScoreBrackets();
+		ScoreBracket scoreBracket = pairingTool.scoreBrackets.get(2.0);
+		assertTrue("Bracket should not be null", scoreBracket != null);
+		
+		List<Player> bracketPlayers = scoreBracket.getBracketPlayers();
+		for (Player player: bracketPlayers){
+			System.out.println("\t: " + player.getName()+": \t"+player.getElo());
+		}
 		
 		Player player = pairingTool.get("-KMDl3KITCII80fhtdjL");
 		System.out.println(player);
