@@ -1,6 +1,7 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -46,6 +47,14 @@ public class PairingTool {
 
 			braket.addPlayer(player);
 		}
+		
+		//order the brackets by linking them
+		List<Double> keys = new ArrayList<>();
+		for (Entry<Double,ScoreBracket> entry: scoreBrackets.entrySet()){
+			keys.add(entry.getKey());
+		}
+		
+		//TODO start the pairing algorithm
 	}
 
 	/**
