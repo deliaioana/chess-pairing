@@ -47,14 +47,30 @@ public class PairingTool {
 
 			braket.addPlayer(player);
 		}
-		
-		//order the brackets by linking them
+
+	}
+
+	//TODO figure out this in a recursive way. maybe add a new class member
+	protected void pairBracket() {
+		// order the brackets by linking them
 		List<Double> keys = new ArrayList<>();
-		for (Entry<Double,ScoreBracket> entry: scoreBrackets.entrySet()){
+		for (Entry<Double, ScoreBracket> entry : scoreBrackets.entrySet()) {
 			keys.add(entry.getKey());
 		}
-		
-		//TODO start the pairing algorithm
+		Collections.sort(keys, Collections.reverseOrder());
+
+		// TODO start the pairing algorithm
+		boolean nextOk = false;
+		for (Double key : keys) {
+			if (keys.indexOf(key) < keys.size() - 1) {
+				nextOk = true;
+			} else {
+				nextOk = false;
+			}
+			if (nextOk) {
+
+			}
+		}
 	}
 
 	/**
@@ -115,13 +131,14 @@ public class PairingTool {
 
 	/**
 	 * gets the player by player key
+	 * 
 	 * @param playerKey
 	 * @return
 	 */
 	public Player get(String key) {
-		for (Player player:players){
+		for (Player player : players) {
 			String playerKey = player.getPlayerKey();
-			if (key.equals(playerKey)){
+			if (key.equals(playerKey)) {
 				return player;
 			}
 		}
