@@ -1,7 +1,11 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import org.apache.commons.collections4.comparators.ComparatorChain;
 
 public class ScoreBracket {
 	private final FideSwissDutch fideSwissDutch;
@@ -48,5 +52,14 @@ public class ScoreBracket {
 
 		}
 		return floatingState;
+	}
+
+	protected void sortPlayers() {
+		ComparatorChain<Player> comparatorChain = new ComparatorChain<>();
+		comparatorChain.addComparator(Player.byPoints);
+		comparatorChain.addComparator(Player.byElo);
+		comparatorChain.addComparator(Player.byInitialRanking);
+		
+		Collections.sort(this.bracketPlayers, comparatorChain);
 	}
 }

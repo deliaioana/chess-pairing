@@ -1,11 +1,39 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 
 public class Player {
+	protected static final Comparator<Player> byPoints = new Comparator<Player>() {
+		@Override
+		public int compare(Player o1, Player o2) {
+			Double po1 = o1.getPairingPoints();
+			Double po2 = o2.getPairingPoints();
+			return -1 * po1.compareTo(po2);
+		}
+	};
+
+	protected static final Comparator<Player> byElo = new Comparator<Player>() {
+		@Override
+		public int compare(Player o1, Player o2) {
+			Integer e1 = o1.getElo();
+			Integer e2 = o2.getElo();
+			return -1 * e1.compareTo(e2);
+		}
+	};
+
+	protected static final Comparator<Player> byInitialRanking = new Comparator<Player>() {
+		@Override
+		public int compare(Player o1, Player o2) {
+			Integer r1 = o1.getInitialRanking();
+			Integer r2 = o2.getInitialRanking();
+			return r1.compareTo(r2);
+		}
+	};
+
 	protected String playerKey;
 	protected String name;
 	protected Integer initialRanking;
@@ -24,22 +52,19 @@ public class Player {
 		this.colourHistory = new ArrayList<>();
 		this.pairingPoints = 0.0;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("Player: " + this.playerKey + " " + this.name
-				+ "\n\t initialRanking:\t"+initialRanking
-				+ "\n\t elo:\t"+elo
-				+ "\n\t points:\t"+pairingPoints
-				+ "\n\t colourHistory:\t"+colourHistory
+		sb.append("Player: " + this.playerKey + " " + this.name + "\n\t initialRanking:\t" + initialRanking
+				+ "\n\t elo:\t" + elo + "\n\t points:\t" + pairingPoints + "\n\t colourHistory:\t" + colourHistory
 				+ "\n\t playersHistory:\t");
-		for (String key: playersHistory){
-			sb.append(key+", ");
+		for (String key : playersHistory) {
+			sb.append(key + ", ");
 		}
 		return sb.toString();
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -48,31 +73,21 @@ public class Player {
 		this.name = name;
 	}
 
-	
-
 	public String getPlayerKey() {
 		return playerKey;
 	}
-
-
 
 	public void setPlayerKey(String playerKey) {
 		this.playerKey = playerKey;
 	}
 
-
-
 	public List<Integer> getColourHistory() {
 		return colourHistory;
 	}
 
-
-
 	public void setColourHistory(List<Integer> colourHistory) {
 		this.colourHistory = colourHistory;
 	}
-
-
 
 	public Integer getInitialRanking() {
 		return initialRanking;
@@ -89,8 +104,6 @@ public class Player {
 	public void setElo(Integer elo) {
 		this.elo = elo;
 	}
-	
-	
 
 	public List<String> getPlayersHistory() {
 		return playersHistory;
@@ -107,8 +120,6 @@ public class Player {
 	public void setPairingPoints(Double pairingPoints) {
 		this.pairingPoints = pairingPoints;
 	}
-	
-	
 
 	public FloatingState getFloatingState() {
 		return floatingState;
