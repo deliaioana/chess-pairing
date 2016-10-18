@@ -62,4 +62,10 @@ public class ScoreBracket {
 		
 		Collections.sort(this.bracketPlayers, comparatorChain);
 	}
+
+	public void pareBraket(boolean lastRound, ScoreBracket nextBraket) {
+		this.sortPlayers();
+		
+		throw new IllegalStateException("Please implement pareBracket");
+	}
 }

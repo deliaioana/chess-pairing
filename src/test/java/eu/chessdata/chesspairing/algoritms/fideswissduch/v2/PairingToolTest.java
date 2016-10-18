@@ -16,8 +16,7 @@ import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 
 public class PairingToolTest {
-	
-	
+
 	private ChesspairingTournament loadFile(String fileProjectPath) {
 		InputStream inputStream = PairingToolTest.class.getResourceAsStream(fileProjectPath);
 		Reader reader;
@@ -37,49 +36,60 @@ public class PairingToolTest {
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test1.json");
 		dataTournament.setName("Test 1 tournament");
 		algorithm.initializeAlgorithm(dataTournament);
-		
+
 		PairingTool pairingTool = new PairingTool(algorithm);
 		pairingTool.initializePlayers();
 		assertTrue(10 == pairingTool.players.size());
-		
+
 		pairingTool.initializeScoreBrackets();
 		ScoreBracket scoreBracket = pairingTool.scoreBrackets.get(2.0);
 		assertTrue("Bracket should not be null", scoreBracket != null);
-		
+
 		List<Player> bracketPlayers = scoreBracket.getBracketPlayers();
-		for (Player player: bracketPlayers){
-			System.out.println("\t: " + player.getName()+": \t"+player.getElo());
+		for (Player player : bracketPlayers) {
+			System.out.println("\t: " + player.getName() + ": \t" + player.getElo());
 		}
-		
+
 		Player player = pairingTool.get("-KMDl3KITCII80fhtdjL");
 		System.out.println(player);
-		System.out.println("End test 1: "+ player.getName());
+		System.out.println("End test 1: " + player.getName());
 	}
 
 	@Test
-	public void test2(){
+	/**
+	 * it replicates the logic inside computeGames with extra texts between
+	 * steps
+	 */
+	public void test2() {
 		FideSwissDutch algorithm = new FideSwissDutch();
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test1.json");
 		dataTournament.setName("Test 2 sort bracket");
 		algorithm.initializeAlgorithm(dataTournament);
-		
+
 		PairingTool pairingTool = new PairingTool(algorithm);
+		// step1
 		pairingTool.initializePlayers();
-		
+
+		// step 2
 		pairingTool.initializeScoreBrackets();
 		ScoreBracket scoreBracket = pairingTool.scoreBrackets.get(2.0);
-		
-		List <Player> players = scoreBracket.getBracketPlayers();
-		for (Player player: players ){
-				System.out.println(player.getPairingPoints()+", " + player.getName()+","+player.getElo()+","+player.getInitialRanking());
+
+		List<Player> players = scoreBracket.getBracketPlayers();
+		for (Player player : players) {
+			System.out.println(player.getPairingPoints() + ", " + player.getName() + "," + player.getElo() + ","
+					+ player.getInitialRanking());
 		}
-		
-		scoreBracket.sortPlayers();
-		
-		System.out.println("Sorted list: ");
-		List <Player> sortedPlayers = scoreBracket.getBracketPlayers();
-		for (Player player: sortedPlayers ){
-				System.out.println(player.getPairingPoints()+", " + player.getName()+","+player.getElo()+","+player.getInitialRanking());
-		}
+
+		// scoreBracket.sortPlayers();
+		// System.out.println("Sorted list: ");
+		// List<Player> sortedPlayers = scoreBracket.getBracketPlayers();
+		// for (Player player : sortedPlayers) {
+		// System.out.println(player.getPairingPoints() + ", " +
+		// player.getName() + "," + player.getElo() + ","
+		// + player.getInitialRanking());
+		// }
+
+		pairingTool.pairBrackets();
+
 	}
 }

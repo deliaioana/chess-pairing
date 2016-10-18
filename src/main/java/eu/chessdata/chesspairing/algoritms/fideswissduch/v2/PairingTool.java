@@ -16,18 +16,24 @@ public class PairingTool {
 	protected final Set<Player> players;
 	private final int generationRoundId;
 	protected final Map<Double, ScoreBracket> scoreBrackets;
+	protected final List<Double> order;
 
 	public PairingTool(FideSwissDutch fideSwissDutch) {
 		this.fideSwissDutch = fideSwissDutch;
 		this.players = new HashSet<>();
 		this.generationRoundId = fideSwissDutch.getGenerationRoundId();
 		this.scoreBrackets = new HashMap<>();
+		this.order = new ArrayList<>();
 	}
 
 	public void computeGames() {
 		// TODO Auto-generated method stub
+		if (this.generationRoundId == 1) {
+			throw new IllegalStateException("Please implement first round");
+		}
 		initializePlayers();
 		initializeScoreBrackets();
+		pairBrackets();
 	}
 
 	/**
@@ -48,30 +54,45 @@ public class PairingTool {
 			braket.addPlayer(player);
 		}
 
+		// sort the brackets
+		for (Entry<Double, ScoreBracket> entry : this.scoreBrackets.entrySet()) {
+			Double key = entry.getKey();
+			this.order.add(key);
+		}
+		
+		//set the order
+		Collections.sort(order,Collections.reverseOrder());
 	}
 
-	//TODO figure out this in a recursive way. maybe add a new class member
-	protected void pairBracket() {
-		// order the brackets by linking them
-		List<Double> keys = new ArrayList<>();
-		for (Entry<Double, ScoreBracket> entry : scoreBrackets.entrySet()) {
-			keys.add(entry.getKey());
-		}
-		Collections.sort(keys, Collections.reverseOrder());
-
-		// TODO start the pairing algorithm
-		boolean nextOk = false;
-		for (Double key : keys) {
-			if (keys.indexOf(key) < keys.size() - 1) {
-				nextOk = true;
-			} else {
-				nextOk = false;
-			}
-			if (nextOk) {
-
-			}
+	/**
+	 * Cycles all the brackets and initializes pairing
+	 */
+	protected void pairBrackets() {
+		for(Double key:this.order){
+			pairBracketStandard(key);
 		}
 	}
+	
+	/**
+	 * for the moment my intention is to try to pare this and if not possible downfloat all players to the next bracket
+	 * @param key
+	 * @return
+	 */
+	protected void pairBracketStandard(Double key){
+		ScoreBracket bracket = this.scoreBrackets.get(key);
+		//split the players and pair them in order
+		boolean lastRound = false;
+		if (this.order.indexOf(key)<(this.order.size()-1)){
+			//not last round
+			ScoreBracket nextBraket = this.scoreBrackets.get(this.order.indexOf(key+1));
+			bracket.pareBraket(lastRound,nextBraket);
+		}else{
+			//last round
+			throw new IllegalStateException("please implement last round");
+		}
+	}
+	
+	
 
 	/**
 	 * it initializes only the present players;
