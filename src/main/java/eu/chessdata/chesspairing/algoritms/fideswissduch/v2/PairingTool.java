@@ -84,7 +84,9 @@ public class PairingTool {
 		boolean lastRound = false;
 		if (this.order.indexOf(key)<(this.order.size()-1)){
 			//not last round
-			ScoreBracket nextBraket = this.scoreBrackets.get(this.order.indexOf(key+1));
+			int indexOfKey = this.order.indexOf(key);
+			Double nextKey = this.order.get(indexOfKey + 1);
+			ScoreBracket nextBraket = this.scoreBrackets.get(nextKey);
 			bracket.pareBraket(lastRound,nextBraket);
 		}else{
 			//last round
