@@ -108,6 +108,23 @@ public class ScoreBracket {
 	 * @return
 	 */
 	private GameList computeGameList(Integer[] permutation) {
+		Player playerA = null;
+		Player playerB = null;
+		GameList gameList = new GameList();
+		for(int i=0;i<permutation.length;i++){
+			if ((i%2)==0){
+				playerA = this.bracketPlayers.get(permutation[i]);
+				if (i==permutation.length){
+					gameList.setNoPartner(playerA);
+				}
+			}else{
+				playerB =this.bracketPlayers.get(permutation[i]);
+				gameList.addGame(playerA,playerB);
+				//reset the players
+				playerA = null;
+				playerB = null;
+			}
+		}
 		throw new IllegalStateException("Please implement computeGameList");
 	}
 

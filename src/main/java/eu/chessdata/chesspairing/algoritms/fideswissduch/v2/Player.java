@@ -129,6 +129,14 @@ public class Player {
 		this.floatingState = floatingState;
 	}
 
+	public Integer computeHistoryValue() {
+		Integer value = 0;
+		for (Integer item : this.colourHistory) {
+			value += item;
+		}
+		return value;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
