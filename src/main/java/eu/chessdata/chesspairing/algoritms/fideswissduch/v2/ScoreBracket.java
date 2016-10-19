@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections4.comparators.ComparatorChain;
+
+import eu.chessdata.chesspairing.Tools;
 
 public class ScoreBracket {
 	private final FideSwissDutch fideSwissDutch;
@@ -59,13 +62,56 @@ public class ScoreBracket {
 		comparatorChain.addComparator(Player.byPoints);
 		comparatorChain.addComparator(Player.byElo);
 		comparatorChain.addComparator(Player.byInitialRanking);
-		
+
 		Collections.sort(this.bracketPlayers, comparatorChain);
 	}
 
-	public void pareBraket(boolean lastRound, ScoreBracket nextBraket) {
+	/**
+	 * if nextBraket is null then this is the last bracket
+	 * 
+	 * @param lastRound
+	 * @param nextBraket
+	 */
+	public boolean pareBraket(boolean lastRound, ScoreBracket nextBraket) {
+		// compute initial state
+		if (nextBraket == null) {
+			pareLastBracket();
+		}
+		int playersCount = this.bracketPlayers.size();
+		boolean even = true;
+		if ((playersCount % 2) == 1) {
+			even = false;
+		}
 		this.sortPlayers();
-		
+		// get all the permutations
+		Integer[] intArray = new Integer[this.bracketPlayers.size()];
+		for (int i = 0; i < this.bracketPlayers.size(); i++) {
+			intArray[i] = i;
+		}
+		Set<Integer[]>permutations = Tools.getPermutations(intArray);
+		List<GameList> gameLists = new ArrayList<>();
+		for (Integer[] permutation: permutations){
+			GameList gameList = computeGameList(permutation);
+		}
+		//
+		if (!lastRound) {
+
+		} else {
+
+		}
 		throw new IllegalStateException("Please implement pareBracket");
+	}
+
+	/**
+	 * it takes the players 2 by 2 and computes the games
+	 * @param permutation
+	 * @return
+	 */
+	private GameList computeGameList(Integer[] permutation) {
+		throw new IllegalStateException("Please implement computeGameList");
+	}
+
+	public boolean pareLastBracket() {
+		throw new IllegalStateException("Please implement pareLastRound");
 	}
 }
