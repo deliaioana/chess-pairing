@@ -93,13 +93,28 @@ public class ScoreBracket {
 		for (Integer[] permutation: permutations){
 			GameList gameList = computeGameList(permutation);
 		}
+		
+		List<GameList> clearList= clearEmtyLists(gameLists);
 		//
 		if (!lastRound) {
-
-		} else {
-
+			
 		}
 		throw new IllegalStateException("Please implement pareBracket");
+	}
+
+	/**
+	 * clears the gamLists from the inner empty lists;
+	 * @param gameLists
+	 * @return
+	 */
+	private List<GameList> clearEmtyLists(List<GameList> gameLists) {
+		List<GameList> clearLists = new ArrayList<>();
+		for (GameList gameList: gameLists){
+			if (gameList.size()>0){
+				clearLists.add(gameList);
+			}
+		}
+		return clearLists;
 	}
 
 	/**
@@ -125,7 +140,7 @@ public class ScoreBracket {
 				playerB = null;
 			}
 		}
-		throw new IllegalStateException("Please implement computeGameList");
+		return gameList;
 	}
 
 	public boolean pareLastBracket() {

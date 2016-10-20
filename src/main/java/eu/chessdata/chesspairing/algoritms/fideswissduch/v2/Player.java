@@ -137,6 +137,70 @@ public class Player {
 		return value;
 	}
 
+	/**
+	 * Players prefers white if it played black last time
+	 * 
+	 * @param playerA
+	 * @return
+	 */
+	protected boolean preferesWhite() {
+		Integer lastColor = colourHistory.get(colourHistory.size() - 1);
+		if (lastColor == 1) {
+			// last game was white
+			return false;
+		} else {
+			// last game was black
+			return true;
+		}
+	}
+
+	/**
+	 * Player prefers black if it played white last game
+	 * 
+	 * @param player
+	 * @return
+	 */
+	protected boolean refersBlack() {
+		Integer lastColor = colourHistory.get(colourHistory.size() - 1);
+		if (lastColor == -1) {
+			// last game was black
+			return false;
+		} else {
+			// last game was white
+			return true;
+		}
+	}
+
+	/**
+	 * player can play white if the new color history is in -1 and 1 range
+	 * 
+	 * @param player
+	 * @return true if it can and false if can not
+	 */
+	protected boolean canPlayWhite() {
+		int history = computeHistoryValue() + 1;
+		if ((-1 <= history) && (history <= 1)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * player can play black if the new color history is in -1 1 range
+	 * 
+	 * @param player
+	 * @return true if it can and false if can not
+	 */
+	protected boolean canPlayBlack() {
+		int history = computeHistoryValue() - 1;
+		if ((-1 <= history) && (history <= 1)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

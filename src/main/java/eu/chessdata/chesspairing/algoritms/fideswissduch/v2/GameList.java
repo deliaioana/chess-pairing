@@ -18,20 +18,28 @@ public class GameList {
 	}
 
 	/**
-	 * if the players have played against each other
+	 * if the players can play against add the game to the list
+	 * else add the players to the notPared list
 	 * 
 	 * @param playerA
 	 * @param playerB
 	 */
 	public void addGame(Player playerA, Player playerB) {
-		//
-		
-		
-		Game game = Game.createGame(playerA,playerB);
-		
-
-		throw new IllegalStateException("Please implement thisAddGame");
+		Game game = Game.createGame(playerA, playerB);
+		if (game.isValid()) {
+			this.list.add(game);
+		} else {
+			this.notPared.add(playerA);
+			this.notPared.add(playerB);
+		}
 	}
-	
-	
+
+	/**
+	 * it returns the size of the iner list of games
+	 * @return
+	 */
+	public int size() {
+		return list.size();
+	}
+
 }

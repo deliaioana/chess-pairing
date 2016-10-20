@@ -7,20 +7,61 @@ public class Game {
 	private Player white;
 	private Player black;
 	
-	private Game(){
-		
+	
+
+	protected boolean isValid() {
+		if (valid) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private Game() {
+
 	}
 
 	public static Game createGame(Player playerA, Player playerB) {
 		Game game = new Game();
-		if (!historyOK(playerA,playerB)){
+		if (!historyOK(playerA, playerB)) {
 			game.valid = false;
 			return game;
 		}
-		
-		//
-		
-		throw new IllegalStateException("Please implement this");
+
+		if (playerA.preferesWhite() && playerB.canPlayBlack()) {
+			game.valid = true;
+			game.white = playerA;
+			game.black = playerB;
+			return game;
+		}
+
+		if (playerB.preferesWhite() && playerA.canPlayBlack()) {
+			game.valid = true;
+			game.white = playerB;
+			game.black = playerA;
+			return game;
+		}
+
+		if (playerA.canPlayWhite() && playerB.canPlayBlack()) {
+			game.valid = true;
+			game.white = playerA;
+			game.black = playerB;
+			return game;
+		}
+
+		if (playerB.canPlayWhite() && playerA.canPlayBlack()) {
+			game.valid = true;
+			game.white = playerB;
+			game.black = playerA;
+			return game;
+		}
+
+		/**
+		 * if i have reached this point than due to the color preferences
+		 * players can not play each other.
+		 */
+		game.valid = false;
+		return game;
 	}
 
 	private static boolean historyOK(Player playerA, Player playerB) {
@@ -39,7 +80,7 @@ public class Game {
 						+ "This players do not find each other in the their oun history");
 			}
 		}
-		//history is OK
+		// history is OK
 		return true;
 	}
 }
