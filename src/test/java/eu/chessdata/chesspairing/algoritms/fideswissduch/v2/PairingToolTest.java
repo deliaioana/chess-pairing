@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
+import eu.chessdata.chesspairing.model.TestUtils;
 
 public class PairingToolTest {
 
@@ -91,5 +92,30 @@ public class PairingToolTest {
 
 		pairingTool.pairBrackets();
 
+	}
+	
+	
+	@Test
+	/**
+	 * I'm using this test just to get a handle on a file with allot of tournament players and with rigged round 1
+	 */
+	public void test3ConstructTournament(){
+		ChesspairingTournament myTournament = TestUtils.rigFirstRoundOn23();
+		TestUtils.writeToFile(myTournament, "test4.json");
+		System.out.println("End test 3");
+	}
+	
+	@Test
+	public void test4UnitTests(){
+		FideSwissDutch algorithm = new FideSwissDutch();
+		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test4.json");
+		
+		algorithm.initializeAlgorithm(dataTournament);
+		//PairingTool pairingTool = new PairingTool(algorithm);
+		
+		//pairingTool.initializePlayers();//step1
+		//pairingTool.initializeScoreBrackets();//step2
+		
+		//pairingTool.pairBrackets();
 	}
 }

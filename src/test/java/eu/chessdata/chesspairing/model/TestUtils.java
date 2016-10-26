@@ -10,8 +10,6 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Tools;
-import eu.chessdata.chesspairing.model.ChesspairingPlayer;
-import eu.chessdata.chesspairing.model.ChesspairingTournament;
 
 public class TestUtils {
 	/**
@@ -37,6 +35,87 @@ public class TestUtils {
 		ChesspairingTournament tournament = new ChesspairingTournament();
 		tournament.setName(tournamentName);
 		tournament.setPlayers(buildPlayers());
+		return tournament;
+	}
+
+	/**
+	 * it builds a tournament with 23 players no games
+	 * 
+	 * @return
+	 */
+	public static ChesspairingTournament buildTournament23() {
+		ChesspairingTournament tournament = new ChesspairingTournament();
+
+		List<ChesspairingPlayer> players = new ArrayList<ChesspairingPlayer>();
+		// <star players>
+		players.add(buildPlayer("Bogdan Marian", 1450));
+		players.add(buildPlayer("Lacramioara", 1320));
+		players.add(buildPlayer("Calin Constantin", 1550));
+		players.add(buildPlayer("Cezar Andrei", 1200));
+		players.add(buildPlayer("Rares", 1600));
+		players.add(buildPlayer("Catalin Ioan", 1750));
+		players.add(buildPlayer("Maria", 1700));
+		players.add(buildPlayer("Delia Ioana", 1750));
+		players.add(buildPlayer("Cemil", 2500));
+		players.add(buildPlayer("Delia Dinu", 700));
+		players.add(buildPlayer("Mihai", 600));
+		players.add(buildPlayer("Mihaela", 750));
+		// </star players>
+		int sead = 500;
+		for (int i = 1; i <= 11; i++) {
+			int elo = sead+(i*5);
+			String player = "Player_"+i;
+			players.add(buildPlayer(player, elo));
+		}
+		
+		tournament.setName("Tournament 23");
+		tournament.setPlayers(players);
+		tournament.setTotalRounds(7);
+		
+		List<ChesspairingRound> rounds = new ArrayList<>();
+		tournament.setRounds(rounds);
+		return tournament;
+	}
+	
+	/**
+	 * it uses buildTournament 23 and it sets the first round();
+	 * @return
+	 */
+	public static ChesspairingTournament rigFirstRoundOn23(){
+		ChesspairingTournament tournament = buildTournament23();
+		List<ChesspairingPlayer> pool = new ArrayList<>();
+		List<ChesspairingGame> games = new ArrayList<>();
+		pool.addAll(tournament.getPlayers());
+		//<riged games>
+		int tableNumber = 0;
+		while (pool.size()>=2){
+			ChesspairingGame game = new ChesspairingGame();
+			game.setWhitePlayer(pool.remove(0));
+			game.setBlackPlayer(pool.remove(pool.size()-1));
+			game.setTableNumber(++tableNumber);
+			game.setResult(ChesspairingResult.WHITE_WINS);
+			games.add(game);
+		}
+		if (pool.size()!=1){
+			throw new IllegalStateException("This should be 1");
+		}
+		//build the buy player
+		ChesspairingGame game = new ChesspairingGame();
+		game.setWhitePlayer(pool.remove(0));
+		game.setTableNumber(++tableNumber);
+		game.setResult(ChesspairingResult.BYE);
+		games.add(game);
+		
+		ChesspairingRound round = new ChesspairingRound();
+		round.setRoundNumber(1);
+		round.setGames(games);
+		round.setPresentPlayers(tournament.getPlayers());
+		List emtyList = new ArrayList<>();
+		round.setDownfloaters(emtyList);
+		round.setUpfloaters(emtyList);
+		
+		List<ChesspairingRound> rounds = tournament.getRounds();
+		rounds.add(round);
 		return tournament;
 	}
 
