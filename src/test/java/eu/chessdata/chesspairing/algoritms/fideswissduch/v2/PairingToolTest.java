@@ -13,6 +13,8 @@ import org.junit.Test;
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Tools;
+import eu.chessdata.chesspairing.model.ChesspairingPlayer;
+import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.TestUtils;
 
@@ -109,11 +111,11 @@ public class PairingToolTest {
 	public void test4UnitTests(){
 		FideSwissDutch algorithm = new FideSwissDutch();
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test4.json");
-		
+				
 		algorithm.initializeAlgorithm(dataTournament);
-		//PairingTool pairingTool = new PairingTool(algorithm);
+		PairingTool pairingTool = new PairingTool(algorithm);
 		
-		//pairingTool.initializePlayers();//step1
+		pairingTool.initializePlayers();//step1
 		//pairingTool.initializeScoreBrackets();//step2
 		
 		//pairingTool.pairBrackets();

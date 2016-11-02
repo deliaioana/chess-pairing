@@ -456,9 +456,45 @@ public class FideSwissDutch implements Algorithm {
 		throw new IllegalStateException("You should never reatch this point");
 	}
 
+	/**
+	 * if not computed it opponents history for this specific player and it returns it
+	 * @param playerKey
+	 * @return
+	 */
 	protected List<String> getOponents(String playerKey){
 		if (!this.opponentsHistory.containsKey(playerKey)){
-			throw new IllegalStateException("This should never happen!?");
+			List<String> opponents = new ArrayList<>();
+			for(int i=1;i<generationRoundId;i++){
+				if (this.getRound(i).getGames().size()<=0){
+					throw new IllegalStateException("All previous rounds should have games!");
+				}
+				ChesspairingRound round = this.getRound(i);
+				for (ChesspairingGame game: round.getGames()){
+					
+					String whiteKey = game.getWhitePlayer().getPlayerKey();
+					if (whiteKey.equals(playerKey)){
+						ChesspairingPlayer blackPlayer = game.getBlackPlayer();
+						if (blackPlayer != null){
+							if(blackPlayer.getPlayerKey().equals(whiteKey)){
+								throw new IllegalStateException("It is ilegal to play agains himself");
+							}
+							opponents.add(blackPlayer.getPlayerKey());
+						}
+					}
+					
+					ChesspairingPlayer blackPlayer = game.getBlackPlayer();
+					if (blackPlayer != null){
+						String blackKey = blackPlayer.getPlayerKey();
+						if (blackKey.equals(playerKey)){
+							if (blackKey.equals(whiteKey)){
+								throw new IllegalStateException("It is ilegal to play agains himself");
+							}
+							opponents.add(whiteKey);
+						}
+					}
+				}
+			}
+			this.opponentsHistory.put(playerKey, opponents);
 		}
 		return this.opponentsHistory.get(playerKey);
 	}
