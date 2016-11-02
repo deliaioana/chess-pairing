@@ -116,8 +116,8 @@ public class PairingToolTest {
 		PairingTool pairingTool = new PairingTool(algorithm);
 		
 		pairingTool.initializePlayers();//step1
-		//pairingTool.initializeScoreBrackets();//step2
+		pairingTool.initializeScoreBrackets();//step2
 		
-		//pairingTool.pairBrackets();
+		pairingTool.pairBrackets();
 	}
 }

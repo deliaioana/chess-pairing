@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import org.apache.commons.collections4.comparators.ComparatorChain;
 
 import eu.chessdata.chesspairing.Tools;
@@ -67,12 +69,14 @@ public class ScoreBracket {
 	}
 
 	/**
+	 * main algorithm for pairing bracket
 	 * if nextBraket is null then this is the last bracket
 	 * 
 	 * @param lastRound
 	 * @param nextBraket
 	 */
 	public boolean pareBraket(boolean lastRound, ScoreBracket nextBraket) {
+		System.out.println("Pairing bracket: "+ this.bracketScore+" ("+lastRound+")" );
 		// compute initial state
 		if (nextBraket == null) {
 			pareLastBracket();
@@ -83,65 +87,39 @@ public class ScoreBracket {
 			even = false;
 		}
 		this.sortPlayers();
-		// get all the permutations
-		Integer[] intArray = new Integer[this.bracketPlayers.size()];
-		for (int i = 0; i < this.bracketPlayers.size(); i++) {
-			intArray[i] = i;
-		}
-		Set<Integer[]>permutations = Tools.getPermutations(intArray);
-		List<GameList> gameLists = new ArrayList<>();
-		for (Integer[] permutation: permutations){
-			GameList gameList = computeGameList(permutation);
+		
+		//set the initial pairs
+		/**
+		 * TODO: create private PairingResult pare(Integer[] groupA, Integer[]groupB);
+		 * PairingResut
+		 * boolean isOk
+		 * getGames returns List<Games>
+		 */
+		int size = playersCount / 2;
+		Integer groupA[] = new Integer[size];
+		Integer groupB[] = new Integer[size];
+		for (int i=0;i<size;i++){
+			groupA[i]=i;
+			groupB[i]=i+size;
 		}
 		
-		List<GameList> clearList= clearEmtyLists(gameLists);
-		//
-		if (!lastRound) {
-			
+		Set<Integer[]>permutations = Tools.getPermutations(groupA);
+		for (Integer[] array:permutations){
+			StringBuffer sb = new StringBuffer();
+			for (Integer index:array){
+				sb.append(String.valueOf(index)+", ");
+			}
+			System.out.println("permutation: " + sb.toString());
 		}
+		
 		throw new IllegalStateException("Please implement pareBracket");
 	}
+	
+	
+	
 
-	/**
-	 * clears the gamLists from the inner empty lists;
-	 * @param gameLists
-	 * @return
-	 */
-	private List<GameList> clearEmtyLists(List<GameList> gameLists) {
-		List<GameList> clearLists = new ArrayList<>();
-		for (GameList gameList: gameLists){
-			if (gameList.size()>0){
-				clearLists.add(gameList);
-			}
-		}
-		return clearLists;
-	}
 
-	/**
-	 * it takes the players 2 by 2 and computes the games
-	 * @param permutation
-	 * @return
-	 */
-	private GameList computeGameList(Integer[] permutation) {
-		Player playerA = null;
-		Player playerB = null;
-		GameList gameList = new GameList();
-		for(int i=0;i<permutation.length;i++){
-			if ((i%2)==0){
-				playerA = this.bracketPlayers.get(permutation[i]);
-				if (i==permutation.length){
-					gameList.setNoPartner(playerA);
-				}
-			}else{
-				playerB =this.bracketPlayers.get(permutation[i]);
-				gameList.addGame(playerA,playerB);
-				//reset the players
-				playerA = null;
-				playerB = null;
-			}
-		}
-		return gameList;
-	}
+
 
 	public boolean pareLastBracket() {
 		throw new IllegalStateException("Please implement pareLastRound");
