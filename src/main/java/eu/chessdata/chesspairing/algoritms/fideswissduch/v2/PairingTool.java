@@ -59,42 +59,33 @@ public class PairingTool {
 			Double key = entry.getKey();
 			this.order.add(key);
 		}
-		
-		//set the order
-		Collections.sort(order,Collections.reverseOrder());
+
+		// set the order
+		Collections.sort(order, Collections.reverseOrder());
 	}
 
 	/**
 	 * Cycles all the brackets and initializes pairing
 	 */
 	protected void pairBrackets() {
-		for(Double key:this.order){
+		for (Double key : this.order) {
 			pairBracketStandard(key);
 		}
 	}
-	
-	/**
-	 * for the moment my intention is to try to pare this and if not possible downfloat all players to the next bracket
-	 * @param key
-	 * @return
-	 */
-	protected void pairBracketStandard(Double key){
+
+	protected void pairBracketStandard(Double key) {
 		ScoreBracket bracket = this.scoreBrackets.get(key);
-		//split the players and pair them in order
-		boolean lastRound = false;
-		if (this.order.indexOf(key)<(this.order.size()-1)){
-			//not last round
+		
+		if (this.order.indexOf(key) < (this.order.size() - 1)) {
+			// not last round
 			int indexOfKey = this.order.indexOf(key);
 			Double nextKey = this.order.get(indexOfKey + 1);
 			ScoreBracket nextBraket = this.scoreBrackets.get(nextKey);
-			bracket.pareBraket(lastRound,nextBraket);
-		}else{
-			//last round
-			throw new IllegalStateException("please implement last round");
+			bracket.pareBraket( nextBraket);
+		} else {
+			bracket.pareBraket(null);
 		}
 	}
-	
-	
 
 	/**
 	 * it initializes only the present players;
