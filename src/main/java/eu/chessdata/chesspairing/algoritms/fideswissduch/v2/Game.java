@@ -21,6 +21,12 @@ public class Game {
 
 	}
 
+	/**
+	 * it creates a game from player playerA and playerB
+	 * @param playerA
+	 * @param playerB
+	 * @return
+	 */
 	public static Game createGame(Player playerA, Player playerB) {
 		Game game = new Game();
 		if (!historyOK(playerA, playerB)) {
@@ -82,5 +88,13 @@ public class Game {
 		}
 		// history is OK
 		return true;
+	}
+
+	public Player getWhite() {
+		return white;
+	}
+
+	public Player getBlack() {
+		return black;
 	}
 }
