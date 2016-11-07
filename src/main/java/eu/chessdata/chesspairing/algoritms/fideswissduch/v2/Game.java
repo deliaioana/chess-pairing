@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Game {
 	private boolean valid;
+	private boolean buyGame;
 	private Player white;
 	private Player black;
 	private String initalPlayers;
@@ -17,7 +18,7 @@ public class Game {
 	}
 
 	private Game() {
-
+		this.buyGame = false;
 	}
 
 	/**
@@ -72,6 +73,17 @@ public class Game {
 		return game;
 	}
 
+	public static Game createBuyGame(Player player) {
+		if (player.wasBuy ){
+			throw new IllegalStateException("This player was allready buy");
+		}
+		Game game = new Game();
+		game.valid = true;
+		game.white = player;
+		game.buyGame = true;
+		return null;
+	}
+
 	private static boolean historyOK(Player playerA, Player playerB) {
 		String aKey = playerA.getPlayerKey();
 		String bKey = playerB.getPlayerKey();
@@ -98,6 +110,10 @@ public class Game {
 
 	public Player getBlack() {
 		return black;
+	}
+	
+	public boolean isBuyGame() {
+		return buyGame;
 	}
 
 	@Override

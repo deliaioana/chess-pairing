@@ -13,10 +13,10 @@ import eu.chessdata.chesspairing.Tools;
 public class ScoreBracket {
 	private final FideSwissDutch fideSwissDutch;
 	private final Double bracketScore;
-	private final List<Player> bracketPlayers;
+	protected final List<Player> bracketPlayers;
 	@SuppressWarnings("unused")
 	private PairingResult bracketResult;
-	private Boolean lastBracket;
+	protected Boolean lastBracket;
 	private ScoreBracket nextBracket;
 
 	public ScoreBracket(FideSwissDutch fideSwissDutch, Double bracketScore) {
@@ -173,7 +173,7 @@ public class ScoreBracket {
 				downfloat(notPared);
 			} else {
 				// time to create buy
-				throw new IllegalStateException("Please implement this");
+				throw new IllegalStateException("Please implement this? I tend to beleve that I should never reach this point");
 			}
 		}
 	}
@@ -198,6 +198,8 @@ public class ScoreBracket {
 	}
 
 	public boolean pareLastBracket() {
-		throw new IllegalStateException("Please implement pareLastBracket");
+		LastBracket theLastBracket = new LastBracket(this.fideSwissDutch, this.bracketScore);
+		theLastBracket.pareBraket(null);
+		throw new IllegalStateException("Please finish pareLastBracket");
 	}
 }

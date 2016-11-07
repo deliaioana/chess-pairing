@@ -42,6 +42,7 @@ public class Player {
 	protected List<String> playersHistory;
 	protected Double pairingPoints;
 	protected FloatingState floatingState;
+	protected boolean wasBuy;
 
 	public Player(ChesspairingPlayer player, int initialRanking) {
 		this.playerKey = player.getPlayerKey();
@@ -51,7 +52,14 @@ public class Player {
 		this.playersHistory = new ArrayList<>();
 		this.colourHistory = new ArrayList<>();
 		this.pairingPoints = 0.0;
+		this.wasBuy = false;
 	}
+	
+	
+
+	
+
+
 
 	@Override
 	public String toString() {
@@ -248,5 +256,9 @@ public class Player {
 		} else if (!playerKey.equals(other.playerKey))
 			return false;
 		return true;
+	}
+
+	public boolean wasBuy() {
+		return wasBuy;
 	}
 }
