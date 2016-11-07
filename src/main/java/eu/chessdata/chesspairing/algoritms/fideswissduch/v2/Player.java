@@ -172,30 +172,54 @@ public class Player {
 	}
 
 	/**
-	 * player can play white if the new color history is in -1 and 1 range
+	 * player can play white if the new color history is in -2 and 2 range and
+	 * will not play the white color 3 times in the row
 	 * 
 	 * @param player
 	 * @return true if it can and false if can not
 	 */
 	protected boolean canPlayWhite() {
 		int history = computeHistoryValue() + 1;
-		if ((-1 <= history) && (history <= 1)) {
-			return true;
+		if ((-2 <= history) && (history <= 2)) {
+			if (colourHistory.size() >= 2) {
+				// 2 times white would mean 1+1;
+				int k = colourHistory.size() - 2;
+				int tailVal = colourHistory.get(k) + colourHistory.get(k + 1);
+				if (tailVal == 2) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				return true;
+			}
 		} else {
 			return false;
 		}
 	}
 
 	/**
-	 * player can play black if the new color history is in -1 1 range
+	 * player can play black if the new color history is in -2 2 range and will
+	 * not play the black color 3 times in the row
 	 * 
 	 * @param player
 	 * @return true if it can and false if can not
 	 */
 	protected boolean canPlayBlack() {
 		int history = computeHistoryValue() - 1;
-		if ((-1 <= history) && (history <= 1)) {
-			return true;
+		if ((-2 <= history) && (history <= 2)) {
+			if (colourHistory.size() >= 2) {
+				// 2 times black would mean -1 -1
+				int k = colourHistory.size() - 2;
+				int tailVal = colourHistory.get(k) + colourHistory.get(k + 1);
+				if (tailVal == -2) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				return true;
+			}
 		} else {
 			return false;
 		}

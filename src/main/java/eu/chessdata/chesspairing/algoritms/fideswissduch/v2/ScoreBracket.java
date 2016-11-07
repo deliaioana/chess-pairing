@@ -84,6 +84,7 @@ public class ScoreBracket {
 			this.lastBracket = true;
 			pareLastBracket();
 		}
+		this.lastBracket=false;
 		this.nextBracket = nextBraket;
 
 		int playersCount = this.bracketPlayers.size();
@@ -159,6 +160,11 @@ public class ScoreBracket {
 		}
 		if (set.size() == 1) {
 			Player notPared = set.iterator().next();
+			//<debug>
+			if (this.lastBracket == null){
+				throw new IllegalStateException("last Bracket boolean not initialized");
+			}
+			//</degug>
 			/**
 			 * if not last bracket downfloat else set as buy
 			 */

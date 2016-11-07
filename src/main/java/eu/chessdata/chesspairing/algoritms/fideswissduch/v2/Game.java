@@ -6,8 +6,7 @@ public class Game {
 	private boolean valid;
 	private Player white;
 	private Player black;
-	
-	
+	private String initalPlayers;
 
 	protected boolean isValid() {
 		if (valid) {
@@ -23,12 +22,15 @@ public class Game {
 
 	/**
 	 * it creates a game from player playerA and playerB
+	 * 
 	 * @param playerA
 	 * @param playerB
 	 * @return
 	 */
 	public static Game createGame(Player playerA, Player playerB) {
+
 		Game game = new Game();
+		game.initalPlayers = playerA.toString() + ", " + playerB.toString();
 		if (!historyOK(playerA, playerB)) {
 			game.valid = false;
 			return game;
@@ -96,5 +98,14 @@ public class Game {
 
 	public Player getBlack() {
 		return black;
+	}
+
+	@Override
+	public String toString() {
+		if (isValid()) {
+			return this.white.toString() + ", " + this.black.toString();
+		} else {
+			return "bad_game: " + this.initalPlayers;
+		}
 	}
 }
