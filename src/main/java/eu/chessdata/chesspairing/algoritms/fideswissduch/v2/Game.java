@@ -74,7 +74,7 @@ public class Game {
 	}
 
 	public static Game createBuyGame(Player player) {
-		if (player.wasBuy ){
+		if (player.wasBuy) {
 			throw new IllegalStateException("This player was allready buy");
 		}
 		Game game = new Game();
@@ -111,7 +111,7 @@ public class Game {
 	public Player getBlack() {
 		return black;
 	}
-	
+
 	public boolean isBuyGame() {
 		return buyGame;
 	}
@@ -122,6 +122,27 @@ public class Game {
 			return this.white.toString() + ", " + this.black.toString();
 		} else {
 			return "bad_game: " + this.initalPlayers;
+		}
+	}
+
+	/**
+	 * it computes and returns the b3 factor for this game
+	 * 
+	 * @return
+	 */
+	public Double getPointsDiff() {
+		if (this.buyGame) {
+			return 0.0;
+		}
+		if (null == white || null == black){
+			throw new IllegalStateException("Not a valid game");
+		}
+		Double val = white.getPairingPoints() - black.getPairingPoints();
+		//return only positive value
+		if (val >= 0.0) {
+			return val;
+		} else {
+			return (-1.0) * val;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +37,10 @@ public class LastBracket extends ScoreBracket{
 			throw new IllegalStateException("No posible parings for the las bracket. Time to think of backtracking");
 		}
 		
-		throw new IllegalStateException("Please finish this. Time to sort valid permutations");
+		//sort the valid pairings
+		Collections.sort(validPairings, PairingResult.byB3Factor);
+		this.bracketResult = validPairings.get(0);
+		return true;
 	}
 	
 	

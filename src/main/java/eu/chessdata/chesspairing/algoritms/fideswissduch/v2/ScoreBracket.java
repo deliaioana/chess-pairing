@@ -15,7 +15,7 @@ public class ScoreBracket {
 	private final Double bracketScore;
 	protected final List<Player> bracketPlayers;
 	@SuppressWarnings("unused")
-	private PairingResult bracketResult;
+	protected PairingResult bracketResult;
 	protected Boolean lastBracket;
 	private ScoreBracket nextBracket;
 
@@ -84,7 +84,7 @@ public class ScoreBracket {
 			this.lastBracket = true;
 			pareLastBracket();
 		}
-		this.lastBracket=false;
+		this.lastBracket = false;
 		this.nextBracket = nextBraket;
 
 		int playersCount = this.bracketPlayers.size();
@@ -160,11 +160,11 @@ public class ScoreBracket {
 		}
 		if (set.size() == 1) {
 			Player notPared = set.iterator().next();
-			//<debug>
-			if (this.lastBracket == null){
+			// <debug>
+			if (this.lastBracket == null) {
 				throw new IllegalStateException("last Bracket boolean not initialized");
 			}
-			//</degug>
+			// </degug>
 			/**
 			 * if not last bracket downfloat else set as buy
 			 */
@@ -173,7 +173,8 @@ public class ScoreBracket {
 				downfloat(notPared);
 			} else {
 				// time to create buy
-				throw new IllegalStateException("Please implement this? I tend to beleve that I should never reach this point");
+				throw new IllegalStateException(
+						"Please implement this? I tend to beleve that I should never reach this point");
 			}
 		}
 	}
@@ -188,7 +189,10 @@ public class ScoreBracket {
 		if (!this.bracketPlayers.contains(player)) {
 			throw new IllegalStateException("Player does not belong to this bracket");
 		}
-
+		if (null == this.nextBracket) {
+			throw new IllegalStateException(
+					"This is the last bracket. Thre is no nextBracket that you are looking fore");
+		}
 		this.nextBracket.addPlayer(player);
 		player.setFloatingState(FloatingState.DOWNFLOATER);
 		boolean ok = this.bracketPlayers.remove(player);
@@ -199,7 +203,16 @@ public class ScoreBracket {
 
 	public boolean pareLastBracket() {
 		LastBracket theLastBracket = new LastBracket(this.fideSwissDutch, this.bracketScore);
-		theLastBracket.pareBraket(null);
-		throw new IllegalStateException("Please finish pareLastBracket");
+		boolean pairingOk = theLastBracket.pareBraket(null);
+		if (pairingOk) {
+			this.bracketResult = theLastBracket.getBracketResult();
+			return true;
+		}
+		throw new IllegalStateException("What should I do when I can not pare last bracket? Backtrack hint 2");
 	}
+
+	public PairingResult getBracketResult() {
+		return bracketResult;
+	}
+
 }

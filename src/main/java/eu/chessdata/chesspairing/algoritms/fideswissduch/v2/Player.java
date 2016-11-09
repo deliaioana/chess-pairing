@@ -54,12 +54,6 @@ public class Player {
 		this.pairingPoints = 0.0;
 		this.wasBuy = false;
 	}
-	
-	
-
-	
-
-
 
 	@Override
 	public String toString() {
@@ -146,13 +140,18 @@ public class Player {
 	}
 
 	/**
-	 * Players prefers white if it played black last time
+	 * Players prefers white if it played black last time if no games played
+	 * then it prefersWhite so returns true
 	 * 
 	 * @param playerA
 	 * @return
 	 */
 	protected boolean preferesWhite() {
+		if (colourHistory.size() == 0) {
+			return true;
+		}
 		Integer lastColor = colourHistory.get(colourHistory.size() - 1);
+
 		if (lastColor == 1) {
 			// last game was white
 			return false;
@@ -163,12 +162,16 @@ public class Player {
 	}
 
 	/**
-	 * Player prefers black if it played white last game
+	 * Player prefers black if it played white last game if no games played it
+	 * returns false;
 	 * 
 	 * @param player
 	 * @return
 	 */
-	protected boolean refersBlack() {
+	protected boolean prefersBlack() {
+		if (colourHistory.size() == 0) {
+			return false;
+		}
 		Integer lastColor = colourHistory.get(colourHistory.size() - 1);
 		if (lastColor == -1) {
 			// last game was black

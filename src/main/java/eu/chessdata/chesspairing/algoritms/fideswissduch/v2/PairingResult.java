@@ -1,8 +1,8 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
-import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
 
 public class PairingResult {
 	private boolean ok;
@@ -97,4 +97,30 @@ public class PairingResult {
 		this.games = null;
 		this.ok = false;
 	}
+
+	protected static final Comparator<PairingResult> byB3Factor = new Comparator<PairingResult>() {
+
+		@Override
+		public int compare(PairingResult o1, PairingResult o2) {
+			Double o1Diff = o1.getPointsDiffFactor();
+			Double o2Diff = o2.getPointsDiffFactor();
+			return o1Diff.compareTo(o2Diff);
+		}
+
+	};
+
+	/**
+	 * it computes the B3 factor and it returns the result
+	 * 
+	 * @return
+	 */
+	protected Double getPointsDiffFactor() {
+		Double result = 0.0;
+		for (Game game : this.games) {
+			Double factor = game.getPointsDiff();
+			result += factor;
+		}
+		return result;
+	}
+
 }
