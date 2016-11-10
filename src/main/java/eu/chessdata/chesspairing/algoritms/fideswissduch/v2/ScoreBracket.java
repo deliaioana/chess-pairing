@@ -14,10 +14,16 @@ public class ScoreBracket {
 	private final FideSwissDutch fideSwissDutch;
 	private final Double bracketScore;
 	protected final List<Player> bracketPlayers;
-	@SuppressWarnings("unused")
 	protected PairingResult bracketResult;
-	protected Boolean lastBracket;
 	private ScoreBracket nextBracket;
+
+	/**
+	 * private constructor that should never be used. It will throw an error
+	 */
+	@SuppressWarnings("unused")
+	private ScoreBracket() {
+		throw new IllegalStateException("This constructor should never be used");
+	}
 
 	public ScoreBracket(FideSwissDutch fideSwissDutch, Double bracketScore) {
 		this.fideSwissDutch = fideSwissDutch;
@@ -81,10 +87,8 @@ public class ScoreBracket {
 		System.out.println("Pairing bracket: " + this.bracketScore);
 		// compute initial state
 		if (nextBraket == null) {
-			this.lastBracket = true;
 			pareLastBracket();
 		}
-		this.lastBracket = false;
 		this.nextBracket = nextBraket;
 
 		int playersCount = this.bracketPlayers.size();
@@ -102,8 +106,14 @@ public class ScoreBracket {
 
 		PairingResult pairingResult = new PairingResult(bracketPlayers, groupA, groupB);
 		if (pairingResult.isOk()) {
-			processResult(pairingResult);
-			return true;
+			/**
+			 * wee still need to see if the buy is OK. that is handled by the
+			 * next function in a really bad spaghetify way (needs to be changed
+			 * in the future)
+			 */
+			if (processResultPosibleBuy(pairingResult)) {
+				return true;
+			}
 		}
 
 		Set<Integer[]> permutations = Tools.getPermutations(groupB);
@@ -130,11 +140,66 @@ public class ScoreBracket {
 	}
 
 	/**
+	 * * it checks the state of the result and if there is none player only left
+	 * it checks if it can be buy and it creates a buy game for him
+	 * 
+	 * @param pairingResult
+	 * @return true if the result was OK and false otherwise
+	 */
+	private boolean processResultPosibleBuy(PairingResult result) {
+		// make sure that all players have bean paired
+		Set<Player> set = new HashSet<>();
+		set.addAll(this.bracketPlayers);
+		if (set.size() != bracketPlayers.size()) {
+			throw new IllegalStateException("duplicate in bracketPlayers");
+		}
+
+		// identify not paired player;
+		List<Game> games = result.getGames();
+		for (Game game : games) {
+			Player white = game.getWhite();
+			Player black = game.getBlack();
+			if (!set.remove(white)) {
+				throw new IllegalStateException("The set did not contained white player");
+			}
+			if (!set.remove(black)) {
+				throw new IllegalStateException("The set did not contained black player");
+			}
+		}
+		if (set.size() > 1) {
+			throw new IllegalStateException("Not all the players have bean pared");
+		}
+		if (set.size() == 1) {
+			Player notPared = set.iterator().next();
+
+			/**
+			 * if not last bracket downfloat else set as buy
+			 */
+			if (this.nextBracket != null) {
+				// not last bracket: time to downfloat
+				downfloat(notPared);
+				return true;
+			} else {
+				// time to create buy
+				if (notPared.wasBuy) {
+					return false;
+				} else {
+					Game game = Game.createBuyGame(notPared);
+					result.addGame(game);
+				}
+			}
+		}
+
+		// all in order
+		this.bracketResult = result;
+		return true;
+	}
+
+	/**
 	 * set the result downfloat not paired if last round set as buy not paired.
 	 * make sure that all the players have bean paired
 	 */
 	private void processResult(PairingResult result) {
-		this.bracketResult = result;
 
 		// make sure that all players have bean paired
 		Set<Player> set = new HashSet<>();
@@ -160,23 +225,21 @@ public class ScoreBracket {
 		}
 		if (set.size() == 1) {
 			Player notPared = set.iterator().next();
-			// <debug>
-			if (this.lastBracket == null) {
-				throw new IllegalStateException("last Bracket boolean not initialized");
-			}
-			// </degug>
+
 			/**
 			 * if not last bracket downfloat else set as buy
 			 */
-			if (!this.lastBracket) {
+			if (this.nextBracket != null) {
 				// not last bracket: time to downfloat
 				downfloat(notPared);
 			} else {
 				// time to create buy
-				throw new IllegalStateException(
-						"Please implement this? I tend to beleve that I should never reach this point");
+				throw new IllegalStateException("You forgot to pare one player");
 			}
 		}
+
+		// all in order
+		this.bracketResult = result;
 	}
 
 	/**
