@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.security.cert.CertStoreSpi;
 import java.util.List;
 
 import org.junit.Test;
@@ -119,5 +120,23 @@ public class PairingToolTest {
 		pairingTool.initializeScoreBrackets();//step2
 		
 		pairingTool.pairBrackets();
+	}
+	
+	/**
+	 * mainly meant to develop infrastructure to capture tournament state before errors occurred.
+	 */
+	@Test
+	public void test5PareUntillItFails(){
+		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test5.json");
+		int totalRounds = dataTournament.getTotalRounds();
+		int k = dataTournament.getRounds().size();
+		try{
+			while (k < totalRounds){
+				dataTournament = (new FideSwissDutch()).generateNextRound(dataTournament);
+				k++;
+			}
+		}catch(IllegalStateException e){
+			throw new IllegalStateException("Time to sotre the tournament state");
+		}
 	}
 }
