@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 
 public class PairingTool {
@@ -17,6 +18,7 @@ public class PairingTool {
 	private final int generationRoundId;
 	protected final Map<Double, ScoreBracket> scoreBrackets;
 	protected final List<Double> order;
+	protected final List<Game> resultGames;
 
 	public PairingTool(FideSwissDutch fideSwissDutch) {
 		this.fideSwissDutch = fideSwissDutch;
@@ -24,6 +26,7 @@ public class PairingTool {
 		this.generationRoundId = fideSwissDutch.getGenerationRoundId();
 		this.scoreBrackets = new HashMap<>();
 		this.order = new ArrayList<>();
+		this.resultGames = new ArrayList<>();
 	}
 
 	public void computeGames() {
@@ -158,4 +161,11 @@ public class PairingTool {
 		}
 		throw new IllegalStateException("Player not in the players set");
 	}
+
+	protected void updateResultGames() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

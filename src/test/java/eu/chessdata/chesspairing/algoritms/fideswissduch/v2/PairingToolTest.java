@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Tools;
+import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
@@ -116,10 +117,17 @@ public class PairingToolTest {
 		algorithm.initializeAlgorithm(dataTournament);
 		PairingTool pairingTool = new PairingTool(algorithm);
 		
+		//section of what should happen in coputeGames
 		pairingTool.initializePlayers();//step1
 		pairingTool.initializeScoreBrackets();//step2
 		
 		pairingTool.pairBrackets();
+		/**
+		 * working on updateResultGames
+		 */
+		pairingTool.updateResultGames();
+		int size = pairingTool.resultGames.size();
+		assertTrue( "result size " + size +" != 7", size==7);
 	}
 	
 	/**

@@ -353,6 +353,9 @@ public class FideSwissDutch implements Algorithm {
 		return history;
 	}
 
+	/**
+	 * the present players are extracted from the generationRoundId
+	 */
 	private void computePresentPlayers() {
 		ChesspairingRound round = getRound(this.generationRoundId);
 		List<ChesspairingPlayer> players = round.getPresentPlayers();
