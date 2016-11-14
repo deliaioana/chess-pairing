@@ -78,13 +78,13 @@ public class PairingTool {
 
 	protected void pairBracketStandard(Double key) {
 		ScoreBracket bracket = this.scoreBrackets.get(key);
-		
+
 		if (this.order.indexOf(key) < (this.order.size() - 1)) {
 			// not last round
 			int indexOfKey = this.order.indexOf(key);
 			Double nextKey = this.order.get(indexOfKey + 1);
 			ScoreBracket nextBraket = this.scoreBrackets.get(nextKey);
-			bracket.pareBraket( nextBraket);
+			bracket.pareBraket(nextBraket);
 		} else {
 			bracket.pareBraket(null);
 		}
@@ -162,10 +162,26 @@ public class PairingTool {
 		throw new IllegalStateException("Player not in the players set");
 	}
 
+	/**
+	 * it updates the result games.
+	 */
 	protected void updateResultGames() {
-		// TODO Auto-generated method stub
-		
+		List<Game> games = new ArrayList<>();
+		for (Entry<Double, ScoreBracket> set : scoreBrackets.entrySet()) {
+			ScoreBracket braket = set.getValue();
+			if (null == braket)
+				break;
+			PairingResult result = braket.getBracketResult();
+			if (null == result)
+				break;
+			List<Game> breaketGames = result.getGames();
+			if (null == breaketGames || breaketGames.size()==0)
+				break;
+			System.out.println("Super exited that thre is no null data");
+			
+			games.addAll(breaketGames);
+		}
+		System.out.println("updateresult brakepoint and size = "+ resultGames);
 	}
 
-	
 }

@@ -1,5 +1,6 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class Game {
@@ -8,6 +9,15 @@ public class Game {
 	private Player white;
 	private Player black;
 	private String initalPlayers;
+	
+	protected static final Comparator<Game> byPoints = new Comparator<Game>() {
+
+		@Override
+		public int compare(Game o1, Game o2) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+	};
 
 	protected boolean isValid() {
 		if (valid) {
