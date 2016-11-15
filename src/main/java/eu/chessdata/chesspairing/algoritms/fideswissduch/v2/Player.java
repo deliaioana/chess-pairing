@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.collections4.comparators.ComparatorChain;
+
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 
 public class Player {
+	protected static final Comparator<Player> comparator = buildChain();
+	
 	protected static final Comparator<Player> byPoints = new Comparator<Player>() {
 		@Override
 		public int compare(Player o1, Player o2) {
@@ -53,6 +57,14 @@ public class Player {
 		this.colourHistory = new ArrayList<>();
 		this.pairingPoints = 0.0;
 		this.wasBuy = false;
+	}
+
+	private static Comparator<Player> buildChain() {
+		ComparatorChain<Player> comparatorChain = new ComparatorChain<>();
+		comparatorChain.addComparator(Player.byPoints);
+		comparatorChain.addComparator(Player.byElo);
+		comparatorChain.addComparator(Player.byInitialRanking);
+		return comparatorChain;
 	}
 
 	@Override

@@ -181,7 +181,10 @@ public class PairingTool {
 			
 			games.addAll(breaketGames);
 		}
-		System.out.println("updateresult brakepoint and size = "+ resultGames);
+		//sort the games
+		Collections.sort(games,Game.byPoints);
+		this.resultGames.clear();
+		this.resultGames.addAll(games) ;
 	}
 
 }
