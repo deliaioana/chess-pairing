@@ -1,5 +1,6 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -112,7 +113,8 @@ public class ScoreBracket {
 			 * in the future)
 			 */
 			if (processResultPosibleBuy(pairingResult)) {
-				return true;
+				return (validateResult());
+				//return true;
 			}
 		}
 
@@ -137,6 +139,44 @@ public class ScoreBracket {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * it performs a set of tests just to make sure that all the bracket players have bean pared
+	 * @return
+	 */
+	protected boolean validateResult(){
+		Set<Player> allPlayers = new HashSet<>();
+		allPlayers.addAll(bracketPlayers);
+		
+		if (null == bracketResult){
+			throw new IllegalStateException("result is null");
+		}
+		
+		if (!bracketResult.isOk()){
+			throw new IllegalStateException("Why are you validating the result?");
+		}
+		List<Game> games = bracketResult.getGames();
+		for (Game game: games){
+			if (null == game){
+				throw new IllegalStateException("Null game. Please debug this braket");
+			}
+			if (!game.isValid()){
+				throw new IllegalStateException("Game not valid: Please debug this");
+			}
+			List<Player> players = game.getPlayers();
+			games.removeAll(players);
+			
+		}
+		if (allPlayers.size()==0){
+			//the only place where i return true
+			return true;
+		}
+		StringBuffer sb = new StringBuffer();
+		for (Player player:allPlayers){
+			sb.append(player+", ");
+		}
+		throw new IllegalStateException("Not all the players have bean pared: "+ sb.toString());
 	}
 
 	/**
@@ -178,7 +218,7 @@ public class ScoreBracket {
 			if (this.nextBracket != null) {
 				// not last bracket: time to downfloat
 				downfloat(notPared);
-				return true;
+				//return true;
 			} else {
 				// time to create buy
 				if (notPared.wasBuy) {
@@ -290,6 +330,16 @@ public class ScoreBracket {
 
 	public PairingResult getBracketResult() {
 		return bracketResult;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(String.valueOf(bracketScore)+": ");
+		for (Player player : bracketPlayers) {
+			sb.append(player+", ");
+		}
+		return sb.toString();
 	}
 
 }

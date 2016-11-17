@@ -70,12 +70,7 @@ public class Player {
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append("Player: " + this.playerKey + " " + this.name + "\n\t initialRanking:\t" + initialRanking
-				+ "\n\t elo:\t" + elo + "\n\t points:\t" + pairingPoints + "\n\t colourHistory:\t" + colourHistory
-				+ "\n\t playersHistory:\t");
-		for (String key : playersHistory) {
-			sb.append(key + ", ");
-		}
+		sb.append(this.playerKey);
 		return sb.toString();
 	}
 
