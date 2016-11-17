@@ -40,6 +40,10 @@ public class LastBracket extends ScoreBracket{
 		//sort the valid pairings
 		Collections.sort(validPairings, PairingResult.byB3Factor);
 		this.bracketResult = validPairings.get(0);
+		if (!bracketResult.isOk()){
+			throw new IllegalStateException("Last braket is not ok");
+		}
+		this.bracketResult.validateResult();
 		return true;
 	}
 	

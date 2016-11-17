@@ -210,6 +210,7 @@ public class ScoreBracket {
 
 		// identify not paired player;
 		List<Game> games = result.getGames();
+		confirmListDoesNotContainNullGames(games);
 		for (Game game : games) {
 			Player white = game.getWhite();
 			Player black = game.getBlack();
@@ -238,8 +239,21 @@ public class ScoreBracket {
 			}
 		}
 
-		// all in order
 		this.bracketResult = result;
+	}
+	
+	
+
+	/**
+	 * it confirms that the list does not contain null games
+	 * @param games
+	 */
+	private void confirmListDoesNotContainNullGames(List<Game> games) {
+		for (Game game:games){
+			if (null == game){
+				throw new IllegalStateException("games list contains null elements");
+			}
+		}
 	}
 
 	/**

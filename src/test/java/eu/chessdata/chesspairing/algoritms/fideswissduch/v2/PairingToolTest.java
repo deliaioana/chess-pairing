@@ -126,6 +126,7 @@ public class PairingToolTest {
 		 * working on updateResultGames
 		 */
 		pairingTool.updateResultGames();
+		pairingTool.makeSureAllPlayersGotPared();
 		int size = pairingTool.resultGames.size();
 		assertTrue( "result size " + size +" != 7", size==7);
 	}

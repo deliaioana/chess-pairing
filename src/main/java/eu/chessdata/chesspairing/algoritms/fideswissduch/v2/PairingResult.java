@@ -1,8 +1,9 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class PairingResult {
 	private boolean ok;
@@ -10,7 +11,7 @@ public class PairingResult {
 
 	/**
 	 * it attempts to create the games and if it does not succeed it invalidates
-	 * the result
+	 * the result.
 	 * 
 	 * @param players
 	 * @param indexA
@@ -24,6 +25,10 @@ public class PairingResult {
 			Player a = players.get(indexA[i]);
 			Player b = players.get(indexB[i]);
 			Game game = Game.createGame(a, b);
+			if (null == game){
+				resultIsNoGood();
+				break;
+			}
 			if (!game.isValid()) {
 				// invalidate the result and break the loop
 				resultIsNoGood();
@@ -31,6 +36,36 @@ public class PairingResult {
 			}
 			this.games.add(game);
 		}
+		
+		for (Game game: games){
+			if (null == game){
+				throw new IllegalStateException("Wee have null games");
+			}
+		}
+		/**
+		 * if pairing is OK then check that there are no null games
+		 */
+		if (this.ok){
+			validateResult();
+		}
+	}
+
+	/**
+	 * it makes sure that there are no null games ore games with null players
+	 */
+	protected void validateResult() {
+		for (Game game:this.games){
+			if (null == game){
+				throw new IllegalStateException("And the games list in paringResult contains null items");
+			}
+			if (null == game.getWhite()){
+				throw new IllegalStateException("White player is null");
+			}
+			if (null == game.getBlack()){
+				throw new IllegalStateException("Black player is null");
+			}
+		}
+		
 	}
 
 	/**
@@ -75,6 +110,16 @@ public class PairingResult {
 
 			}
 		}
+		
+		for (Game game: games){
+			if (null == game){
+				throw new IllegalStateException("Wee have null games");
+			}
+		}
+		
+		if (isOk()){
+			validateResult();
+		}
 	}
 
 	public boolean isOk() {
@@ -82,6 +127,17 @@ public class PairingResult {
 	}
 
 	public List<Game> getGames() {
+		if (null == this.games){
+			this.games = new ArrayList<>();
+		}
+		//just remove null games no matter what
+		this.games.removeAll(Collections.singleton(null));
+		
+		for (Game game: this.games){
+			if (game == null){
+				throw new IllegalStateException("Null game in games");
+			}
+		}
 		return games;
 	}
 
@@ -94,7 +150,7 @@ public class PairingResult {
 	 * value to false;
 	 */
 	private void resultIsNoGood() {
-		this.games = null;
+		//this.games = null;
 		this.ok = false;
 	}
 
