@@ -1,5 +1,6 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,7 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 
 public class PairingTool {
@@ -30,7 +30,6 @@ public class PairingTool {
 	}
 
 	public void computeGames() {
-		// TODO Auto-generated method stub
 		if (this.generationRoundId == 1) {
 			throw new IllegalStateException("Please implement first round");
 		}
@@ -170,21 +169,71 @@ public class PairingTool {
 		for (Entry<Double, ScoreBracket> set : scoreBrackets.entrySet()) {
 			ScoreBracket braket = set.getValue();
 			if (null == braket)
-				break;
+				continue;
 			PairingResult result = braket.getBracketResult();
-			if (null == result)
-				break;
+			// boolean ok = result.isOk();
+			if (null == result) {
+				continue;
+			}
+			if (!result.isOk()) {
+				continue;
+			}
 			List<Game> breaketGames = result.getGames();
-			if (null == breaketGames || breaketGames.size()==0)
-				break;
-			System.out.println("Super exited that thre is no null data");
-			
+			if (null == breaketGames || breaketGames.size() == 0) {
+				continue;
+			}
+
+			for (Game game : breaketGames) {
+				int i = 0;
+				if (null == game) {
+					throw new IllegalStateException("This braket games list contains a null game" + i++);
+				}
+			}
+
 			games.addAll(breaketGames);
 		}
-		//sort the games
-		Collections.sort(games,Game.byPoints);
+		// sort the games
+
+		Collections.sort(games, Game.byPoints);
 		this.resultGames.clear();
-		this.resultGames.addAll(games) ;
+		this.resultGames.addAll(games);
+	}
+
+	/**
+	 * it counts all the present players from the present players list and then it makes sure that the 
+	 * players are the same as all the players from pared resultGames list
+	 * 
+	 * it will throws an error if something is not OK!
+	 */
+	public void makeSureAllPlayersGotPared() {
+		// TODO Auto-generated method stub
+		Set<Player> presentPlayers = new HashSet<>();
+		presentPlayers.addAll(this.players);
+		if (presentPlayers.size() != this.players.size()){
+			throw new IllegalStateException("duplicate players in the players list");
+		}
+		
+		for (Game game: resultGames){
+			if (null == game){
+				throw new IllegalStateException("Null game in result. This is serious! Go debug write now! :)");
+			}
+			if (!presentPlayers.remove(game.getWhite())){
+				throw new IllegalStateException(game.getWhite().getPlayerKey()+" is not a present player");
+			}
+			if (!game.isBuyGame()){
+				if (!presentPlayers.remove(game.getBlack())){
+					throw new IllegalStateException(game.getBlack().getPlayerKey()+" is not a present player");
+				}
+			}
+		}
+		
+		if (presentPlayers.size()!= 0){
+			StringBuffer sb = new StringBuffer();
+			for (Player player:presentPlayers){
+				sb.append(", "+ player.getPlayerKey());
+			}
+			throw new IllegalStateException("Not all the players have bean pared: "+sb.toString());
+		}
 	}
 
 }

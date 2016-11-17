@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.collections4.comparators.ComparatorChain;
+
 public class Game {
 	private boolean valid;
 	private boolean buyGame;
@@ -22,9 +24,12 @@ public class Game {
 		 */
 		@Override
 		public int compare(Game o1, Game o2) {
+			if (null == o1 || null == o2){
+				throw new IllegalStateException("some games are null");
+			}
 
 			// if a and b is buy
-			if (o1.isBuyGame() && o2.isBuyGame()) {
+			if (o1.isBuyGame() || o2.isBuyGame()) {
 				throw new IllegalStateException("the 2 games are buy games");
 			}
 			if (o2.isBuyGame()) {
@@ -34,6 +39,10 @@ public class Game {
 				return 1;
 			}
 
+			System.out.print("Debug A-");
+			Player pHigh1 = o1.getHigherPlayer();
+			Double valHigh1 = pHigh1.getPairingPoints();
+			System.out.println("debug B: = " + valHigh1);
 			Double high1 = o1.getHigherPlayer().getPairingPoints();
 			Double high2 = o2.getHigherPlayer().getPairingPoints();
 			if (!high1.equals(high2)) {
@@ -61,7 +70,19 @@ public class Game {
 	}
 
 	protected boolean isValid() {
+		if (this.buyGame){
+			if (null != white){
+				return true;
+			}
+		}
+		
 		if (valid) {
+			if (null == white){
+				return false;
+			}
+			if (null == black){
+				return false;
+			}
 			return true;
 		} else {
 			return false;
@@ -82,7 +103,13 @@ public class Game {
 		}
 		// just sort the list
 		List<Player> players = getPlayers();
-		Collections.sort(players, Player.comparator);
+		
+		ComparatorChain<Player> comparatorChain = new ComparatorChain<>();
+		comparatorChain.addComparator(Player.byPoints);
+		comparatorChain.addComparator(Player.byElo);
+		comparatorChain.addComparator(Player.byInitialRanking);
+		
+		Collections.sort(players, comparatorChain);
 		return players.get(0);
 	}
 
@@ -100,7 +127,13 @@ public class Game {
 		}
 		// just sor the list
 		List<Player> players = getPlayers();
-		Collections.sort(players, Player.comparator);
+		
+		ComparatorChain<Player> comparatorChain = new ComparatorChain<>();
+		comparatorChain.addComparator(Player.byPoints);
+		comparatorChain.addComparator(Player.byElo);
+		comparatorChain.addComparator(Player.byInitialRanking);
+		
+		Collections.sort(players, comparatorChain);
 		return players.get(1);
 	}
 
