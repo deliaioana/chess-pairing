@@ -8,7 +8,7 @@ import org.apache.commons.collections4.comparators.ComparatorChain;
 
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 
-public class Player {
+public final class  Player {
 	protected static final Comparator<Player> comparator = buildChain();
 	
 	protected static final Comparator<Player> byPoints = new Comparator<Player>() {
@@ -38,7 +38,7 @@ public class Player {
 		}
 	};
 
-	protected String playerKey;
+	protected final String playerKey;
 	protected String name;
 	protected Integer initialRanking;
 	protected Integer elo;
@@ -87,7 +87,7 @@ public class Player {
 	}
 
 	public void setPlayerKey(String playerKey) {
-		this.playerKey = playerKey;
+		throw new IllegalStateException("You should never try to set the key");
 	}
 
 	public List<Integer> getColourHistory() {
