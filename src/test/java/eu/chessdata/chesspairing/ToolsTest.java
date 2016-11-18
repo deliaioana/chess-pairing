@@ -1,10 +1,12 @@
 package eu.chessdata.chesspairing;
 
+
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.paukov.combinatorics.Generator;
 
 public class ToolsTest {
 
@@ -20,18 +22,15 @@ public class ToolsTest {
 	
 	@Test
 	public void getPermutations(){
-		Integer[] intArray = {1,2,3,4,5,6,7,8,9,10};
-		Set<Integer[]> perms = Tools.getPermutations(intArray);
-		Assert.assertTrue("size should be grater than 0", perms.size()>0);
-		for (Integer[] array:perms){
-			StringBuffer sb = new StringBuffer();
-			for (Integer i:array){
-				sb.append(String.valueOf(i)+" ");
-			}
-			System.out.println(sb.toString());
-		}
+		Date date = new Date();
+		System.out.println("Start: " + date.toString());
+		Integer[] intArray = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+		Generator<Integer> gen = Tools.getPermutations(intArray);
+		Assert.assertTrue("size should be grater than 0", 1>0);
 		
-		System.out.println("End getPermutations");
+		
+		System.out.println("End getPermutations. size = "+gen.getNumberOfGeneratedObjects());
+		date = new Date();
+		System.out.println("End:    "+ date.toString());
 	}
-
 }

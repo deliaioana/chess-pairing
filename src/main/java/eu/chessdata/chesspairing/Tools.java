@@ -6,9 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.paukov.combinatorics.ICombinatoricsVector;
+import org.paukov.combinatorics.Factory;
+import org.paukov.combinatorics.Generator;
+
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.model.PairingSummary;
+
 
 public class Tools {
 	public static final String GENERATED_FILES = "generatedFiles";
@@ -58,8 +63,20 @@ public class Tools {
 		}
 		return splitLists;
 	}
+	
+	public static Generator<Integer> getPermutations(Integer[] intArray){
+		ICombinatoricsVector<Integer> originalVector = Factory.createVector(intArray);
+		Generator<Integer> gen = Factory.createPermutationGenerator(originalVector);
+		return gen;
+	}
 
-	public static Set<Integer[]> getPermutations(Integer[] intArray) {
+	/**
+	 * please update the comments and point to the new function
+	 * @param intArray
+	 * @return
+	 */
+	@Deprecated
+	public static Set<Integer[]> getPermutationsV01(Integer[] intArray) {
 		if (intArray == null) {
 			throw new IllegalStateException("You are trying to generate permutations of a null array");
 		}
@@ -78,7 +95,7 @@ public class Tools {
 		 * the base case
 		 */
 		if (intArray.length == 0) {
-			//permutations.add(new Integer[0]);
+			permutations.add(new Integer[0]);
 			return permutations;
 		}
 
@@ -89,7 +106,7 @@ public class Tools {
 		 */
 		int first = intArray[0];
 		Integer[] remainder = Arrays.copyOfRange(intArray, 1, intArray.length);
-		Set<Integer[]> subPerms = getPermutations(remainder);
+		Set<Integer[]> subPerms = getPermutationsV01(remainder);
 		for (Integer[] subPerm : subPerms) {
 			for (int i = 0; i <= subPerm.length; i++) {
 				Integer[] newPerm = Arrays.copyOf(subPerm, subPerm.length + 1);
