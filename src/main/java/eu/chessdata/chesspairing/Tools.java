@@ -63,6 +63,14 @@ public class Tools {
 		if (intArray == null) {
 			throw new IllegalStateException("You are trying to generate permutations of a null array");
 		}
+		
+		/*StringBuffer sb = new StringBuffer();
+		for (Integer i: intArray){
+			sb.append(String.valueOf(i)+" ");
+		}
+		System.out.println("start perms for: " + sb.toString());*/
+		
+		
 
 		Set<Integer[]> permutations = new HashSet<>();
 
@@ -70,7 +78,7 @@ public class Tools {
 		 * the base case
 		 */
 		if (intArray.length == 0) {
-			permutations.add(new Integer[0]);
+			//permutations.add(new Integer[0]);
 			return permutations;
 		}
 

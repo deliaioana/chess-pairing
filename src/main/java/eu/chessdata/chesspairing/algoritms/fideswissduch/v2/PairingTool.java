@@ -85,7 +85,7 @@ public class PairingTool {
 			ScoreBracket nextBraket = this.scoreBrackets.get(nextKey);
 			bracket.pareBraket(nextBraket);
 		} else {
-			bracket.pareBraket(null);
+			bracket.pareLastBracket();
 		}
 	}
 
@@ -206,7 +206,6 @@ public class PairingTool {
 	 * it will throws an error if something is not OK!
 	 */
 	public void makeSureAllPlayersGotPared() {
-		// TODO Auto-generated method stub
 		Set<Player> presentPlayers = new HashSet<>();
 		presentPlayers.addAll(this.players);
 		if (presentPlayers.size() != this.players.size()){
@@ -217,14 +216,8 @@ public class PairingTool {
 			if (null == game){
 				throw new IllegalStateException("Null game in result. This is serious! Go debug write now! :)");
 			}
-			if (!presentPlayers.remove(game.getWhite())){
-				throw new IllegalStateException(game.getWhite().getPlayerKey()+" is not a present player");
-			}
-			if (!game.isBuyGame()){
-				if (!presentPlayers.remove(game.getBlack())){
-					throw new IllegalStateException(game.getBlack().getPlayerKey()+" is not a present player");
-				}
-			}
+			List<Player> players = game.getPlayers();
+			presentPlayers.removeAll(players);
 		}
 		
 		if (presentPlayers.size()!= 0){

@@ -88,7 +88,8 @@ public class ScoreBracket {
 		System.out.println("Pairing bracket: " + this.bracketScore);
 		// compute initial state
 		if (nextBraket == null) {
-			pareLastBracket();
+			throw new IllegalStateException(
+					"Please check that you have a next braket before you try to pare. If not pare last braket instead");
 		}
 		this.nextBracket = nextBraket;
 
@@ -112,9 +113,10 @@ public class ScoreBracket {
 			 * next function in a really bad spaghetify way (needs to be changed
 			 * in the future)
 			 */
-			if (processResultPosibleBuy(pairingResult)) {
+			boolean resultOk = processResultPosibleBuy(pairingResult);
+			if (resultOk) {
 				return (validateResult());
-				//return true;
+				// return true;
 			}
 		}
 
@@ -140,43 +142,48 @@ public class ScoreBracket {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * it performs a set of tests just to make sure that all the bracket players have bean pared
+	 * it performs a set of tests just to make sure that all the bracket players
+	 * have bean pared
+	 * 
 	 * @return
 	 */
-	protected boolean validateResult(){
+	protected boolean validateResult() {
 		Set<Player> allPlayers = new HashSet<>();
 		allPlayers.addAll(bracketPlayers);
-		
-		if (null == bracketResult){
+
+		if (null == bracketResult) {
 			throw new IllegalStateException("result is null");
 		}
-		
-		if (!bracketResult.isOk()){
+
+		if (!bracketResult.isOk()) {
 			throw new IllegalStateException("Why are you validating the result?");
 		}
 		List<Game> games = bracketResult.getGames();
-		for (Game game: games){
-			if (null == game){
+		for (Game game : games) {
+			if (null == game) {
 				throw new IllegalStateException("Null game. Please debug this braket");
 			}
-			if (!game.isValid()){
+			if (!game.isValid()) {
 				throw new IllegalStateException("Game not valid: Please debug this");
 			}
 			List<Player> players = game.getPlayers();
-			games.removeAll(players);
-			
+			allPlayers.removeAll(players);
+
 		}
-		if (allPlayers.size()==0){
-			//the only place where i return true
+		if (allPlayers.size() != 0) {
+			StringBuffer sb = new StringBuffer();
+			for (Player player : allPlayers) {
+				sb.append(player + ", ");
+			}
+			throw new IllegalStateException(
+					"Not all the players have bean pared for bracket : " + this.bracketScore + " " + sb.toString());
+		} else {
+			// the only place where i return true
 			return true;
 		}
-		StringBuffer sb = new StringBuffer();
-		for (Player player:allPlayers){
-			sb.append(player+", ");
-		}
-		throw new IllegalStateException("Not all the players have bean pared: "+ sb.toString());
+
 	}
 
 	/**
@@ -218,7 +225,7 @@ public class ScoreBracket {
 			if (this.nextBracket != null) {
 				// not last bracket: time to downfloat
 				downfloat(notPared);
-				//return true;
+				// return true;
 			} else {
 				// time to create buy
 				if (notPared.wasBuy) {
@@ -232,6 +239,7 @@ public class ScoreBracket {
 
 		// all in order
 		this.bracketResult = result;
+		// validateResult();
 		return true;
 	}
 
@@ -280,17 +288,17 @@ public class ScoreBracket {
 		}
 
 		this.bracketResult = result;
+		System.out.println("End debug point process result!");
 	}
-	
-	
 
 	/**
 	 * it confirms that the list does not contain null games
+	 * 
 	 * @param games
 	 */
 	private void confirmListDoesNotContainNullGames(List<Game> games) {
-		for (Game game:games){
-			if (null == game){
+		for (Game game : games) {
+			if (null == game) {
 				throw new IllegalStateException("games list contains null elements");
 			}
 		}
@@ -319,25 +327,62 @@ public class ScoreBracket {
 	}
 
 	public boolean pareLastBracket() {
-		LastBracket theLastBracket = new LastBracket(this.fideSwissDutch, this.bracketScore);
+		/*LastBracket theLastBracket = new LastBracket(this.fideSwissDutch, this.bracketScore);
 		boolean pairingOk = theLastBracket.pareBraket(null);
 		if (pairingOk) {
 			this.bracketResult = theLastBracket.getBracketResult();
 			return true;
+		}*/
+		
+		this.sortPlayers();
+		Integer size  = this.bracketPlayers.size();
+		Integer group[] = new Integer[size];
+		for (int i=0;i<size;i++){
+			group[i]=i;
 		}
-		throw new IllegalStateException("What should I do when I can not pare last bracket? Backtrack hint 2");
+		Set<Integer[]>permutations = Tools.getPermutations(group);
+		System.out.println("last braket perm size: "+permutations.size());
+		for (Integer[] perm:permutations){
+			StringBuffer sb = new StringBuffer();
+			for (Integer i:perm){
+				sb.append(String.valueOf(i)+" ");
+			}
+			System.out.println(sb.toString());
+		}
+		
+		List<PairingResult>validPairings = new ArrayList<>();
+		int i=0;
+		for (Integer[]permutation:permutations){
+			System.out.println("perm nr " + ++i );
+			PairingResult permResult = new PairingResult(bracketPlayers, permutation);
+			if (permResult.isOk()){
+				validPairings.add(permResult);
+			}
+		}
+		if (validPairings.size()==0){
+			throw new IllegalStateException("No posible parings for the las bracket. Time to think of backtracking");
+		}
+		
+		//sort the valid pairings
+		Collections.sort(validPairings, PairingResult.byB3Factor);
+		this.bracketResult = validPairings.get(0);
+		if (!bracketResult.isOk()){
+			throw new IllegalStateException("Last braket is not ok");
+		}
+		validateResult();
+		return true;
 	}
 
 	public PairingResult getBracketResult() {
 		return bracketResult;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(String.valueOf(bracketScore)+": ");
+		sb.append(String.valueOf(bracketScore) + ": ");
 		for (Player player : bracketPlayers) {
-			sb.append(player+", ");
+			sb.append(player + ", ");
 		}
 		return sb.toString();
 	}
