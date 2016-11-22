@@ -249,8 +249,9 @@ public class PairingTool {
 		if (i>=order.size()-1){
 			throw new IllegalStateException("there is no next braket for bracket with score: " + bracketScore);
 		}
-		
-		ScoreBracket braket = this.scoreBrackets.get(i+1);
+		i++;
+		Double nextScore = this.order.get(i);
+		ScoreBracket braket = this.scoreBrackets.get(nextScore);
 		if (null == braket){
 			throw new IllegalStateException("this should never be null. Please debug! There is something wrong in the algoritm");
 		}

@@ -39,10 +39,6 @@ public class Game {
 				return 1;
 			}
 
-			System.out.print("Debug A-");
-			Player pHigh1 = o1.getHigherPlayer();
-			Double valHigh1 = pHigh1.getPairingPoints();
-			System.out.println("debug B: = " + valHigh1);
 			Double high1 = o1.getHigherPlayer().getPairingPoints();
 			Double high2 = o2.getHigherPlayer().getPairingPoints();
 			if (!high1.equals(high2)) {

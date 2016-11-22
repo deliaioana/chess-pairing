@@ -336,12 +336,6 @@ public class ScoreBracket {
 	}
 
 	public boolean pareLastBracket() {
-		/*LastBracket theLastBracket = new LastBracket(this.fideSwissDutch, this.bracketScore);
-		boolean pairingOk = theLastBracket.pareBraket(null);
-		if (pairingOk) {
-			this.bracketResult = theLastBracket.getBracketResult();
-			return true;
-		}*/
 		
 		this.sortPlayers();
 		Integer size  = this.bracketPlayers.size();
@@ -351,39 +345,6 @@ public class ScoreBracket {
 		}
 		
 		throw new IllegalStateException("Please finish this");
-		
-		/*
-		Set<Integer[]>permutations = Tools.getPermutations(group);
-		System.out.println("last braket perm size: "+permutations.size());
-		for (Integer[] perm:permutations){
-			StringBuffer sb = new StringBuffer();
-			for (Integer i:perm){
-				sb.append(String.valueOf(i)+" ");
-			}
-			System.out.println(sb.toString());
-		}
-		
-		List<PairingResult>validPairings = new ArrayList<>();
-		int i=0;
-		for (Integer[]permutation:permutations){
-			System.out.println("perm nr " + ++i );
-			PairingResult permResult = new PairingResult(bracketPlayers, permutation);
-			if (permResult.isOk()){
-				validPairings.add(permResult);
-			}
-		}
-		if (validPairings.size()==0){
-			throw new IllegalStateException("No posible parings for the las bracket. Time to think of backtracking");
-		}
-		
-		//sort the valid pairings
-		Collections.sort(validPairings, PairingResult.byB3Factor);
-		this.bracketResult = validPairings.get(0);
-		if (!bracketResult.isOk()){
-			throw new IllegalStateException("Last braket is not ok");
-		}
-		validateResult();
-		return true;*/
 	}
 
 	public PairingResult getBracketResult() {
