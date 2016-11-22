@@ -80,9 +80,9 @@ public class ScoreBracket {
 	}
 
 	/**
-	 * main algorithm for pairing bracket if nextBraket is null then this is the. It will try to identify if there is a next bracket
-	 * if no next bracket then it will call pareLastBraket
-	 * last bracket
+	 * main algorithm for pairing bracket if nextBraket is null then this is
+	 * the. It will try to identify if there is a next bracket if no next
+	 * bracket then it will call pareLastBraket last bracket
 	 * 
 	 * @param lastRound
 	 * @param nextBraket
@@ -90,7 +90,7 @@ public class ScoreBracket {
 	public boolean pareBraket() {
 		System.out.println("Pairing bracket: " + this.bracketScore);
 		// compute initial state
-		if (!pairingTool.hasNextBraket(this.bracketScore)){
+		if (!pairingTool.hasNextBraket(this.bracketScore)) {
 			return pareLastBracket();
 		}
 		ScoreBracket nextBraket = pairingTool.getNextBraket(this.bracketScore);
@@ -100,56 +100,83 @@ public class ScoreBracket {
 		}
 		this.nextBracket = nextBraket;
 
-		int playersCount = this.bracketPlayers.size();
-
 		this.sortPlayers();
 
-		// set the initial pairs
-		int size = playersCount / 2;
-		Integer groupA[] = new Integer[size];
-		Integer groupB[] = new Integer[size];
-		for (int i = 0; i < size; i++) {
-			groupA[i] = i;
-			groupB[i] = i + size;
-		}
-
-		PairingResult pairingResult = new PairingResult(bracketPlayers, groupA, groupB);
-		if (pairingResult.isOk()) {
-			/**
-			 * wee still need to see if the buy is OK. that is handled by the
-			 * next function in a really bad spaghetify way (needs to be changed
-			 * in the future)
-			 */
-			boolean resultOk = processResultPosibleBuy(pairingResult);
-			if (resultOk) {
-				return (validateResult());
-				// return true;
+		if (eavenPlayers()) {
+			if (pareEavenPlayers()) {
+				return true;
 			}
-		}
-		
-		throw new IllegalStateException("Please finish this");
-/*
-		Set<Integer[]> permutations = Tools.getPermutations(groupB);
-		for (Integer[] permutation : permutations) {
-			PairingResult permResult = new PairingResult(bracketPlayers, groupA, permutation);
-			if (permResult.isOk()) {
-				processResult(permResult);
+		}else{
+			if(pareOddPlayers()){
 				return true;
 			}
 		}
 
-		if (this.bracketResult == null) {
-			throw new IllegalStateException(
-					"For the moment this error is only for degugging please fix the above aloritm for bracket 1.0. It should have some results");
+		throw new IllegalStateException("Please finish this");
+
+		// set the initial pairs
+		/*
+		 * int size = playersCount / 2; Integer groupA[] = new Integer[size];
+		 * Integer groupB[] = new Integer[size]; for (int i = 0; i < size; i++)
+		 * { groupA[i] = i; groupB[i] = i + size; }
+		 * 
+		 * PairingResult pairingResult = new PairingResult(bracketPlayers,
+		 * groupA, groupB); if (pairingResult.isOk()) {
+		 *//**
+			 * wee still need to see if the buy is OK. that is handled by the
+			 * next function in a really bad spaghetify way (needs to be changed
+			 * in the future)
+			 *//*
+			 * boolean resultOk = processResultPosibleBuy(pairingResult); if
+			 * (resultOk) { return (validateResult()); // return true; } }
+			 */
+
+		/*
+		 * Set<Integer[]> permutations = Tools.getPermutations(groupB); for
+		 * (Integer[] permutation : permutations) { PairingResult permResult =
+		 * new PairingResult(bracketPlayers, groupA, permutation); if
+		 * (permResult.isOk()) { processResult(permResult); return true; } }
+		 * 
+		 * if (this.bracketResult == null) { throw new IllegalStateException(
+		 * "For the moment this error is only for degugging please fix the above aloritm for bracket 1.0. It should have some results"
+		 * ); } for (Game game : this.bracketResult.getGames()) { if
+		 * (game.getBlack() == null) { System.out.println("buy:" +
+		 * game.getWhite().getPlayerKey()); } else {
+		 * System.out.println(game.getWhite().getPlayerKey() + " vs " +
+		 * game.getBlack().getPlayerKey()); } } return false;
+		 */
+	}
+
+	/**
+	 * it will store the initial players setup.
+	 * if will make a list with the players that can be downfloated if no players can be downfloated the throw an error
+	 * for each downfloated player it will make sure that the remaining players can be pared. it will downfloat the player and make sure that the next bracket 
+	 * can be pared
+	 * @return
+	 */
+	private boolean pareOddPlayers() {
+		throw new IllegalStateException("Please implement this");
+	}
+
+	/**
+	 * it returns true if the current bracket can be pared. It will not try to downfloat any players. 
+	 * @return
+	 */
+	private boolean pareEavenPlayers() {
+		throw new IllegalStateException("Please finish this");
+	}
+
+	/**
+	 * if the bracket contains an even number of players it return true
+	 * 
+	 * @return
+	 */
+	private boolean eavenPlayers() {
+		if ((bracketPlayers.size() % 2) == 0) {
+			return true;
+		} else {
+			return false;
 		}
-		for (Game game : this.bracketResult.getGames()) {
-			if (game.getBlack() == null) {
-				System.out.println("buy:" + game.getWhite().getPlayerKey());
-			} else {
-				System.out.println(game.getWhite().getPlayerKey() + " vs " + game.getBlack().getPlayerKey());
-			}
-		}
-		return false;*/
 	}
 
 	/**
@@ -336,14 +363,14 @@ public class ScoreBracket {
 	}
 
 	public boolean pareLastBracket() {
-		
+
 		this.sortPlayers();
-		Integer size  = this.bracketPlayers.size();
+		Integer size = this.bracketPlayers.size();
 		Integer group[] = new Integer[size];
-		for (int i=0;i<size;i++){
-			group[i]=i;
+		for (int i = 0; i < size; i++) {
+			group[i] = i;
 		}
-		
+
 		throw new IllegalStateException("Please finish this");
 	}
 

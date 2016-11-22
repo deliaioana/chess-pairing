@@ -97,54 +97,58 @@ public class PairingToolTest {
 		pairingTool.pairBrackets();
 
 	}
-	
-	
+
 	@Test
 	/**
-	 * I'm using this test just to get a handle on a file with allot of tournament players and with rigged round 1
+	 * I'm using this test just to get a handle on a file with allot of
+	 * tournament players and with rigged round 1
 	 */
-	public void test3ConstructTournament(){
+	public void test3ConstructTournament() {
 		ChesspairingTournament myTournament = TestUtils.rigFirstRoundOn23();
 		TestUtils.writeToFile(myTournament, "test4.json");
 		System.out.println("End test 3");
 	}
-	
+
 	@Test
-	public void test4UnitTests(){
+	public void test4UnitTests() {
 		FideSwissDutch algorithm = new FideSwissDutch();
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test4.json");
-				
+
 		algorithm.initializeAlgorithm(dataTournament);
 		PairingTool pairingTool = new PairingTool(algorithm);
-		
-		//section of what should happen in coputeGames
-		pairingTool.initializePlayers();//step1
-		pairingTool.initializeScoreBrackets();//step2
-		
+
+		// section of what should happen in coputeGames
+		pairingTool.initializePlayers();// step1
+		pairingTool.initializeScoreBrackets();// step2
+
 		pairingTool.pairBrackets();
+		throw new IllegalStateException("Are you shure you are done with pairing the players?");
 		/**
 		 * working on updateResultGames
 		 */
-		pairingTool.updateResultGames();
-		pairingTool.makeSureAllPlayersGotPared();
-		int size = pairingTool.resultGames.size();
-		assertTrue( "result size " + size +" != 7", size==7);
+		/*
+		 * pairingTool.updateResultGames();
+		 * pairingTool.makeSureAllPlayersGotPared(); int size =
+		 * pairingTool.resultGames.size(); assertTrue( "result size " + size
+		 * +" != 7", size==7);
+		 */
 	}
-	
+
 	/**
-	 * mainly meant to develop infrastructure to capture tournament state before errors occurred.
+	 * mainly meant to develop infrastructure to capture tournament state before
+	 * errors occurred.
 	 */
 	@Test
-	public void test5PareUntillItFails(){
+	public void test5PareUntillItFails() {
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test5.json");
 		int totalRounds = dataTournament.getTotalRounds();
 		int k = dataTournament.getRounds().size();
-		try{
-			while (k < totalRounds){
+		try {
+			while (k < totalRounds) {
 				dataTournament = (new FideSwissDutch()).generateNextRound(dataTournament);
 				k++;
 			}
-		}catch(IllegalStateException e){
+		} catch (IllegalStateException e) {
 			throw new IllegalStateException("Time to sotre the tournament state");
 		}
 	}
