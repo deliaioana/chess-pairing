@@ -13,6 +13,7 @@ import eu.chessdata.chesspairing.Tools;
 
 public class ScoreBracket {
 	private final FideSwissDutch fideSwissDutch;
+	private final PairingTool pairingTool;
 	private final Double bracketScore;
 	protected final List<Player> bracketPlayers;
 	protected PairingResult bracketResult;
@@ -26,11 +27,12 @@ public class ScoreBracket {
 		throw new IllegalStateException("This constructor should never be used");
 	}
 
-	public ScoreBracket(FideSwissDutch fideSwissDutch, Double bracketScore) {
+	public ScoreBracket(FideSwissDutch fideSwissDutch, Double bracketScore, PairingTool pairingTool) {
 		this.fideSwissDutch = fideSwissDutch;
 		this.bracketPlayers = new ArrayList<>();
 
 		this.bracketScore = bracketScore;
+		this.pairingTool = pairingTool;
 	}
 
 	public FideSwissDutch getFideSwissDutch() {
@@ -78,15 +80,20 @@ public class ScoreBracket {
 	}
 
 	/**
-	 * main algorithm for pairing bracket if nextBraket is null then this is the
+	 * main algorithm for pairing bracket if nextBraket is null then this is the. It will try to identify if there is a next bracket
+	 * if no next bracket then it will call pareLastBraket
 	 * last bracket
 	 * 
 	 * @param lastRound
 	 * @param nextBraket
 	 */
-	public boolean pareBraket(ScoreBracket nextBraket) {
+	public boolean pareBraket() {
 		System.out.println("Pairing bracket: " + this.bracketScore);
 		// compute initial state
+		if (!pairingTool.hasNextBraket(this.bracketScore)){
+			return pareLastBracket();
+		}
+		ScoreBracket nextBraket = pairingTool.getNextBraket(this.bracketScore);
 		if (nextBraket == null) {
 			throw new IllegalStateException(
 					"Please check that you have a next braket before you try to pare. If not pare last braket instead");
@@ -119,7 +126,9 @@ public class ScoreBracket {
 				// return true;
 			}
 		}
-
+		
+		throw new IllegalStateException("Please finish this");
+/*
 		Set<Integer[]> permutations = Tools.getPermutations(groupB);
 		for (Integer[] permutation : permutations) {
 			PairingResult permResult = new PairingResult(bracketPlayers, groupA, permutation);
@@ -140,7 +149,7 @@ public class ScoreBracket {
 				System.out.println(game.getWhite().getPlayerKey() + " vs " + game.getBlack().getPlayerKey());
 			}
 		}
-		return false;
+		return false;*/
 	}
 
 	/**
@@ -340,6 +349,10 @@ public class ScoreBracket {
 		for (int i=0;i<size;i++){
 			group[i]=i;
 		}
+		
+		throw new IllegalStateException("Please finish this");
+		
+		/*
 		Set<Integer[]>permutations = Tools.getPermutations(group);
 		System.out.println("last braket perm size: "+permutations.size());
 		for (Integer[] perm:permutations){
@@ -370,7 +383,7 @@ public class ScoreBracket {
 			throw new IllegalStateException("Last braket is not ok");
 		}
 		validateResult();
-		return true;
+		return true;*/
 	}
 
 	public PairingResult getBracketResult() {

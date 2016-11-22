@@ -47,7 +47,7 @@ public class PairingTool {
 			String key = player.getPlayerKey();
 			Double score = this.fideSwissDutch.getPairingPoints(lastRound, key);
 			if (!this.scoreBrackets.containsKey(score)) {
-				ScoreBracket braket = new ScoreBracket(fideSwissDutch, score);
+				ScoreBracket braket = new ScoreBracket(fideSwissDutch, score, this);
 				this.scoreBrackets.put(score, braket);
 			}
 			ScoreBracket braket = this.scoreBrackets.get(score);
@@ -67,27 +67,15 @@ public class PairingTool {
 	}
 
 	/**
-	 * Cycles all the brackets and initializes pairing
+	 * Start paring brackets recursively
 	 */
 	protected void pairBrackets() {
-		for (Double key : this.order) {
-			pairBracketStandard(key);
-		}
+		Double hiestScore = order.get(0);
+		ScoreBracket firstBraket = scoreBrackets.get(hiestScore);
+		firstBraket.pareBraket();
 	}
 
-	protected void pairBracketStandard(Double key) {
-		ScoreBracket bracket = this.scoreBrackets.get(key);
-
-		if (this.order.indexOf(key) < (this.order.size() - 1)) {
-			// not last round
-			int indexOfKey = this.order.indexOf(key);
-			Double nextKey = this.order.get(indexOfKey + 1);
-			ScoreBracket nextBraket = this.scoreBrackets.get(nextKey);
-			bracket.pareBraket(nextBraket);
-		} else {
-			bracket.pareLastBracket();
-		}
-	}
+	
 
 	/**
 	 * it initializes only the present players;
@@ -227,6 +215,46 @@ public class PairingTool {
 			}
 			throw new IllegalStateException("Not all the players have bean pared: "+sb.toString());
 		}
+	}
+
+	/**
+	 * if the score bracket has next bracket then it will return true
+	 * @param bracketScore
+	 * @return
+	 */
+	public boolean hasNextBraket(Double bracketScore) {
+		// TODO Auto-generated method stub
+		if (!this.order.contains(bracketScore)){
+			throw new IllegalStateException("thre is no such braket with score: " + bracketScore);
+		}
+		int i= order.indexOf(bracketScore);
+		if (i<order.size()-1){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * it return the next bracket
+	 * if the next bracket does not exist then it will throw an error
+	 * @param bracketScore
+	 * @return
+	 */
+	public ScoreBracket getNextBraket(Double bracketScore) {
+		if (!this.order.contains(bracketScore)){
+			throw new IllegalStateException("thre is no such braket with core: " + bracketScore);
+		}
+		int i = order.indexOf(bracketScore);
+		if (i>=order.size()-1){
+			throw new IllegalStateException("there is no next braket for bracket with score: " + bracketScore);
+		}
+		
+		ScoreBracket braket = this.scoreBrackets.get(i+1);
+		if (null == braket){
+			throw new IllegalStateException("this should never be null. Please debug! There is something wrong in the algoritm");
+		}
+		return braket;
 	}
 
 }
