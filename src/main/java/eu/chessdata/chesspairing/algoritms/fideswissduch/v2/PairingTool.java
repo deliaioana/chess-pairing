@@ -258,4 +258,21 @@ public class PairingTool {
 		return braket;
 	}
 
+	/**
+	 * it returns true if the bracketScore is the key for the last bracket. It throws an error if the bracketScore is not a key
+	 * @param bracketScore
+	 * @return
+	 */
+	public boolean isLastBracket(Double bracketScore) {
+		if (!order.contains(bracketScore)){
+			throw new IllegalStateException("this is not a valid bracket key: " + bracketScore);
+		}
+		int lastId = order.size()-1;
+		if (lastId == order.indexOf(bracketScore)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }

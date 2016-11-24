@@ -148,14 +148,42 @@ public class ScoreBracket {
 	}
 
 	/**
-	 * it will store the initial players setup.
+	 * use the pairingTool to decide what players can be downfloated
+	 * if this is the last bracket then call pareOddLastBraket
 	 * if will make a list with the players that can be downfloated if no players can be downfloated the throw an error
 	 * for each downfloated player it will make sure that the remaining players can be pared. it will downfloat the player and make sure that the next bracket 
 	 * can be pared
 	 * @return
 	 */
 	private boolean pareOddPlayers() {
+		if (lastBracket()){
+			return pareLastBracketOddPlayers();
+		}
+		
+		List<Player> downfloatCandidates = new ArrayList<>();
+		for (Player candidate: bracketPlayers){
+			if (candidate.floatingState == FloatingState.STANDARD){
+				downfloatCandidates.add(candidate);
+			}
+		}
+		if (downfloatCandidates.size()==0)
 		throw new IllegalStateException("Please implement this");
+	}
+
+	/**
+	 * TODO select the player that can be buy. if no buy players then return false
+	 * @return
+	 */
+	private boolean pareLastBracketOddPlayers() {
+		throw new IllegalStateException("Please implement this");
+	}
+
+	/**
+	 * 
+	 * @return true if this score bracket is the last bracket
+	 */
+	private boolean lastBracket() {
+		return this.pairingTool.isLastBracket(this.bracketScore);
 	}
 
 	/**
