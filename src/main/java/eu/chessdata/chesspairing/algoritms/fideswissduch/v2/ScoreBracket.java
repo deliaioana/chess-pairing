@@ -3,11 +3,14 @@ package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections4.comparators.ComparatorChain;
+
+import com.google.common.collect.Lists;
 
 import eu.chessdata.chesspairing.Tools;
 
@@ -70,13 +73,40 @@ public class ScoreBracket {
 		return floatingState;
 	}
 
+	/**
+	 * it arranges the players in the invert order;
+	 * 
+	 * @param list
+	 * @return
+	 */
+	protected List<Player> invertSort(List<Player> list) {
+		Comparator<Player>comparator = getComparator();
+		Collections.sort(list,comparator);
+		List<Player> invers = Lists.reverse(list);
+		return invers;
+	}
+
+	/**
+	 * it sort the players in the correct using the default comparator
+	 */
 	protected void sortPlayers() {
+		Comparator<Player> comparator = getComparator();
+
+		Collections.sort(this.bracketPlayers, comparator);
+	}
+
+	/**
+	 * this is the default comparator for the players
+	 * 
+	 * @return
+	 */
+	protected Comparator<Player> getComparator() {
 		ComparatorChain<Player> comparatorChain = new ComparatorChain<>();
 		comparatorChain.addComparator(Player.byPoints);
 		comparatorChain.addComparator(Player.byElo);
 		comparatorChain.addComparator(Player.byInitialRanking);
 
-		Collections.sort(this.bracketPlayers, comparatorChain);
+		return comparatorChain;
 	}
 
 	/**
@@ -106,8 +136,8 @@ public class ScoreBracket {
 			if (pareEavenPlayers()) {
 				return true;
 			}
-		}else{
-			if(pareOddPlayers()){
+		} else {
+			if (pareOddPlayers()) {
 				return true;
 			}
 		}
@@ -156,22 +186,62 @@ public class ScoreBracket {
 	 * @return
 	 */
 	private boolean pareOddPlayers() {
+		
+		//make sure it is eaven
+		if ((this.bracketPlayers.size()%2)!=1){
+			throw new IllegalStateException("Please debug: you do not have an even nr of players");
+		}
+		
 		if (lastBracket()){
 			return pareLastBracketOddPlayers();
 		}
 		
-		List<Player> downfloatCandidates = new ArrayList<>();
+		//compute downfloat candidates
+		List<Player> candidates = new ArrayList<>();
 		for (Player candidate: bracketPlayers){
 			if (candidate.floatingState == FloatingState.STANDARD){
-				downfloatCandidates.add(candidate);
+				candidates.add(candidate);
 			}
 		}
-		if (downfloatCandidates.size()==0)
+		if (candidates.size()==0){
+			return false;
+		}
+		//sort candidates
+		List<Player> invertCandidates = invertSort(candidates);
+		
+		//for the remaining lists try to pare using even list pairing
+		for (Player candidate:invertCandidates){
+			List<Player> evenList = new ArrayList<>();
+			evenList.addAll(this.bracketPlayers);
+			boolean ok = evenList.remove(candidate);
+			if (!ok){
+				throw new IllegalStateException("I was not able to remove candidate from list");
+			}
+			PairingResult pairingResult = pareEvenList(evenList);
+			if (pairingResult.isOk()){
+				throw new IllegalStateException("Please implement this");
+			}
+			
+		}
+		
+		throw new IllegalStateException("Please implement this");
+	}
+
+		/**
+		 * it tries to pare the list
+		 * it splits the group in half and for each possible combination try to pare
+		 * Until you find a valid pare combination or return false;
+		 * @param eavenList
+		 * @return
+		 */
+	private PairingResult pareEvenList(List<Player> eavenList) {
 		throw new IllegalStateException("Please implement this");
 	}
 
 	/**
-	 * TODO select the player that can be buy. if no buy players then return false
+	 * TODO select the player that can be buy. if no buy players then return
+	 * false
+	 * 
 	 * @return
 	 */
 	private boolean pareLastBracketOddPlayers() {
@@ -187,7 +257,9 @@ public class ScoreBracket {
 	}
 
 	/**
-	 * it returns true if the current bracket can be pared. It will not try to downfloat any players. 
+	 * it returns true if the current bracket can be pared. It will not try to
+	 * downfloat any players.
+	 * 
 	 * @return
 	 */
 	private boolean pareEavenPlayers() {
