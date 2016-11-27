@@ -138,18 +138,16 @@ public class PairingToolTest {
 	 * mainly meant to develop infrastructure to capture tournament state before
 	 * errors occurred.
 	 */
-	@Test
-	public void test5PareUntillItFails() {
-		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test5.json");
-		int totalRounds = dataTournament.getTotalRounds();
-		int k = dataTournament.getRounds().size();
-		try {
-			while (k < totalRounds) {
-				dataTournament = (new FideSwissDutch()).generateNextRound(dataTournament);
-				k++;
-			}
-		} catch (IllegalStateException e) {
-			throw new IllegalStateException("Time to sotre the tournament state");
-		}
-	}
+	// @Test
+	/*
+	 * public void test5PareUntillItFails() { ChesspairingTournament
+	 * dataTournament =
+	 * loadFile("/fideswissdutchTest/v2/pairingTool/test5.json"); int
+	 * totalRounds = dataTournament.getTotalRounds(); int k =
+	 * dataTournament.getRounds().size(); try { while (k < totalRounds) {
+	 * dataTournament = (new
+	 * FideSwissDutch()).generateNextRound(dataTournament); k++; } } catch
+	 * (IllegalStateException e) { throw new
+	 * IllegalStateException("Time to sotre the tournament state"); } }
+	 */
 }

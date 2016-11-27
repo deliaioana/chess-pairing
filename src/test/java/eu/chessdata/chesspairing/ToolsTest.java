@@ -1,6 +1,7 @@
 package eu.chessdata.chesspairing;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,5 +33,17 @@ public class ToolsTest {
 		System.out.println("End getPermutations. size = "+gen.getNumberOfGeneratedObjects());
 		date = new Date();
 		System.out.println("End:    "+ date.toString());
+	}
+	
+	@Test
+	public void getFirstAndSecondHalf(){
+		List<String> strings = new ArrayList<>();
+		for (int i=0;i<10;i++){
+			strings.add("item_"+i);
+		}
+		Integer[]first = Tools.getFirstHalfIds(strings.size());
+		Integer[]second= Tools.getSecondHalfIds(strings.size());
+		Assert.assertTrue(first.length==5);
+		Assert.assertTrue(second.length==5);
 	}
 }

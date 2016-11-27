@@ -7,8 +7,11 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import org.apache.commons.collections4.comparators.ComparatorChain;
+import org.paukov.combinatorics.Generator;
+import org.paukov.combinatorics.ICombinatoricsVector;
 
 import com.google.common.collect.Lists;
 
@@ -219,6 +222,9 @@ public class ScoreBracket {
 			}
 			PairingResult pairingResult = pareEvenList(evenList);
 			if (pairingResult.isOk()){
+				/**
+				 * todo: downfloat the candidate and see if you can pare the next bracket
+				 */
 				throw new IllegalStateException("Please implement this");
 			}
 			
@@ -235,8 +241,23 @@ public class ScoreBracket {
 		 * @return
 		 */
 	private PairingResult pareEvenList(List<Player> eavenList) {
-		throw new IllegalStateException("Please implement this");
+		Integer[] firstHalf = Tools.getFirstHalfIds(eavenList.size());
+		Integer[] seead = Tools.getSecondHalfIds(eavenList.size());
+		Generator<Integer> generator = Tools.getPermutations(seead);
+		for (ICombinatoricsVector<Integer> vector:generator){
+			List<Integer> list = vector.getVector();
+			Integer[] secondHalf = list.toArray(new Integer[list.size()]);
+			//try to create a pairing result
+			PairingResult result = new PairingResult(eavenList,firstHalf,secondHalf);
+			if (result.isOk()){
+				return result;
+			}
+		}
+		//just return the invalid result
+		return PairingResult.notValid();
+		
 	}
+	
 
 	/**
 	 * TODO select the player that can be buy. if no buy players then return

@@ -8,6 +8,10 @@ import java.util.List;
 public class PairingResult {
 	private boolean ok;
 	private List<Game> games;
+	
+	private PairingResult(){
+		
+	}
 
 	/**
 	 * it attempts to create the games and if it does not succeed it invalidates
@@ -68,60 +72,6 @@ public class PairingResult {
 		
 	}
 
-	/**
-	 * this creates games 2 by 2 in the order specified by the index
-	 * 
-	 * @param players
-	 * @param index
-	 */
-	public PairingResult(final List<Player> players, Integer[] index) {
-		this.ok = true;
-		this.games = new ArrayList<>();
-		for (int i = 0; i < index.length; i++) {
-			if ((i % 2) == 0) {
-				if (i == index.length - 1) {
-					// if last game
-					Player player = players.get(i);
-					if (player.wasBuy()) {
-						// if player was buy then result no good
-						resultIsNoGood();
-						break;
-					} else {
-						Game game = Game.createBuyGame(player);
-						if (game.isValid()) {
-							this.games.add(game);
-						} else {
-							resultIsNoGood();
-							break;
-						}
-					}
-				}
-			} else {
-				// there is always i and i-1;
-				Player a = players.get(i);
-				Player b = players.get(i - 1);
-				Game game = Game.createGame(a, b);
-				if (game.isValid()) {
-					this.games.add(game);
-				} else {
-					resultIsNoGood();
-					break;
-				}
-
-			}
-		}
-		
-		for (Game game: games){
-			if (null == game){
-				throw new IllegalStateException("Wee have null games");
-			}
-		}
-		
-		if (isOk()){
-			validateResult();
-		}
-	}
-
 	public boolean isOk() {
 		return ok;
 	}
@@ -164,6 +114,7 @@ public class PairingResult {
 		}
 
 	};
+	private static final PairingResult notValidResult = PairingResult.notValid();
 
 	/**
 	 * it computes the B3 factor and it returns the result
@@ -177,6 +128,15 @@ public class PairingResult {
 			result += factor;
 		}
 		return result;
+	}
+
+	public static PairingResult notValid() {
+		if (PairingResult.notValidResult == null){
+			PairingResult result = new PairingResult();
+			result.ok = false;
+			return result;
+		}
+		return PairingResult.notValidResult;
 	}
 
 }

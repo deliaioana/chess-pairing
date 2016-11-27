@@ -69,6 +69,40 @@ public class Tools {
 		Generator<Integer> gen = Factory.createPermutationGenerator(originalVector);
 		return gen;
 	}
+	
+	/**
+	 * it builds and returns the id's that point to the first half of the list
+	 * @param listSize
+	 * @return
+	 */
+	public static Integer[] getFirstHalfIds(int listSize){
+		if (listSize%2 != 0){
+			throw new IllegalStateException("List is not even");
+		}
+		int half = listSize/2;
+		Integer[] result = new Integer[half];
+		for (int i=0;i<half;i++){
+			result[i]=i;
+		}
+		return result;
+	}
+	
+	/**
+	 * it builds and returns the id's that point to the second half of the list
+	 * @param listSize
+	 * @return
+	 */
+	public static Integer[] getSecondHalfIds(int listSize){
+		if (listSize%2 != 0){
+			throw new IllegalStateException("List is not even");
+		}
+		int half = listSize/2;
+		Integer[] result = new Integer[half];
+		for (int i=0;i<half;i++){
+			result[i]=i+half;
+		}
+		return result;
+	}
 
 	/**
 	 * please update the comments and point to the new function
