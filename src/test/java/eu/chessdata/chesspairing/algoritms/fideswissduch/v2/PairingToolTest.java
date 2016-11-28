@@ -95,7 +95,6 @@ public class PairingToolTest {
 		// }
 
 		pairingTool.pairBrackets();
-
 	}
 
 	@Test

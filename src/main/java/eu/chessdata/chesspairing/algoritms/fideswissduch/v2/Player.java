@@ -8,9 +8,9 @@ import org.apache.commons.collections4.comparators.ComparatorChain;
 
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 
-public final class  Player {
+public final class Player {
 	protected static final Comparator<Player> comparator = buildChain();
-	
+
 	protected static final Comparator<Player> byPoints = new Comparator<Player>() {
 		@Override
 		public int compare(Player o1, Player o2) {
@@ -60,10 +60,41 @@ public final class  Player {
 	}
 
 	private static Comparator<Player> buildChain() {
+		
+		Comparator<Player> cByPoints = new Comparator<Player>() {
+			@Override
+			public int compare(Player o1, Player o2) {
+				Double po1 = o1.getPairingPoints();
+				Double po2 = o2.getPairingPoints();
+				return -1 * po1.compareTo(po2);
+			}
+		};
+
+		Comparator<Player> cByElo = new Comparator<Player>() {
+			@Override
+			public int compare(Player o1, Player o2) {
+				Integer e1 = o1.getElo();
+				Integer e2 = o2.getElo();
+				return -1 * e1.compareTo(e2);
+			}
+		};
+
+		Comparator<Player> cByInitialRanking = new Comparator<Player>() {
+			@Override
+			public int compare(Player o1, Player o2) {
+				Integer r1 = o1.getInitialRanking();
+				Integer r2 = o2.getInitialRanking();
+				return r1.compareTo(r2);
+			}
+		};
+
+		// comparatorChain.addComparator(Player.byPoints);
+		// comparatorChain.addComparator(Player.byElo);
+		// comparatorChain.addComparator(Player.byInitialRanking);
 		ComparatorChain<Player> comparatorChain = new ComparatorChain<>();
-		comparatorChain.addComparator(Player.byPoints);
-		comparatorChain.addComparator(Player.byElo);
-		comparatorChain.addComparator(Player.byInitialRanking);
+		comparatorChain.addComparator(cByPoints);
+		comparatorChain.addComparator(cByElo);
+		comparatorChain.addComparator(cByInitialRanking);
 		return comparatorChain;
 	}
 

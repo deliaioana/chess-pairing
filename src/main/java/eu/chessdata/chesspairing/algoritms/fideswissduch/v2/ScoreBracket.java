@@ -1,13 +1,11 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
-import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import org.apache.commons.collections4.comparators.ComparatorChain;
 import org.paukov.combinatorics.Generator;
@@ -113,9 +111,9 @@ public class ScoreBracket {
 	}
 
 	/**
-	 * main algorithm for pairing bracket if nextBraket is null then this is
-	 * the. It will try to identify if there is a next bracket if no next
-	 * bracket then it will call pareLastBraket last bracket
+	 * main algorithm for pairing bracket if nextBraket is null then this is the
+	 * last bracket. It will try to identify if there is a next bracket if no
+	 * next bracket then it will call pareLastBraket last bracket
 	 * 
 	 * @param lastRound
 	 * @param nextBraket
@@ -225,8 +223,8 @@ public class ScoreBracket {
 			PairingResult pairingResult = pareEvenList(evenList);
 			if (pairingResult.isOk()) {
 				/**
-				 * downfloat the candidate and see if you can pare the
-				 * next bracket
+				 * downfloat the candidate and see if you can pare the next
+				 * bracket
 				 */
 				downfloat(candidate);
 				if (!nextBracket.pareBraket()) {
@@ -254,22 +252,27 @@ public class ScoreBracket {
 	}
 
 	/**
-	 * it tries to pare the list it splits the group in half and for each
-	 * possible combination try to pare Until you find a valid pare combination
-	 * or return false;
+	 * It creates a copy list. It sorts the copy and it tries to pare the list.
+	 * It splits the group in half and for each possible combination try to pare
+	 * Until you find a valid pare combination or return false;
 	 * 
 	 * @param evenList
 	 * @return
 	 */
 	private PairingResult pareEvenList(List<Player> evenList) {
-		Integer[] firstHalf = Tools.getFirstHalfIds(evenList.size());
-		Integer[] seead = Tools.getSecondHalfIds(evenList.size());
+		List<Player> goodList = new ArrayList<>();
+		goodList.addAll(evenList);
+		Comparator<Player> comparator = Player.comparator;
+		Collections.sort(goodList, comparator);
+
+		Integer[] firstHalf = Tools.getFirstHalfIds(goodList.size());
+		Integer[] seead = Tools.getSecondHalfIds(goodList.size());
 		Generator<Integer> generator = Tools.getPermutations(seead);
 		for (ICombinatoricsVector<Integer> vector : generator) {
 			List<Integer> list = vector.getVector();
 			Integer[] secondHalf = list.toArray(new Integer[list.size()]);
 			// try to create a pairing result
-			PairingResult result = new PairingResult(evenList, firstHalf, secondHalf);
+			PairingResult result = new PairingResult(goodList, firstHalf, secondHalf);
 			if (result.isOk()) {
 				return result;
 			}
@@ -278,8 +281,6 @@ public class ScoreBracket {
 		return PairingResult.notValid();
 
 	}
-
-	
 
 	/**
 	 * 
@@ -290,13 +291,20 @@ public class ScoreBracket {
 	}
 
 	/**
-	 * it returns true if the current bracket can be pared. It will not try to
-	 * downfloat any players.
+	 * it returns true if it manages to pare the current bracket. It will not
+	 * try to downfloat any players.
 	 * 
 	 * @return
 	 */
 	private boolean pareEavenPlayers() {
-		throw new IllegalStateException("Please finish this");
+
+		PairingResult pairingResult = pareEvenList(this.bracketPlayers);
+		if (pairingResult.isOk()) {
+			this.bracketResult = pairingResult;
+			return true;
+		} else {
+			throw new IllegalStateException("Please finish this. What to do when even players can not be pared");
+		}
 	}
 
 	/**
@@ -355,123 +363,9 @@ public class ScoreBracket {
 
 	}
 
-	/**
-	 * * it checks the state of the result and if there is none player only left
-	 * it checks if it can be buy and it creates a buy game for him
-	 * 
-	 * @param pairingResult
-	 * @return true if the result was OK and false otherwise
-	 */
-	private boolean processResultPosibleBuy(PairingResult result) {
-		// make sure that all players have bean paired
-		Set<Player> set = new HashSet<>();
-		set.addAll(this.bracketPlayers);
-		if (set.size() != bracketPlayers.size()) {
-			throw new IllegalStateException("duplicate in bracketPlayers");
-		}
 
-		// identify not paired player;
-		List<Game> games = result.getGames();
-		for (Game game : games) {
-			Player white = game.getWhite();
-			Player black = game.getBlack();
-			if (!set.remove(white)) {
-				throw new IllegalStateException("The set did not contained white player");
-			}
-			if (!set.remove(black)) {
-				throw new IllegalStateException("The set did not contained black player");
-			}
-		}
-		if (set.size() > 1) {
-			throw new IllegalStateException("Not all the players have bean pared");
-		}
-		if (set.size() == 1) {
-			Player notPared = set.iterator().next();
 
-			/**
-			 * if not last bracket downfloat else set as buy
-			 */
-			if (this.nextBracket != null) {
-				// not last bracket: time to downfloat
-				downfloat(notPared);
-				// return true;
-			} else {
-				// time to create buy
-				if (notPared.wasBuy) {
-					return false;
-				} else {
-					Game game = Game.createBuyGame(notPared);
-					result.addGame(game);
-				}
-			}
-		}
 
-		// all in order
-		this.bracketResult = result;
-		// validateResult();
-		return true;
-	}
-
-	/**
-	 * set the result downfloat not paired if last round set as buy not paired.
-	 * make sure that all the players have bean paired
-	 */
-	private void processResult(PairingResult result) {
-
-		// make sure that all players have bean paired
-		Set<Player> set = new HashSet<>();
-		set.addAll(this.bracketPlayers);
-		if (set.size() != bracketPlayers.size()) {
-			throw new IllegalStateException("duplicate in bracketPlayers");
-		}
-
-		// identify not paired player;
-		List<Game> games = result.getGames();
-		confirmListDoesNotContainNullGames(games);
-		for (Game game : games) {
-			Player white = game.getWhite();
-			Player black = game.getBlack();
-			if (!set.remove(white)) {
-				throw new IllegalStateException("The set did not contained white player");
-			}
-			if (!set.remove(black)) {
-				throw new IllegalStateException("The set did not contained black player");
-			}
-		}
-		if (set.size() > 1) {
-			throw new IllegalStateException("Not all the players have bean pared");
-		}
-		if (set.size() == 1) {
-			Player notPared = set.iterator().next();
-
-			/**
-			 * if not last bracket downfloat else set as buy
-			 */
-			if (this.nextBracket != null) {
-				// not last bracket: time to downfloat
-				downfloat(notPared);
-			} else {
-				// time to create buy
-				throw new IllegalStateException("You forgot to pare one player");
-			}
-		}
-
-		this.bracketResult = result;
-		System.out.println("End debug point process result!");
-	}
-
-	/**
-	 * it confirms that the list does not contain null games
-	 * 
-	 * @param games
-	 */
-	private void confirmListDoesNotContainNullGames(List<Game> games) {
-		for (Game game : games) {
-			if (null == game) {
-				throw new IllegalStateException("games list contains null elements");
-			}
-		}
-	}
 
 	/**
 	 * downfloats the player and makes sure that this player initially belonged
@@ -497,54 +391,56 @@ public class ScoreBracket {
 
 	/**
 	 * It pares the last bracket. If odd players then it looks for downfloaters
+	 * 
 	 * @return
 	 */
 	public boolean pareLastBracket() {
 
-		if (!lastBracket()){
+		if (!lastBracket()) {
 			throw new IllegalStateException("This is not the last bracket");
 		}
 		sortPlayers();
-		if (eavenPlayers()){
-			if(pareEavenPlayers()){
+		if (eavenPlayers()) {
+			if (pareEavenPlayers()) {
 				return true;
 			}
 		}
-		//same logic as in odd players but wee look for the players that can be buy
-		
-		//compute buy candidates
+		// same logic as in odd players but wee look for the players that can be
+		// buy
+
+		// compute buy candidates
 		List<Player> candidates = new ArrayList<>();
-		for (Player candidate: bracketPlayers){
-			if (!candidate.wasBuy()){
+		for (Player candidate : bracketPlayers) {
+			if (!candidate.wasBuy()) {
 				candidates.add(candidate);
 			}
 		}
-		if (candidates.size()==0){
+		if (candidates.size() == 0) {
 			return false;
 		}
-		//sort candidates
+		// sort candidates
 		List<Player> invertCandidates = invertSort(candidates);
-		
-		for (Player candidate:invertCandidates){
-			//remove this candidate from the players list and see if you can pare using even paring
+
+		for (Player candidate : invertCandidates) {
+			// remove this candidate from the players list and see if you can
+			// pare using even paring
 			List<Player> evenList = new ArrayList<>();
 			evenList.addAll(this.bracketPlayers);
 			boolean ok = evenList.remove(candidate);
-			if (!ok){
+			if (!ok) {
 				throw new IllegalStateException("Time to debug! I was not able to remove candidate from list");
 			}
 			PairingResult pairingResult = pareEvenList(evenList);
-			if (pairingResult.isOk()){
+			if (pairingResult.isOk()) {
 				Game buyGame = Game.createBuyGame(candidate);
 				pairingResult.addGame(buyGame);
-				//super dupper! Set the result and return
+				// super dupper! Set the result and return
 				this.bracketResult = pairingResult;
 				return true;
-			}else{
+			} else {
 				return false;
 			}
 		}
-		
 
 		throw new IllegalStateException("Please finish this");
 	}

@@ -706,7 +706,7 @@ public class FideSwissDutchAlgorithmV1 implements Algorithm {
 			newArray[i] = list2.get(i);
 			s1[i] = list1.get(i);
 		}
-		Set<Integer[]> permutations = Tools.getPermutations(newArray);
+		Set<Integer[]> permutations = Tools.getPermutationsV01(newArray);
 		// for each permutation test if paring is valid
 		Set<Integer[]> validPermutations = new HashSet<>();
 		for (Integer[] s2 : permutations) {
