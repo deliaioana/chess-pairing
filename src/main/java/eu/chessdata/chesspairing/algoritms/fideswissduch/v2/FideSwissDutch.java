@@ -36,6 +36,7 @@ public class FideSwissDutch implements Algorithm {
 		this.pairingTool = new PairingTool(this);
 		this.pairingTool.computeGames();
 		
+		//TODO: time to implement the return part
 		return null;
 	}
 

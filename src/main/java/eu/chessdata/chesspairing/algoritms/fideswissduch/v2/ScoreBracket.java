@@ -119,7 +119,6 @@ public class ScoreBracket {
 	 * @param nextBraket
 	 */
 	public boolean pareBraket() {
-		System.out.println("Pairing bracket: " + this.bracketScore);
 		// compute initial state
 		if (!pairingTool.hasNextBraket(this.bracketScore)) {
 			return pareLastBracket();

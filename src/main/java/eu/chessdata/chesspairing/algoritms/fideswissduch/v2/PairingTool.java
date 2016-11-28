@@ -35,6 +35,8 @@ public class PairingTool {
 		initializePlayers();
 		initializeScoreBrackets();
 		pairBrackets();
+		updateResultGames();
+		makeSureAllPlayersGotPared();
 	}
 
 	/**

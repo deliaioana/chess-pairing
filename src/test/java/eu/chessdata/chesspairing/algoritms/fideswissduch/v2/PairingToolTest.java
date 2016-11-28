@@ -85,15 +85,6 @@ public class PairingToolTest {
 					+ player.getInitialRanking());
 		}
 
-		// scoreBracket.sortPlayers();
-		// System.out.println("Sorted list: ");
-		// List<Player> sortedPlayers = scoreBracket.getBracketPlayers();
-		// for (Player player : sortedPlayers) {
-		// System.out.println(player.getPairingPoints() + ", " +
-		// player.getName() + "," + player.getElo() + ","
-		// + player.getInitialRanking());
-		// }
-
 		pairingTool.pairBrackets();
 	}
 
@@ -119,7 +110,7 @@ public class PairingToolTest {
 		// section of what should happen in coputeGames
 		pairingTool.initializePlayers();// step1
 		pairingTool.initializeScoreBrackets();// step2
-		pairingTool.debugListBrackets();
+		//pairingTool.debugListBrackets();
 
 		pairingTool.pairBrackets();
 
@@ -134,16 +125,23 @@ public class PairingToolTest {
 	 * mainly meant to develop infrastructure to capture tournament state before
 	 * errors occurred.
 	 */
-	// @Test
-	/*
-	 * public void test5PareUntillItFails() { ChesspairingTournament
-	 * dataTournament =
-	 * loadFile("/fideswissdutchTest/v2/pairingTool/test5.json"); int
-	 * totalRounds = dataTournament.getTotalRounds(); int k =
-	 * dataTournament.getRounds().size(); try { while (k < totalRounds) {
-	 * dataTournament = (new
-	 * FideSwissDutch()).generateNextRound(dataTournament); k++; } } catch
-	 * (IllegalStateException e) { throw new
-	 * IllegalStateException("Time to sotre the tournament state"); } }
-	 */
+	@Test
+
+	public void test5PareUntillItFails() {
+		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test5.json");
+		int totalRounds = dataTournament.getTotalRounds();
+		int k = dataTournament.getRounds().size();
+
+		while (k < totalRounds) {
+			System.out.println("K = " + k);
+			dataTournament = (new FideSwissDutch()).generateNextRound(dataTournament);
+
+			k++;
+			if (null == dataTournament) {
+				throw new IllegalStateException("Tournament is null");
+			}
+		}
+
+	}
+
 }
