@@ -83,8 +83,8 @@ public class ScoreBracket {
 	 * @return
 	 */
 	protected List<Player> invertSort(List<Player> list) {
-		Comparator<Player>comparator = getComparator();
-		Collections.sort(list,comparator);
+		Comparator<Player> comparator = getComparator();
+		Collections.sort(list, comparator);
 		List<Player> invers = Lists.reverse(list);
 		return invers;
 	}
@@ -181,83 +181,103 @@ public class ScoreBracket {
 	}
 
 	/**
-	 * use the pairingTool to decide what players can be downfloated
-	 * if this is the last bracket then call pareOddLastBraket
-	 * if will make a list with the players that can be downfloated if no players can be downfloated the throw an error
-	 * for each downfloated player it will make sure that the remaining players can be pared. it will downfloat the player and make sure that the next bracket 
-	 * can be pared
+	 * use the pairingTool to decide what players can be downfloated if this is
+	 * the last bracket then call pareOddLastBraket if will make a list with the
+	 * players that can be downfloated if no players can be downfloated the
+	 * throw an error for each downfloated player it will make sure that the
+	 * remaining players can be pared. it will downfloat the player and make
+	 * sure that the next bracket can be pared
+	 * 
 	 * @return
 	 */
 	private boolean pareOddPlayers() {
-		
-		//make sure it is eaven
-		if ((this.bracketPlayers.size()%2)!=1){
+
+		// make sure it is eaven
+		if ((this.bracketPlayers.size() % 2) != 1) {
 			throw new IllegalStateException("Please debug: you do not have an even nr of players");
 		}
-		
-		if (lastBracket()){
+
+		if (lastBracket()) {
 			return pareLastBracketOddPlayers();
 		}
-		
-		//compute downfloat candidates
+
+		// compute downfloat candidates
 		List<Player> candidates = new ArrayList<>();
-		for (Player candidate: bracketPlayers){
-			if (candidate.floatingState == FloatingState.STANDARD){
+		for (Player candidate : bracketPlayers) {
+			if (candidate.floatingState == FloatingState.STANDARD) {
 				candidates.add(candidate);
 			}
 		}
-		if (candidates.size()==0){
+		if (candidates.size() == 0) {
 			return false;
 		}
-		//sort candidates
+		// sort candidates
 		List<Player> invertCandidates = invertSort(candidates);
-		
-		//for the remaining lists try to pare using even list pairing
-		for (Player candidate:invertCandidates){
+
+		// for the remaining lists try to pare using even list pairing
+		for (Player candidate : invertCandidates) {
 			List<Player> evenList = new ArrayList<>();
 			evenList.addAll(this.bracketPlayers);
 			boolean ok = evenList.remove(candidate);
-			if (!ok){
+			if (!ok) {
 				throw new IllegalStateException("I was not able to remove candidate from list");
 			}
 			PairingResult pairingResult = pareEvenList(evenList);
-			if (pairingResult.isOk()){
+			if (pairingResult.isOk()) {
 				/**
-				 * todo: downfloat the candidate and see if you can pare the next bracket
+				 * todo: downfloat the candidate and see if you can pare the
+				 * next bracket
 				 */
-				throw new IllegalStateException("Please implement this");
+				downfloat(candidate);
+				if (!nextBracket.pareBraket()) {
+					cancelDownfloat(candidate);
+				}else{
+					//everithing is ok and wee set the result
+					this.bracketResult = pairingResult;
+					return true;
+				}
 			}
-			
+
 		}
-		
-		throw new IllegalStateException("Please implement this");
+		// no paring possible
+		return false;
 	}
 
-		/**
-		 * it tries to pare the list
-		 * it splits the group in half and for each possible combination try to pare
-		 * Until you find a valid pare combination or return false;
-		 * @param eavenList
-		 * @return
-		 */
+	/**
+	 * it resets the players to the original state. this one should be called
+	 * when after a downfloat the following parings fail
+	 * 
+	 * @param candidate
+	 */
+	private void cancelDownfloat(Player candidate) {
+		throw new IllegalStateException("Please imlement this");
+	}
+
+	/**
+	 * it tries to pare the list it splits the group in half and for each
+	 * possible combination try to pare Until you find a valid pare combination
+	 * or return false;
+	 * 
+	 * @param eavenList
+	 * @return
+	 */
 	private PairingResult pareEvenList(List<Player> eavenList) {
 		Integer[] firstHalf = Tools.getFirstHalfIds(eavenList.size());
 		Integer[] seead = Tools.getSecondHalfIds(eavenList.size());
 		Generator<Integer> generator = Tools.getPermutations(seead);
-		for (ICombinatoricsVector<Integer> vector:generator){
+		for (ICombinatoricsVector<Integer> vector : generator) {
 			List<Integer> list = vector.getVector();
 			Integer[] secondHalf = list.toArray(new Integer[list.size()]);
-			//try to create a pairing result
-			PairingResult result = new PairingResult(eavenList,firstHalf,secondHalf);
-			if (result.isOk()){
+			// try to create a pairing result
+			PairingResult result = new PairingResult(eavenList, firstHalf, secondHalf);
+			if (result.isOk()) {
 				return result;
 			}
 		}
-		//just return the invalid result
+		// just return the invalid result
 		return PairingResult.notValid();
-		
+
 	}
-	
 
 	/**
 	 * TODO select the player that can be buy. if no buy players then return
