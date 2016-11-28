@@ -198,7 +198,7 @@ public class ScoreBracket {
 		}
 
 		if (lastBracket()) {
-			return pareLastBracketOddPlayers();
+			return pareLastBracket();
 		}
 
 		// compute downfloat candidates
@@ -225,14 +225,14 @@ public class ScoreBracket {
 			PairingResult pairingResult = pareEvenList(evenList);
 			if (pairingResult.isOk()) {
 				/**
-				 * todo: downfloat the candidate and see if you can pare the
+				 * downfloat the candidate and see if you can pare the
 				 * next bracket
 				 */
 				downfloat(candidate);
 				if (!nextBracket.pareBraket()) {
 					cancelDownfloat(candidate);
-				}else{
-					//everithing is ok and wee set the result
+				} else {
+					// Everything is OK and wee set the result
 					this.bracketResult = pairingResult;
 					return true;
 				}
@@ -258,18 +258,18 @@ public class ScoreBracket {
 	 * possible combination try to pare Until you find a valid pare combination
 	 * or return false;
 	 * 
-	 * @param eavenList
+	 * @param evenList
 	 * @return
 	 */
-	private PairingResult pareEvenList(List<Player> eavenList) {
-		Integer[] firstHalf = Tools.getFirstHalfIds(eavenList.size());
-		Integer[] seead = Tools.getSecondHalfIds(eavenList.size());
+	private PairingResult pareEvenList(List<Player> evenList) {
+		Integer[] firstHalf = Tools.getFirstHalfIds(evenList.size());
+		Integer[] seead = Tools.getSecondHalfIds(evenList.size());
 		Generator<Integer> generator = Tools.getPermutations(seead);
 		for (ICombinatoricsVector<Integer> vector : generator) {
 			List<Integer> list = vector.getVector();
 			Integer[] secondHalf = list.toArray(new Integer[list.size()]);
 			// try to create a pairing result
-			PairingResult result = new PairingResult(eavenList, firstHalf, secondHalf);
+			PairingResult result = new PairingResult(evenList, firstHalf, secondHalf);
 			if (result.isOk()) {
 				return result;
 			}
@@ -279,15 +279,7 @@ public class ScoreBracket {
 
 	}
 
-	/**
-	 * TODO select the player that can be buy. if no buy players then return
-	 * false
-	 * 
-	 * @return
-	 */
-	private boolean pareLastBracketOddPlayers() {
-		throw new IllegalStateException("Please implement this");
-	}
+	
 
 	/**
 	 * 
@@ -503,14 +495,56 @@ public class ScoreBracket {
 		}
 	}
 
+	/**
+	 * It pares the last bracket. If odd players then it looks for downfloaters
+	 * @return
+	 */
 	public boolean pareLastBracket() {
 
-		this.sortPlayers();
-		Integer size = this.bracketPlayers.size();
-		Integer group[] = new Integer[size];
-		for (int i = 0; i < size; i++) {
-			group[i] = i;
+		if (!lastBracket()){
+			throw new IllegalStateException("This is not the last bracket");
 		}
+		sortPlayers();
+		if (eavenPlayers()){
+			if(pareEavenPlayers()){
+				return true;
+			}
+		}
+		//same logic as in odd players but wee look for the players that can be buy
+		
+		//compute buy candidates
+		List<Player> candidates = new ArrayList<>();
+		for (Player candidate: bracketPlayers){
+			if (!candidate.wasBuy()){
+				candidates.add(candidate);
+			}
+		}
+		if (candidates.size()==0){
+			return false;
+		}
+		//sort candidates
+		List<Player> invertCandidates = invertSort(candidates);
+		
+		for (Player candidate:invertCandidates){
+			//remove this candidate from the players list and see if you can pare using even paring
+			List<Player> evenList = new ArrayList<>();
+			evenList.addAll(this.bracketPlayers);
+			boolean ok = evenList.remove(candidate);
+			if (!ok){
+				throw new IllegalStateException("Time to debug! I was not able to remove candidate from list");
+			}
+			PairingResult pairingResult = pareEvenList(evenList);
+			if (pairingResult.isOk()){
+				Game buyGame = Game.createBuyGame(candidate);
+				pairingResult.addGame(buyGame);
+				//super dupper! Set the result and return
+				this.bracketResult = pairingResult;
+				return true;
+			}else{
+				return false;
+			}
+		}
+		
 
 		throw new IllegalStateException("Please finish this");
 	}

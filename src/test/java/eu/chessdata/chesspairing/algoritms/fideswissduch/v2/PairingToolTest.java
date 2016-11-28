@@ -122,16 +122,12 @@ public class PairingToolTest {
 		pairingTool.initializeScoreBrackets();// step2
 
 		pairingTool.pairBrackets();
-		throw new IllegalStateException("Are you shure you are done with pairing the players?");
-		/**
-		 * working on updateResultGames
-		 */
-		/*
-		 * pairingTool.updateResultGames();
-		 * pairingTool.makeSureAllPlayersGotPared(); int size =
-		 * pairingTool.resultGames.size(); assertTrue( "result size " + size
-		 * +" != 7", size==7);
-		 */
+
+		pairingTool.updateResultGames();
+		pairingTool.makeSureAllPlayersGotPared();
+		int size = pairingTool.resultGames.size();
+		assertTrue("result size " + size + " != 7", size == 7);
+
 	}
 
 	/**

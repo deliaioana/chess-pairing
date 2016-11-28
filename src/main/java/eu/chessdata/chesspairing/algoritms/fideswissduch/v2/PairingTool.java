@@ -199,6 +199,7 @@ public class PairingTool {
 		if (presentPlayers.size() != this.players.size()){
 			throw new IllegalStateException("duplicate players in the players list");
 		}
+		debugPrintPlayers(presentPlayers);
 		
 		for (Game game: resultGames){
 			if (null == game){
@@ -206,6 +207,7 @@ public class PairingTool {
 			}
 			List<Player> players = game.getPlayers();
 			presentPlayers.removeAll(players);
+			debugPrintPlayers(presentPlayers);
 		}
 		
 		if (presentPlayers.size()!= 0){
@@ -215,6 +217,14 @@ public class PairingTool {
 			}
 			throw new IllegalStateException("Not all the players have bean pared: "+sb.toString());
 		}
+	}
+	
+	private void debugPrintPlayers(final Set<Player> players){
+		StringBuffer sb = new StringBuffer();
+		for (Player player:players){
+			sb.append(player.getPlayerKey()+", ");
+		}
+		System.out.println(sb.toString());
 	}
 
 	/**
