@@ -20,17 +20,18 @@ public class Game {
 		/**
 		 * i have to return the opposite of normal compare in this case
 		 * 
-		 * negative is o1 > o2 zero if equal positive if o1 < 1
+		 * negative is o1 > o2 zero if equal positive if o1 < o2
 		 */
 		@Override
 		public int compare(Game o1, Game o2) {
-			if (null == o1 || null == o2){
+			if (null == o1 || null == o2) {
 				throw new IllegalStateException("some games are null");
 			}
 
 			// if a and b is buy
-			if (o1.isBuyGame() || o2.isBuyGame()) {
+			if (o1.isBuyGame() && o2.isBuyGame()) {
 				throw new IllegalStateException("the 2 games are buy games");
+
 			}
 			if (o2.isBuyGame()) {
 				return -1;
@@ -44,11 +45,12 @@ public class Game {
 			if (!high1.equals(high2)) {
 				return -1 * high1.compareTo(high2);
 			}
-			
+
 			Double low1 = o1.getLowerPlayer().getPairingPoints();
 			Double low2 = o2.getLowerPlayer().getPairingPoints();
-			if (null == low1 || null == low2){
-				throw new IllegalStateException("null black players not treated corectly. I should never reach this state");
+			if (null == low1 || null == low2) {
+				throw new IllegalStateException(
+						"null black players not treated corectly. I should never reach this state");
 			}
 			return -1 * low1.compareTo(low2);
 
@@ -66,17 +68,17 @@ public class Game {
 	}
 
 	protected boolean isValid() {
-		if (this.buyGame){
-			if (null != white){
+		if (this.buyGame) {
+			if (null != white) {
 				return true;
 			}
 		}
-		
+
 		if (valid) {
-			if (null == white){
+			if (null == white) {
 				return false;
 			}
-			if (null == black){
+			if (null == black) {
 				return false;
 			}
 			return true;
@@ -99,12 +101,12 @@ public class Game {
 		}
 		// just sort the list
 		List<Player> players = getPlayers();
-		
+
 		ComparatorChain<Player> comparatorChain = new ComparatorChain<>();
 		comparatorChain.addComparator(Player.byPoints);
 		comparatorChain.addComparator(Player.byElo);
 		comparatorChain.addComparator(Player.byInitialRanking);
-		
+
 		Collections.sort(players, comparatorChain);
 		return players.get(0);
 	}
@@ -123,12 +125,12 @@ public class Game {
 		}
 		// just sor the list
 		List<Player> players = getPlayers();
-		
+
 		ComparatorChain<Player> comparatorChain = new ComparatorChain<>();
 		comparatorChain.addComparator(Player.byPoints);
 		comparatorChain.addComparator(Player.byElo);
 		comparatorChain.addComparator(Player.byInitialRanking);
-		
+
 		Collections.sort(players, comparatorChain);
 		return players.get(1);
 	}
@@ -208,7 +210,7 @@ public class Game {
 		game.valid = true;
 		game.white = player;
 		game.buyGame = true;
-		return null;
+		return game;
 	}
 
 	private static boolean historyOK(Player playerA, Player playerB) {

@@ -120,13 +120,14 @@ public class PairingToolTest {
 		// section of what should happen in coputeGames
 		pairingTool.initializePlayers();// step1
 		pairingTool.initializeScoreBrackets();// step2
+		pairingTool.debugListBrackets();
 
 		pairingTool.pairBrackets();
 
 		pairingTool.updateResultGames();
 		pairingTool.makeSureAllPlayersGotPared();
 		int size = pairingTool.resultGames.size();
-		assertTrue("result size " + size + " != 7", size == 7);
+		assertTrue("result size " + size + " != 12", size == 12);
 
 	}
 

@@ -65,6 +65,17 @@ public class PairingTool {
 		// set the order
 		Collections.sort(order, Collections.reverseOrder());
 	}
+	
+	protected void debugListBrackets(){
+		StringBuilder sb = new StringBuilder();
+		for (Entry<Double,ScoreBracket> entry:scoreBrackets.entrySet()){
+			for (Player player:entry.getValue().getBracketPlayers()){
+				sb.append(player.getPlayerKey()+", ");
+			}
+			
+		}
+		System.out.println(sb.toString());
+	}
 
 	/**
 	 * Start paring brackets recursively
