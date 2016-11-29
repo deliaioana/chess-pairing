@@ -36,8 +36,11 @@ public class FideSwissDutch implements Algorithm {
 		this.pairingTool = new PairingTool(this);
 		this.pairingTool.computeGames();
 		
-		//TODO: time to implement the return part
-		return null;
+		//time to do the return part
+		ChesspairingRound round = roundsMap.get(generationRoundId);
+		List<ChesspairingGame> games = this.pairingTool.getChesspairingGames();
+		round.setGames(games);
+		return this.tournament;
 	}
 
 	// meant to calculate current tournament state.

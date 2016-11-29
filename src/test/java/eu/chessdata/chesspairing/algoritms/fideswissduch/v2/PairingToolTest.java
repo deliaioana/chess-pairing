@@ -129,14 +129,21 @@ public class PairingToolTest {
 
 	public void test5PareUntillItFails() {
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test5.json");
+		
 		int totalRounds = dataTournament.getTotalRounds();
 		int k = dataTournament.getRounds().size();
 
 		while (k < totalRounds) {
 			System.out.println("K = " + k);
 			dataTournament = (new FideSwissDutch()).generateNextRound(dataTournament);
-
+			
+			//add a new round
+			List<ChesspairingPlayer>players = dataTournament.getPlayers();
+			ChesspairingRound round = new ChesspairingRound();
 			k++;
+			round.setRoundNumber(k);
+			round.setPresentPlayers(players);
+			
 			if (null == dataTournament) {
 				throw new IllegalStateException("Tournament is null");
 			}

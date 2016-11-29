@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 
 public class PairingTool {
@@ -295,6 +296,23 @@ public class PairingTool {
 		}else{
 			return false;
 		}
+	}
+
+	/**
+	 * builds a list of CHesspairingGame from resultGames
+	 * @return
+	 */
+	public List<ChesspairingGame> getChesspairingGames() {
+		List<ChesspairingGame> chesspairingGames = new ArrayList<>();
+		for (Game game:this.resultGames){
+			chesspairingGames.add(game.getAsChesspairingGame());
+		}
+		//set the table numbers
+		int i=0;
+		for (ChesspairingGame game:chesspairingGames){
+			game.setTableNumber(++i);
+		}
+		return chesspairingGames;
 	}
 
 }

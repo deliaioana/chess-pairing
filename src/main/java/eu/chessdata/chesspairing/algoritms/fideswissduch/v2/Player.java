@@ -302,4 +302,18 @@ public final class Player {
 	public boolean wasBuy() {
 		return wasBuy;
 	}
+
+	/**
+	 * it creates a ChesspairingPlayer
+	 * @return
+	 */
+	public ChesspairingPlayer getAsChessPairingPlayer() {
+		ChesspairingPlayer player = new ChesspairingPlayer();
+		player.setName(this.name);
+		player.setElo(this.elo);
+		player.setInitialOrderId(this.initialRanking);
+		player.setPresent(true);
+		player.setPlayerKey(this.playerKey);
+		return player;
+	}
 }

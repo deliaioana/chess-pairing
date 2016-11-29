@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.apache.commons.collections4.comparators.ComparatorChain;
 
+import eu.chessdata.chesspairing.model.ChesspairingGame;
+import eu.chessdata.chesspairing.model.ChesspairingResult;
+
 public class Game {
 	private boolean valid;
 	private boolean buyGame;
@@ -273,5 +276,25 @@ public class Game {
 		} else {
 			return (-1.0) * val;
 		}
+	}
+
+	/**
+	 * it creates a ChesspairingGame
+	 * @return
+	 */
+	public ChesspairingGame getAsChesspairingGame() {
+		ChesspairingGame game = new ChesspairingGame();
+		if (null != white){
+			game.setWhitePlayer(this.white.getAsChessPairingPlayer());
+		}
+		if (null != black){
+			game.setBlackPlayer(this.black.getAsChessPairingPlayer());
+		}
+		if (isBuyGame()){
+			game.setResult(ChesspairingResult.BYE);
+		}else{
+			game.setResult(ChesspairingResult.NOT_DECIDED);
+		}
+		return game;
 	}
 }
