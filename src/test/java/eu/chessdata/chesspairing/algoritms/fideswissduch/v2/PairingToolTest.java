@@ -1,21 +1,23 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.security.cert.CertStoreSpi;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Test;
 
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Tools;
+import eu.chessdata.chesspairing.model.ChesspairingByeValue;
 import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
+import eu.chessdata.chesspairing.model.ChesspairingResult;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.TestUtils;
@@ -110,7 +112,7 @@ public class PairingToolTest {
 		// section of what should happen in coputeGames
 		pairingTool.initializePlayers();// step1
 		pairingTool.initializeScoreBrackets();// step2
-		//pairingTool.debugListBrackets();
+		// pairingTool.debugListBrackets();
 
 		pairingTool.pairBrackets();
 
@@ -126,29 +128,61 @@ public class PairingToolTest {
 	 * errors occurred.
 	 */
 	@Test
-
 	public void test5PareUntillItFails() {
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test5.json");
 		
+		dataTournament.setChesspairingByeValue(ChesspairingByeValue.HALF_A_POINT);
+
 		int totalRounds = dataTournament.getTotalRounds();
 		int k = dataTournament.getRounds().size();
 
+		int count = 0;
 		while (k < totalRounds) {
 			System.out.println("K = " + k);
 			dataTournament = (new FideSwissDutch()).generateNextRound(dataTournament);
-			
-			//add a new round
-			List<ChesspairingPlayer>players = dataTournament.getPlayers();
+
+			// set random results
+			ChesspairingRound paredRound = dataTournament.getRounds().get(k - 1);
+			List<ChesspairingGame> games = paredRound.getGames();
+			for (ChesspairingGame game : games) {
+				count++;
+				if (null == game.getBlackPlayer()) {
+					game.setResult(ChesspairingResult.BYE);
+					continue;
+				}
+				int val = count % 3;
+				if (val == 0) {
+					game.setResult(ChesspairingResult.WHITE_WINS);
+				} else if (val == 1) {
+					game.setResult(ChesspairingResult.BLACK_WINS);
+				} else if (val == 2) {
+					game.setResult(ChesspairingResult.DRAW_GAME);
+				} else {
+					throw new IllegalStateException("Please fix the radom generater. Current value = " + val);
+				}
+
+			}
+
+			// add a new round
+			List<ChesspairingPlayer> players = dataTournament.getPlayers();
 			ChesspairingRound round = new ChesspairingRound();
 			k++;
 			round.setRoundNumber(k);
 			round.setPresentPlayers(players);
 			
-			if (null == dataTournament) {
-				throw new IllegalStateException("Tournament is null");
-			}
+			dataTournament.getRounds().add(round);
+			
+			//save tournament state
+			TestUtils.writeToFile(dataTournament, "round"+k+".json");
 		}
 
+	}
+	
+	@Test
+	public void test6(){
+		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test6.json");
+		dataTournament = (new FideSwissDutch()).generateNextRound(dataTournament);
+		TestUtils.writeToFile(dataTournament, "test6GeneratedPares.json");
 	}
 
 }

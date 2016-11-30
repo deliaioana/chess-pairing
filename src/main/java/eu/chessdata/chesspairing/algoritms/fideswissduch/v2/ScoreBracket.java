@@ -143,38 +143,6 @@ public class ScoreBracket {
 		}
 
 		throw new IllegalStateException("Please finish this");
-
-		// set the initial pairs
-		/*
-		 * int size = playersCount / 2; Integer groupA[] = new Integer[size];
-		 * Integer groupB[] = new Integer[size]; for (int i = 0; i < size; i++)
-		 * { groupA[i] = i; groupB[i] = i + size; }
-		 * 
-		 * PairingResult pairingResult = new PairingResult(bracketPlayers,
-		 * groupA, groupB); if (pairingResult.isOk()) {
-		 *//**
-			 * wee still need to see if the buy is OK. that is handled by the
-			 * next function in a really bad spaghetify way (needs to be changed
-			 * in the future)
-			 *//*
-			 * boolean resultOk = processResultPosibleBuy(pairingResult); if
-			 * (resultOk) { return (validateResult()); // return true; } }
-			 */
-
-		/*
-		 * Set<Integer[]> permutations = Tools.getPermutations(groupB); for
-		 * (Integer[] permutation : permutations) { PairingResult permResult =
-		 * new PairingResult(bracketPlayers, groupA, permutation); if
-		 * (permResult.isOk()) { processResult(permResult); return true; } }
-		 * 
-		 * if (this.bracketResult == null) { throw new IllegalStateException(
-		 * "For the moment this error is only for degugging please fix the above aloritm for bracket 1.0. It should have some results"
-		 * ); } for (Game game : this.bracketResult.getGames()) { if
-		 * (game.getBlack() == null) { System.out.println("buy:" +
-		 * game.getWhite().getPlayerKey()); } else {
-		 * System.out.println(game.getWhite().getPlayerKey() + " vs " +
-		 * game.getBlack().getPlayerKey()); } } return false;
-		 */
 	}
 
 	/**
