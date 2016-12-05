@@ -1,5 +1,6 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,6 +49,9 @@ public class PairingTool {
 		for (Player player : this.players) {
 			String key = player.getPlayerKey();
 			Double score = this.fideSwissDutch.getPairingPoints(lastRound, key);
+			if (null == score){
+				throw new IllegalStateException("Null score");
+			}
 			if (!this.scoreBrackets.containsKey(score)) {
 				ScoreBracket braket = new ScoreBracket(fideSwissDutch, score, this);
 				this.scoreBrackets.put(score, braket);
@@ -246,7 +250,9 @@ public class PairingTool {
 	 * @return
 	 */
 	public boolean hasNextBraket(Double bracketScore) {
-		// TODO Auto-generated method stub
+		if (null == bracketScore){
+			throw new IllegalStateException("You should never call this with a null value");
+		}
 		if (!this.order.contains(bracketScore)){
 			throw new IllegalStateException("thre is no such braket with score: " + bracketScore);
 		}
@@ -265,6 +271,9 @@ public class PairingTool {
 	 * @return
 	 */
 	public ScoreBracket getNextBraket(Double bracketScore) {
+		if (null == bracketScore){
+			throw new IllegalStateException("You should never acces this funtion using null bracketScore");
+		}
 		if (!this.order.contains(bracketScore)){
 			throw new IllegalStateException("thre is no such braket with core: " + bracketScore);
 		}

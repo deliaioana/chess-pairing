@@ -32,6 +32,9 @@ public class ScoreBracket {
 	}
 
 	public ScoreBracket(FideSwissDutch fideSwissDutch, Double bracketScore, PairingTool pairingTool) {
+		if (null == bracketScore){
+			throw new IllegalStateException("You should never create a bracket with a null score");
+		}
 		this.fideSwissDutch = fideSwissDutch;
 		this.bracketPlayers = new ArrayList<>();
 
@@ -123,12 +126,12 @@ public class ScoreBracket {
 		if (!pairingTool.hasNextBraket(this.bracketScore)) {
 			return pareLastBracket();
 		}
-		ScoreBracket nextBraket = pairingTool.getNextBraket(this.bracketScore);
-		if (nextBraket == null) {
+		ScoreBracket nextBraketVal = pairingTool.getNextBraket(this.bracketScore);
+		if (nextBraketVal == null) {
 			throw new IllegalStateException(
 					"Please check that you have a next braket before you try to pare. If not pare last braket instead");
 		}
-		this.nextBracket = nextBraket;
+		this.nextBracket = nextBraketVal;
 
 		this.sortPlayers();
 
@@ -162,7 +165,7 @@ public class ScoreBracket {
 			throw new IllegalStateException("Please debug: you do not have an even nr of players");
 		}
 
-		if (lastBracket()) {
+		if (isLastBracket()) {
 			return pareLastBracket();
 		}
 
@@ -253,12 +256,17 @@ public class ScoreBracket {
 	 * 
 	 * @return true if this score bracket is the last bracket
 	 */
-	private boolean lastBracket() {
-		return this.pairingTool.isLastBracket(this.bracketScore);
+	private boolean isLastBracket() {
+		if (null == this.bracketScore){
+			throw new IllegalStateException("Bracket score should never be null");
+		}
+		boolean result = this.pairingTool.isLastBracket(this.bracketScore);
+		return result;
 	}
 
 	/**
-	 * it returns true if it manages to pare the current bracket. It will not
+	 * if it manages to pare the current bracket then it will continue to pare the next brackets
+	 *  returns true if it manages to pare the current bracket. It will not
 	 * try to downfloat any players.
 	 * 
 	 * @return
@@ -267,8 +275,12 @@ public class ScoreBracket {
 
 		PairingResult pairingResult = pareEvenList(this.bracketPlayers);
 		if (pairingResult.isOk()) {
-			this.bracketResult = pairingResult;
-			return true;
+			if (this.nextBracket.pareBraket()){
+				this.bracketResult = pairingResult;
+				return true;
+			}else{
+				return false;
+			}
 		} else {
 			throw new IllegalStateException("Please finish this. What to do when even players can not be pared");
 		}
@@ -361,9 +373,9 @@ public class ScoreBracket {
 	 * 
 	 * @return
 	 */
-	public boolean pareLastBracket() {
+	private boolean pareLastBracket() {
 
-		if (!lastBracket()) {
+		if (!isLastBracket()) {
 			throw new IllegalStateException("This is not the last bracket");
 		}
 		sortPlayers();
