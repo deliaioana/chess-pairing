@@ -184,5 +184,12 @@ public class PairingToolTest {
 		dataTournament = (new FideSwissDutch()).generateNextRound(dataTournament);
 		TestUtils.writeToFile(dataTournament, "test6GeneratedPares.json");
 	}
+	
+	@Test
+	public void test7(){
+		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test7.json");
+		dataTournament = (new FideSwissDutch()).generateNextRound(dataTournament);
+		TestUtils.writeToFile(dataTournament, "test7GeneratedPares.json");
+	}
 
 }
