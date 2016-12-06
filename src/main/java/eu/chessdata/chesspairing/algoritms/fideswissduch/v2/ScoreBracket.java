@@ -1,5 +1,6 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -161,7 +162,7 @@ public class ScoreBracket {
 			return first.pareBraket();
 		}
 
-		throw new IllegalStateException("Please finish this");
+		throw new IllegalStateException("Please finish this baiby try to pare using all combinations first");
 	}
 
 	/**
@@ -298,6 +299,17 @@ public class ScoreBracket {
 				return false;
 			}
 		} else {
+			//upfloat one by one players from next bracket and try to pare again
+			List<Player> nextPlayers = new ArrayList<>();
+			nextPlayers.addAll(nextBracket.getBracketPlayers());
+			for (Player player:nextPlayers){
+				upfloat(player);
+				if(pareBraket()){
+					return true;
+				}else{
+					downfloat(player);
+				}
+			}
 			throw new IllegalStateException("Please finish this. What to do when even players can not be pared");
 		}
 	}
@@ -379,6 +391,24 @@ public class ScoreBracket {
 		this.nextBracket.addPlayer(player);
 		player.setFloatingState(FloatingState.DOWNFLOATER);
 		boolean ok = this.bracketPlayers.remove(player);
+		if (!ok) {
+			throw new IllegalStateException("For some reason I was not able to remove player");
+		}
+	}
+	
+	/**
+	 * this player is removed from the next bracket and added to the current bracket
+	 */
+	private void upfloat(Player player){
+		if (this.bracketPlayers.contains(player)){
+			throw new IllegalStateException("Plyer allready in the current bracket");
+		}
+		if (null == this.nextBracket) {
+			throw new IllegalStateException(
+					"This is the last bracket. Thre is no nextBracket that you are looking fore");
+		}
+		this.bracketPlayers.add(player);
+		boolean ok = nextBracket.bracketPlayers.remove(player);
 		if (!ok) {
 			throw new IllegalStateException("For some reason I was not able to remove player");
 		}
