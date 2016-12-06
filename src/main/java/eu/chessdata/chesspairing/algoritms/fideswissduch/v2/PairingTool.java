@@ -324,4 +324,25 @@ public class PairingTool {
 		return chesspairingGames;
 	}
 
+	/**
+	 * it remove the references from this bracket
+	 * @param bracketScore
+	 */
+	public void removeBraket(Double bracketScore) {
+		if (!scoreBrackets.containsKey(bracketScore) || !order.contains(bracketScore)){
+			throw new IllegalStateException("Score not in the bracket");
+		}
+		scoreBrackets.remove(bracketScore);
+		order.remove(bracketScore);
+	}
+
+	/**
+	 * It returns the first bracket
+	 * @return
+	 */
+	public ScoreBracket getFirstBracket() {
+		Double key = order.get(0);
+		return scoreBrackets.get(key);
+	}
+
 }

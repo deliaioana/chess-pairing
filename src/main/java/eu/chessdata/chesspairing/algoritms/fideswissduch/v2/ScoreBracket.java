@@ -144,6 +144,22 @@ public class ScoreBracket {
 				return true;
 			}
 		}
+		
+		if (this.bracketPlayers.size()<=2){
+			//downfloat all the players and set the bracketResutl to an empty PairingResult;
+			List<Player> copy = new ArrayList<>();
+			for (Player player: bracketPlayers){
+				copy.add(player);
+			}
+			for (Player player:copy){
+				downfloat(player);
+			}
+			//remove this bracket from the pairing tool
+			this.pairingTool.removeBraket(bracketScore);
+			//start again
+			ScoreBracket first = this.pairingTool.getFirstBracket();
+			return first.pareBraket();
+		}
 
 		throw new IllegalStateException("Please finish this");
 	}

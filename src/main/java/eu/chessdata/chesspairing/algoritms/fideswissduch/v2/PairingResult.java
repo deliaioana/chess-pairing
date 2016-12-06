@@ -139,4 +139,16 @@ public class PairingResult {
 		return PairingResult.notValidResult;
 	}
 
+	/**
+	 * it builds a valid result with an empty list;
+	 * @return
+	 */
+	public static PairingResult buildEmtyValidResult() {
+		PairingResult result = new PairingResult();
+		result.ok = true;
+		result.games = new ArrayList<>();
+		// TODO Auto-generated method stub
+		return result;
+	}
+
 }

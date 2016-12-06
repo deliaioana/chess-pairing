@@ -113,6 +113,7 @@ public class FideSwissDutch implements Algorithm {
 		}
 		Double whin = 1.0;
 		Double lost = 0.0;
+		Double draw = 0.5;
 
 		final ChesspairingResult result = game.getResult();
 
@@ -123,6 +124,11 @@ public class FideSwissDutch implements Algorithm {
 				throw new IllegalStateException("player key not in the game");
 			}
 			return bye;
+		}
+		
+		//draw game
+		if (result == ChesspairingResult.DRAW_GAME){
+			return draw;
 		}
 
 		String whiteKey = game.getWhitePlayer().getPlayerKey();
