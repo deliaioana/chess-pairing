@@ -176,6 +176,11 @@ public class ScoreBracket {
 		throw new IllegalStateException("Please finish this implementation. Time to downfloat everybody?");
 	}
 
+	private boolean pareEavenPlayersUsingPareInOrder() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	/**
 	 * use the pairingTool to decide what players can be downfloated if this is
 	 * the last bracket then call pareOddLastBraket if will make a list with the
