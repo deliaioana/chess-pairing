@@ -103,6 +103,19 @@ public class Tools {
 		}
 		return result;
 	}
+	
+	/**
+	 * it builds and return id's that points to the entire list
+	 * @param listSize
+	 * @return
+	 */
+	public static Integer[] getAllListIds(int listSize){
+		Integer[]result = new Integer[listSize];
+		for (int i=0;i<listSize;i++){
+			result[i]=i;
+		}
+		return result;
+	}
 
 	/**
 	 * please update the comments and point to the new function

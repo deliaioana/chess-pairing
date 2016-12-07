@@ -5,6 +5,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.paukov.combinatorics.Generator;
+import org.paukov.combinatorics.ICombinatoricsVector;
+
+import com.sun.xml.internal.txw2.IllegalSignatureException;
+
+import eu.chessdata.chesspairing.Tools;
+
 public class PairingResult {
 	private boolean ok;
 	private List<Game> games;
@@ -149,6 +156,54 @@ public class PairingResult {
 		result.games = new ArrayList<>();
 		// TODO Auto-generated method stub
 		return result;
+	}
+	
+	/**
+	 * it will pare the players 2 by 2 in all the possible combinations.
+	 * If no good combination found than it will return notValidResut;
+	 * @param players
+	 * @return
+	 */
+	public static PairingResult pareInOrder(List<Player> players){
+		if (players.size()<2){
+			throw new IllegalSignatureException("size smaller than 2");
+		}
+		
+		if (players.size()%2 != 0){
+			throw new IllegalStateException("not even size");
+		}
+		
+		
+		//get all the ids combinations
+		Integer[] seead = Tools.getAllListIds(players.size());
+		Generator<Integer> generator = Tools.getPermutations(seead);
+		for (ICombinatoricsVector<Integer> vector : generator) {
+			//List<Integer> list = vector.getVector();
+			int i=0;
+			boolean vResultOk=true;
+			List<Game> vGames = new ArrayList<>();
+			
+			while (i<players.size()){
+				int a = vector.getValue(i++);
+				int b = vector.getValue(i++);
+				Player A = players.get(a);
+				Player B = players.get(b);
+				Game game = Game.createGame(A, B);
+				if (!game.isValid()){
+					vResultOk=false;
+					break;
+				}
+				vGames.add(game);
+			}
+			if (vResultOk){
+				PairingResult pairingResult = new PairingResult();
+				pairingResult.ok = true;
+				pairingResult.games = vGames;
+				return pairingResult;
+			}
+		}
+		
+		return PairingResult.notValidResult;
 	}
 
 }

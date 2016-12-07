@@ -161,8 +161,19 @@ public class ScoreBracket {
 			ScoreBracket first = this.pairingTool.getFirstBracket();
 			return first.pareBraket();
 		}
+		
+		//pare using pareInOrder
+		PairingResult pairingResult = PairingResult.pareInOrder(this.bracketPlayers);
+		if (pairingResult.isOk()){
+			if (nextBracket.pareBraket()){
+				this.bracketResult = pairingResult;
+				return true;
+			}
+		}
+		
+		//TODO probably good time to pare subgroups
 
-		throw new IllegalStateException("Please finish this baiby try to pare using all combinations first");
+		throw new IllegalStateException("Please finish this implementation. Time to downfloat everybody?");
 	}
 
 	/**
