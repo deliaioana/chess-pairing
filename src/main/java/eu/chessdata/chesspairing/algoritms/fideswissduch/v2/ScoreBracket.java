@@ -33,7 +33,7 @@ public class ScoreBracket {
 	}
 
 	public ScoreBracket(FideSwissDutch fideSwissDutch, Double bracketScore, PairingTool pairingTool) {
-		if (null == bracketScore){
+		if (null == bracketScore) {
 			throw new IllegalStateException("You should never create a bracket with a null score");
 		}
 		this.fideSwissDutch = fideSwissDutch;
@@ -145,40 +145,45 @@ public class ScoreBracket {
 				return true;
 			}
 		}
-		
-		if (this.bracketPlayers.size()<=2){
-			//downfloat all the players and set the bracketResutl to an empty PairingResult;
+
+		if (this.bracketPlayers.size() <= 2) {
+			// downfloat all the players and set the bracketResutl to an empty
+			// PairingResult;
 			List<Player> copy = new ArrayList<>();
-			for (Player player: bracketPlayers){
+			for (Player player : bracketPlayers) {
 				copy.add(player);
 			}
-			for (Player player:copy){
+			for (Player player : copy) {
 				downfloat(player);
 			}
-			//remove this bracket from the pairing tool
+			// remove this bracket from the pairing tool
 			this.pairingTool.removeBraket(bracketScore);
-			//start again
+			// start again
 			ScoreBracket first = this.pairingTool.getFirstBracket();
 			return first.pareBraket();
 		}
-		
-		//pare using pareInOrder
-		PairingResult pairingResult = PairingResult.pareInOrder(this.bracketPlayers);
-		if (pairingResult.isOk()){
-			if (nextBracket.pareBraket()){
-				this.bracketResult = pairingResult;
-				return true;
+
+		// pare using pareInOrder for the moment is a replacement for swap
+		// players
+		if (eavenPlayers()) {
+			PairingResult pairingResult = PairingResult.pareInOrder(this.bracketPlayers);
+			if (pairingResult.isOk()) {
+				if (nextBracket.pareBraket()) {
+					this.bracketResult = pairingResult;
+					return true;
+				}
 			}
+		}else{
+			/**
+			 * mark downfloater in reverse order and pare
+			 * if rairingResult.isOk downfloat the player marked and pare the next bracket
+			 */
+			throw new IllegalStateException("Please implement this");
 		}
-		
-		//TODO probably good time to pare subgroups
+
+		// TODO probably good time to pare subgroups
 
 		throw new IllegalStateException("Please finish this implementation. Time to downfloat everybody?");
-	}
-
-	private boolean pareEavenPlayersUsingPareInOrder() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	/**
@@ -290,7 +295,7 @@ public class ScoreBracket {
 	 * @return true if this score bracket is the last bracket
 	 */
 	private boolean isLastBracket() {
-		if (null == this.bracketScore){
+		if (null == this.bracketScore) {
 			throw new IllegalStateException("Bracket score should never be null");
 		}
 		boolean result = this.pairingTool.isLastBracket(this.bracketScore);
@@ -298,9 +303,9 @@ public class ScoreBracket {
 	}
 
 	/**
-	 * if it manages to pare the current bracket then it will continue to pare the next brackets
-	 *  returns true if it manages to pare the current bracket. It will not
-	 * try to downfloat any players.
+	 * if it manages to pare the current bracket then it will continue to pare
+	 * the next brackets returns true if it manages to pare the current bracket.
+	 * It will not try to downfloat any players.
 	 * 
 	 * @return
 	 */
@@ -308,21 +313,22 @@ public class ScoreBracket {
 
 		PairingResult pairingResult = pareEvenList(this.bracketPlayers);
 		if (pairingResult.isOk()) {
-			if (this.nextBracket.pareBraket()){
+			if (this.nextBracket.pareBraket()) {
 				this.bracketResult = pairingResult;
 				return true;
-			}else{
+			} else {
 				return false;
 			}
 		} else {
-			//upfloat one by one players from next bracket and try to pare again
+			// upfloat one by one players from next bracket and try to pare
+			// again
 			List<Player> nextPlayers = new ArrayList<>();
 			nextPlayers.addAll(nextBracket.getBracketPlayers());
-			for (Player player:nextPlayers){
+			for (Player player : nextPlayers) {
 				upfloat(player);
-				if(pareBraket()){
+				if (pareBraket()) {
 					return true;
-				}else{
+				} else {
 					downfloat(player);
 				}
 			}
@@ -386,10 +392,6 @@ public class ScoreBracket {
 
 	}
 
-
-
-
-
 	/**
 	 * downfloats the player and makes sure that this player initially belonged
 	 * to this bracket
@@ -411,12 +413,13 @@ public class ScoreBracket {
 			throw new IllegalStateException("For some reason I was not able to remove player");
 		}
 	}
-	
+
 	/**
-	 * this player is removed from the next bracket and added to the current bracket
+	 * this player is removed from the next bracket and added to the current
+	 * bracket
 	 */
-	private void upfloat(Player player){
-		if (this.bracketPlayers.contains(player)){
+	private void upfloat(Player player) {
+		if (this.bracketPlayers.contains(player)) {
 			throw new IllegalStateException("Plyer allready in the current bracket");
 		}
 		if (null == this.nextBracket) {
