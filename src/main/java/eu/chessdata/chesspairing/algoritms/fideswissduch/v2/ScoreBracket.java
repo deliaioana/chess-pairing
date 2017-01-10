@@ -178,7 +178,27 @@ public class ScoreBracket {
 			 * mark downfloater in reverse order and pare
 			 * if rairingResult.isOk downfloat the player marked and pare the next bracket
 			 */
-			throw new IllegalStateException("Please implement this");
+			
+			List <Player> players = new ArrayList<>();
+			players.addAll(this.bracketPlayers);
+			Collections.sort(players, Player.comparator);
+			for (int i=players.size()-1;i>=0;i--){
+				List<Player> tempList = new ArrayList<>();
+				tempList.addAll(players);
+				Player downfloater = players.get(i);
+				if (!tempList.remove(downfloater)){
+					throw new IllegalStateException("not able to remove player");
+				}
+				PairingResult pairingResult = PairingResult.pareInOrder(tempList);
+				if (pairingResult.isOk()){
+					downfloat(downfloater);
+					if (nextBracket.pareBraket()){
+						this.bracketResult = pairingResult;
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 
 		// TODO probably good time to pare subgroups
@@ -256,7 +276,33 @@ public class ScoreBracket {
 	 * @param candidate
 	 */
 	private void cancelDownfloat(Player candidate) {
-		throw new IllegalStateException("Please imlement this");
+		//candidate should be already downfloated
+		if (this.bracketPlayers.contains(candidate)){
+			throw new IllegalStateException("Player was not downfloated");
+		}
+		if (null == this.nextBracket){
+			throw new IllegalStateException(
+					"This is the last bracket. Thre is no nextBracket that you are looking fore");
+		}
+		boolean ok = this.nextBracket.removePlayer(candidate);
+		if (!ok){
+			throw new IllegalStateException("For some reason I was not able to remove player");
+		}
+		this.bracketPlayers.add(candidate);
+	}
+
+	/**
+	 * it removes a player from the current bracketPlayers list
+	 * @param candidate
+	 * @return
+	 */
+	private boolean removePlayer(Player candidate) {
+		if (this.bracketPlayers.contains(candidate)){
+			this.bracketPlayers.remove(candidate);
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
