@@ -1,6 +1,5 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
-import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -359,6 +358,9 @@ public class ScoreBracket {
 
 		PairingResult pairingResult = pareEvenList(this.bracketPlayers);
 		if (pairingResult.isOk()) {
+			if (this.isLastBracket()){
+				return pareLastBracket();
+			}
 			if (this.nextBracket.pareBraket()) {
 				this.bracketResult = pairingResult;
 				return true;
