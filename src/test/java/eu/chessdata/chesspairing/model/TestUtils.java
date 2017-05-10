@@ -3,6 +3,10 @@ package eu.chessdata.chesspairing.model;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +14,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Tools;
+import eu.chessdata.chesspairing.algoritms.fideswissduch.v2.FideSwissDutchTest;
 
 public class TestUtils {
 	/**
@@ -161,5 +166,18 @@ public class TestUtils {
 			throw new IllegalStateException("Not able to write to file: " + filePath + "\n" + e.getMessage());
 		}
 
+	}
+	
+	public static ChesspairingTournament loadFile(String fileProjectPath) {
+		InputStream inputStream = FideSwissDutchTest.class.getResourceAsStream(fileProjectPath);
+		Reader reader;
+		try {
+			reader = new InputStreamReader(inputStream, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new IllegalStateException(e.getMessage());
+		}
+		Gson gson = Tools.getGson();
+		ChesspairingTournament tournament = gson.fromJson(reader, ChesspairingTournament.class);
+		return tournament;
 	}
 }

@@ -32,6 +32,7 @@ public class JavafoWrappTest {
 	@Test
 	public void test() {
 		ChesspairingTournament tournament = loadFile("/jafafoWrapp/test1.json");
+		
 		fail("Not yet implemented");
 	}
 
