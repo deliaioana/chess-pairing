@@ -1,11 +1,19 @@
 package eu.chessdata.chesspairing.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ChesspairingTournament {
 	private String name;
 	private String description;
+	private String city;
+	private String federation;
+	private Date dateOfStart;
+	private Date dateOfEnd;
+	private String typeOfTournament;
+	private String ChifArbiter;
+	private String deputyChifArbiters;
 	/**
 	 * this is the maximum allowed number of rounds in a tournament. 
 	 * If you try to pare over this number some algorithms will just crash. 
@@ -25,6 +33,64 @@ public class ChesspairingTournament {
 	}
 
 	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getFederation() {
+		return federation;
+	}
+
+	public void setFederation(String federation) {
+		this.federation = federation;
+	}
+
+	
+
+	public Date getDateOfStart() {
+		return dateOfStart;
+	}
+
+	public void setDateOfStart(Date dateOfStart) {
+		this.dateOfStart = dateOfStart;
+	}
+
+	public Date getDateOfEnd() {
+		return dateOfEnd;
+	}
+
+	public void setDateOfEnd(Date dateOfEnd) {
+		this.dateOfEnd = dateOfEnd;
+	}
+
+	public String getTypeOfTournament() {
+		return typeOfTournament;
+	}
+
+	public void setTypeOfTournament(String typeOfTournament) {
+		this.typeOfTournament = typeOfTournament;
+	}
+
+	public String getChifArbiter() {
+		return ChifArbiter;
+	}
+
+	public void setChifArbiter(String chifArbiter) {
+		ChifArbiter = chifArbiter;
+	}
+
+	public String getDeputyChifArbiters() {
+		return deputyChifArbiters;
+	}
+
+	public void setDeputyChifArbiters(String deputyChifArbiters) {
+		this.deputyChifArbiters = deputyChifArbiters;
+	}
+
 	public ChesspairingByeValue getChesspairingByeValue() {
 		return chesspairingByeValue;
 	}
