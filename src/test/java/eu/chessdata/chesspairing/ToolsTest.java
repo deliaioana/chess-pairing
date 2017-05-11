@@ -9,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.paukov.combinatorics.Generator;
 
+import eu.chessdata.chesspairing.tools.Tools;
+
 public class ToolsTest {
 
 	@Test

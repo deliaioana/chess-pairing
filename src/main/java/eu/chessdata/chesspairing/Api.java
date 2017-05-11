@@ -3,6 +3,7 @@ package eu.chessdata.chesspairing;
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
+import eu.chessdata.chesspairing.tools.Tools;
 
 public class Api {
 	

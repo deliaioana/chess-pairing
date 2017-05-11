@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
-import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.model.ChesspairingByeValue;
 import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
@@ -21,6 +20,7 @@ import eu.chessdata.chesspairing.model.ChesspairingResult;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.TestUtils;
+import eu.chessdata.chesspairing.tools.Tools;
 
 public class PairingToolTest {
 

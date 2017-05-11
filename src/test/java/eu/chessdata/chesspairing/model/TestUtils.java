@@ -13,8 +13,8 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.algoritms.fideswissduch.v2.FideSwissDutchTest;
+import eu.chessdata.chesspairing.tools.Tools;
 
 public class TestUtils {
 	/**

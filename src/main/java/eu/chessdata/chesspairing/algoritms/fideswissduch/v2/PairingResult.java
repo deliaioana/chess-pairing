@@ -10,7 +10,7 @@ import org.paukov.combinatorics.ICombinatoricsVector;
 
 import com.sun.xml.internal.txw2.IllegalSignatureException;
 
-import eu.chessdata.chesspairing.Tools;
+import eu.chessdata.chesspairing.tools.Tools;
 
 public class PairingResult {
 	private boolean ok;

@@ -13,7 +13,7 @@ import org.paukov.combinatorics.ICombinatoricsVector;
 
 import com.google.common.collect.Lists;
 
-import eu.chessdata.chesspairing.Tools;
+import eu.chessdata.chesspairing.tools.Tools;
 
 public class ScoreBracket {
 	private final FideSwissDutch fideSwissDutch;

@@ -1,4 +1,4 @@
-package eu.chessdata.chesspairing;
+package eu.chessdata.chesspairing.tools;
 
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 

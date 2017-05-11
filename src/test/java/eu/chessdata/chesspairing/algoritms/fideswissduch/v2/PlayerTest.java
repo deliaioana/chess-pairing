@@ -10,9 +10,9 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
-import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
+import eu.chessdata.chesspairing.tools.Tools;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 

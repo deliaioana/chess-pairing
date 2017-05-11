@@ -1,4 +1,4 @@
-package eu.chessdata.chesspairing;
+package eu.chessdata.chesspairing.tools;
 
 import java.util.ArrayList;
 import java.util.Arrays;
