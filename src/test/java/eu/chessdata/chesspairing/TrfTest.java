@@ -30,14 +30,14 @@ public class TrfTest {
 		tournament.setCity("Iasi");
 		tournament.setDateOfStart(new Date());
 		tournament.setDateOfEnd(new Date());
-		
+		tournament.setTypeOfTournament("Individual: Swiss-System");
 		TestUtils.writeToFile(tournament, "TrfTestTest1Ordered.json");
 	}
 
 	@Test
 	public void test2(){
 		ChesspairingTournament tournament = TestUtils.loadFile("/trf/test2.json");
-		String trf = Trf.buildTrf(tournament);
+		String trf = Trf.getTrf(tournament);
 		System.out.println(trf);
 	}
 }

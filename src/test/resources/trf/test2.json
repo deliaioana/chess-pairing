@@ -1,8 +1,9 @@
 {
 	"name": "Tournament trf test",
 	"city": "Iasi",
-	"dateOfStart": "May 11, 2017 10:44:22 PM",
-	"dateOfEnd": "May 11, 2017 10:44:22 PM",
+	"dateOfStart": "May 12, 2017 10:20:39 AM",
+	"dateOfEnd": "May 12, 2017 10:20:39 AM",
+	"typeOfTournament": "Individual: Swiss-System",
 	"totalRounds": 7,
 	"chesspairingByeValue": "HALF_A_POINT",
 	"players": [
