@@ -22,6 +22,7 @@ public class ChesspairingPlayer {
 	private int rank;
 	private ChesspairingTitle title;
 	private String federation;
+	private String fideNumber;
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -60,6 +61,15 @@ public class ChesspairingPlayer {
 	public String getPlayerKey() {
 		return playerKey;
 	}
+	
+	public String getFideNumber() {
+		return fideNumber;
+	}
+
+	public void setFideNumber(String fideNumber) {
+		this.fideNumber = fideNumber;
+	}
+
 	public void setPlayerKey(String playerKey) {
 		this.playerKey = playerKey;
 	}

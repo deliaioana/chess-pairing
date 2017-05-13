@@ -172,6 +172,16 @@ public class Trf {
 				this.fideFederation = player.getFederation();
 			}
 
+			this.fideNumber = "";
+			if (player.getFideNumber() != null) {
+				this.fideNumber = player.getFideNumber();
+			}
+
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			this.birthDate = "";
+			if (player.getBirthDate() != null) {
+				this.birthDate = dateFormat.format(player.getBirthDate());
+			}
 		}
 
 		private String getString() {
@@ -188,6 +198,10 @@ public class Trf {
 			sb.append(Trf.formatStringIndentRight(49, 52, this.fideRating));
 			sb.append(" ");
 			sb.append(Trf.formatStringIndentRight(54, 56, this.fideFederation));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentRight(58, 68, this.fideNumber));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentRight(70, 79, this.birthDate));
 			return sb.toString();
 		}
 	}

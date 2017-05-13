@@ -18,7 +18,8 @@ import eu.chessdata.chesspairing.tools.Trf;
 public class TrfTest {
 
 	/**
-	 * used to order first time players in order
+	 * used to order first time players in order and add some test specific data
+	 * for future tests
 	 */
 	@Test
 	public void test1() {
@@ -39,6 +40,7 @@ public class TrfTest {
 			if (name.equals("Cemil")) {
 				player.setTitle(ChesspairingTitle.GRANDMASTER);
 				player.setFederation("BEL");
+				player.setFideNumber("13456781");
 			}
 			if (name.equals("Calin Constantin") || name.equals("Delia Ioana")) {
 				player.setTitle(ChesspairingTitle.CANDIDATE_MASTER);
@@ -47,10 +49,12 @@ public class TrfTest {
 			if (name.equals("Rares")) {
 				player.setTitle(ChesspairingTitle.INTERNATIONAL_MASTER);
 				player.setFederation("ROU");
+				player.setFideNumber("13456782");
 			}
 			if (name.equals("Bogdan Marian")) {
 				player.setTitle(ChesspairingTitle.FIDE_MASTER);
 				player.setFederation("ROU");
+				player.setFideNumber("13456783");
 			}
 
 		}

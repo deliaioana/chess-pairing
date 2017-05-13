@@ -1,8 +1,8 @@
 {
 	"name": "Tournament trf test",
 	"city": "Iasi",
-	"dateOfStart": "May 13, 2017 11:35:59 AM",
-	"dateOfEnd": "May 13, 2017 11:35:59 AM",
+	"dateOfStart": "May 13, 2017 11:31:05 PM",
+	"dateOfEnd": "May 13, 2017 11:31:05 PM",
 	"typeOfTournament": "Individual: Swiss-System",
 	"totalRounds": 7,
 	"chesspairingByeValue": "HALF_A_POINT",
@@ -16,10 +16,11 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0,
 			"title": "GRANDMASTER",
-			"federation": "BEL"
+			"federation": "BEL",
+			"fideNumber": "13456781"
 		},
 		{
 			"name": "Catalin Ioan",
@@ -30,7 +31,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -42,7 +43,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "WOMAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0,
 			"title": "CANDIDATE_MASTER",
 			"federation": "ROU"
@@ -56,7 +57,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "WOMAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0,
 			"federation": "ROU"
 		},
@@ -69,10 +70,11 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0,
 			"title": "INTERNATIONAL_MASTER",
-			"federation": "ROU"
+			"federation": "ROU",
+			"fideNumber": "13456782"
 		},
 		{
 			"name": "Calin Constantin",
@@ -83,7 +85,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0,
 			"title": "CANDIDATE_MASTER",
 			"federation": "ROU"
@@ -97,10 +99,11 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0,
 			"title": "FIDE_MASTER",
-			"federation": "ROU"
+			"federation": "ROU",
+			"fideNumber": "13456783"
 		},
 		{
 			"name": "Lacramioara",
@@ -111,7 +114,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "WOMAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0,
 			"federation": "ROU"
 		},
@@ -124,7 +127,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -136,7 +139,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "WOMAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0,
 			"federation": "ROU"
 		},
@@ -149,7 +152,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "WOMAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0,
 			"federation": "ROU"
 		},
@@ -162,7 +165,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -174,7 +177,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -186,7 +189,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -198,7 +201,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -210,7 +213,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -222,7 +225,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -234,7 +237,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -246,7 +249,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -258,7 +261,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -270,7 +273,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -282,7 +285,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		},
 		{
@@ -294,7 +297,7 @@
 			"acceleratedPoints": 0,
 			"tournamentPoints": 0,
 			"sex": "MAN",
-			"birthDate": "May 13, 2017 11:35:59 AM",
+			"birthDate": "May 13, 2017 11:31:05 PM",
 			"rank": 0
 		}
 	],
