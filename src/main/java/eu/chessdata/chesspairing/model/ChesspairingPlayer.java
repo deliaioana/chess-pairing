@@ -1,5 +1,7 @@
 package eu.chessdata.chesspairing.model;
 
+import java.util.Date;
+
 import eu.chessdata.chesspairing.algoritms.fideswissduch.FideSwissDutchAlgorithmV1;
 
 public class ChesspairingPlayer {
@@ -15,6 +17,9 @@ public class ChesspairingPlayer {
 	private boolean isPresent;
 	private int acceleratedPoints;
 	private int tournamentPoints;
+	private ChesspairingSex sex;
+	private Date birthDate;
+	private int rank;
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -64,6 +69,30 @@ public class ChesspairingPlayer {
 	}
 	public void setTournamentPoints(int tournamentPoints) {
 		this.tournamentPoints = tournamentPoints;
+	}
+
+	public ChesspairingSex getSex() {
+		return sex;
+	}
+
+	public void setSex(ChesspairingSex sex) {
+		this.sex = sex;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
 	}
 	
 }

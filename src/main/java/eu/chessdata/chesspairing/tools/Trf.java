@@ -6,6 +6,7 @@ import java.util.Date;
 
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
+import sun.org.mozilla.javascript.internal.regexp.SubString;
 
 /**
  * Class with public static methods that are used for exporting a tournament as
@@ -36,6 +37,8 @@ public class Trf {
 	private String datesOfTheRounds;
 	private String timesPerMovesGame;
 
+	private final ChesspairingTournament trfTournament;
+
 	public static String getTrf(ChesspairingTournament tournament) {
 
 		Trf trf = new Trf(tournament);
@@ -43,6 +46,8 @@ public class Trf {
 	}
 
 	public Trf(ChesspairingTournament chesspTournament) {
+		this.trfTournament = chesspTournament;
+
 		this.dataIdentificationNumber = "no-dataIdentificationNumber-Implemented";
 		this.tournamentName = chesspTournament.getName();
 		this.city = chesspTournament.getCity();
@@ -90,12 +95,111 @@ public class Trf {
 		sb.append("092 " + this.typeOfTournament + "\n");
 		sb.append("102 " + this.chifArbiter + "\n");
 		sb.append("112 " + this.deputyChifArbiters + "\n");
-		sb.append("122 " + this.timesPerMovesGame);
+		sb.append("122 " + this.timesPerMovesGame + "\n");
 
 		// XXR 9 ? to be clarified what it means
 		sb.append("XXR 9" + "\n");
 
+		for (ChesspairingPlayer player : this.trfTournament.getPlayers()) {
+			PlayerSection playerSection = new PlayerSection(player);
+			sb.append(playerSection.getString());
+			sb.append("\n");
+		}
+
 		return sb.toString();
 	}
 
+	private class PlayerSection {
+		private ChesspairingPlayer player;
+
+		private String dataIdentificationNumber;
+		private String startingRankNumber;
+		private String sex;
+		private String title;
+		private String name;
+		private String fideRating;
+		private String fideFederation;
+		private String fideNumber;
+		private String birthDate;
+		private String points;
+		private String rank;
+
+		private PlayerSection(ChesspairingPlayer player) {
+			this.player = player;
+			this.dataIdentificationNumber = "001";
+			this.startingRankNumber = String.valueOf(this.player.getInitialOrderId());
+
+			this.sex = "";
+			switch (this.player.getSex()) {
+			case MAN:
+				this.sex = "m";
+				break;
+			case WOMAN:
+				this.sex = "w";
+			default:
+				this.sex = "s";// "s" comes from secret
+				break;
+			}
+		}
+
+		private String getString() {
+			StringBuilder sb = new StringBuilder();
+			sb.append(Trf.formatStringIndentLeft(1, 3, dataIdentificationNumber));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentRight(5, 8, this.startingRankNumber));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentRight(10, 10, this.sex));
+			
+			return sb.toString();
+		}
+	}
+
+	/**
+	 * format a "something" string into "something___" string
+	 * 
+	 * @param start
+	 * @param end
+	 * @param content
+	 * @return
+	 */
+	private static String formatStringIndentLeft(int start, int end, String content) {
+		int size = end - start + 1;
+		StringBuilder sb = new StringBuilder();
+		sb.append(content);
+
+		if (sb.length() > size) {
+			String result = sb.substring(0, size);
+			return result;
+		} else {
+			while (sb.length() < size) {
+				sb.append(" ");
+			}
+			String result = sb.toString();
+			return result;
+		}
+	}
+
+	/**
+	 * format a "something" sting into "___something" string
+	 * 
+	 * @param start
+	 * @param end
+	 * @param content
+	 * @return
+	 */
+	private static String formatStringIndentRight(int start, int end, String content) {
+		int size = end - start+1;
+
+		if (content.length() > size) {
+			String result = content.substring(0, size);
+			return result;
+		} else {
+			StringBuilder sb = new StringBuilder();
+			while (sb.length() + content.length() < size) {
+				sb.append(" ");
+			}
+			String result = sb.append(content).toString();
+			return result;
+		}
+	}
 }
