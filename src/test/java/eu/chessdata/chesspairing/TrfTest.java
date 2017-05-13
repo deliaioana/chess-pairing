@@ -71,4 +71,6 @@ public class TrfTest {
 		String trf = Trf.getTrf(tournament);
 		System.out.println(trf);
 	}
+	
+	
 }

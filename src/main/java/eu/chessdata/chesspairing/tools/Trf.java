@@ -4,7 +4,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
+
+import eu.chessdata.chesspairing.model.ChesspairingByeValue;
+import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
+import eu.chessdata.chesspairing.model.ChesspairingResult;
+import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTitle;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import sun.org.mozilla.javascript.internal.regexp.SubString;
@@ -182,6 +188,8 @@ public class Trf {
 			if (player.getBirthDate() != null) {
 				this.birthDate = dateFormat.format(player.getBirthDate());
 			}
+
+			Double pointsValue = Trf.computePoints(player, trfTournament);
 		}
 
 		private String getString() {
@@ -254,4 +262,68 @@ public class Trf {
 			return result;
 		}
 	}
+
+	@SuppressWarnings("incomplete-switch")
+	public static double computePoints(ChesspairingPlayer player, ChesspairingTournament tournament) {
+		String key = player.getPlayerKey();
+		Double totalPoints = 0.0;
+
+		Double whinPoints = 1.0;
+		Double lostPoints = 0.0;
+		Double drawPoints = 0.5;
+		Double buyPoints = 0.0;
+		ChesspairingByeValue buy = tournament.getChesspairingByeValue();
+
+		switch (buy) {
+		case HALF_A_POINT:
+			buyPoints = 0.5;
+			break;
+		case ONE_POINT:
+			buyPoints = 1.0;
+		default:
+			throw new IllegalStateException("Case not implemented fro buy " + buy);
+		}
+
+		for (ChesspairingRound round : tournament.getRounds()) {
+			for (ChesspairingGame game : round.getGames()) {
+				ChesspairingResult result = game.getResult();
+
+				String whiteKey = game.getWhitePlayer().getPlayerKey();
+				if (whiteKey.equals(key)) {
+					switch (result) {
+					case BYE:
+						totalPoints += buyPoints;
+						break;
+					case WHITE_WINS:
+						totalPoints += whinPoints;
+						break;
+					case WHITE_WINS_OPONENT_ABSENT:
+						totalPoints += whinPoints;
+					}
+					continue;
+				}
+
+				if (game.getBlackPlayer() == null) {
+					continue;
+				}
+
+				String blackKey = game.getBlackPlayer().getPlayerKey();
+				if (blackKey.equals(key)) {
+					switch (result) {
+					case BYE:
+						totalPoints += buyPoints;
+						break;
+					case BLACK_WINS:
+						totalPoints += whinPoints;
+						break;
+					case BLACK_WINS_OPONENT_ABSENT:
+						totalPoints += whinPoints;
+					}
+				}
+
+			}
+		}
+		throw new IllegalStateException("please finish this");
+	}
+
 }
