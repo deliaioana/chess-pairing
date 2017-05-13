@@ -20,6 +20,8 @@ public class ChesspairingPlayer {
 	private ChesspairingSex sex;
 	private Date birthDate;
 	private int rank;
+	private ChesspairingTitle title;
+	private String federation;
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
@@ -33,9 +35,25 @@ public class ChesspairingPlayer {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public String getFederation() {
+		return federation;
+	}
+
+	public void setFederation(String federation) {
+		this.federation = federation;
+	}
+
 	public int getElo() {
 		return elo;
 	}
+	public ChesspairingTitle getTitle() {
+		return title;
+	}
+
+	public void setTitle(ChesspairingTitle title) {
+		this.title = title;
+	}
+
 	public void setElo(int elo) {
 		this.elo = elo;
 	}

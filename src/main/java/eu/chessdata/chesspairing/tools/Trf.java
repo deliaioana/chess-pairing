@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
+import eu.chessdata.chesspairing.model.ChesspairingTitle;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import sun.org.mozilla.javascript.internal.regexp.SubString;
 
@@ -140,6 +141,37 @@ public class Trf {
 				this.sex = "s";// "s" comes from secret
 				break;
 			}
+
+			this.title = "";
+			ChesspairingTitle chessTitle = player.getTitle();
+			if (chessTitle != null) {
+				switch (chessTitle) {
+				case GRANDMASTER:
+					this.title = "g";
+					break;
+				case INTERNATIONAL_MASTER:
+					this.title = "m";
+					break;
+				case FIDE_MASTER:
+					this.title = "f";
+					break;
+				case CANDIDATE_MASTER:
+					this.title = "c";
+					break;
+				}
+			}
+			this.name = player.getName();
+
+			this.fideRating = "";
+			if (player.getElo() > 0) {
+				this.fideRating = String.valueOf(player.getElo());
+			}
+
+			this.fideFederation = "";
+			if (player.getFederation() != null) {
+				this.fideFederation = player.getFederation();
+			}
+
 		}
 
 		private String getString() {
@@ -149,7 +181,13 @@ public class Trf {
 			sb.append(Trf.formatStringIndentRight(5, 8, this.startingRankNumber));
 			sb.append(" ");
 			sb.append(Trf.formatStringIndentRight(10, 10, this.sex));
-			
+			sb.append(Trf.formatStringIndentRight(11, 13, this.title));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentLeft(15, 47, this.name));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentRight(49, 52, this.fideRating));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentRight(54, 56, this.fideFederation));
 			return sb.toString();
 		}
 	}
@@ -188,7 +226,7 @@ public class Trf {
 	 * @return
 	 */
 	private static String formatStringIndentRight(int start, int end, String content) {
-		int size = end - start+1;
+		int size = end - start + 1;
 
 		if (content.length() > size) {
 			String result = content.substring(0, size);
