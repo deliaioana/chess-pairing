@@ -4,8 +4,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
+
+import eu.chessdata.chesspairing.model.ChesspairingByeValue;
+import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
+import eu.chessdata.chesspairing.model.ChesspairingResult;
+import eu.chessdata.chesspairing.model.ChesspairingRound;
+import eu.chessdata.chesspairing.model.ChesspairingTitle;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
+import sun.org.mozilla.javascript.internal.regexp.SubString;
 
 /**
  * Class with public static methods that are used for exporting a tournament as
@@ -36,6 +44,8 @@ public class Trf {
 	private String datesOfTheRounds;
 	private String timesPerMovesGame;
 
+	private final ChesspairingTournament trfTournament;
+
 	public static String getTrf(ChesspairingTournament tournament) {
 
 		Trf trf = new Trf(tournament);
@@ -43,6 +53,8 @@ public class Trf {
 	}
 
 	public Trf(ChesspairingTournament chesspTournament) {
+		this.trfTournament = chesspTournament;
+
 		this.dataIdentificationNumber = "no-dataIdentificationNumber-Implemented";
 		this.tournamentName = chesspTournament.getName();
 		this.city = chesspTournament.getCity();
@@ -90,12 +102,228 @@ public class Trf {
 		sb.append("092 " + this.typeOfTournament + "\n");
 		sb.append("102 " + this.chifArbiter + "\n");
 		sb.append("112 " + this.deputyChifArbiters + "\n");
-		sb.append("122 " + this.timesPerMovesGame);
+		sb.append("122 " + this.timesPerMovesGame + "\n");
 
 		// XXR 9 ? to be clarified what it means
 		sb.append("XXR 9" + "\n");
 
+		for (ChesspairingPlayer player : this.trfTournament.getPlayers()) {
+			PlayerSection playerSection = new PlayerSection(player);
+			sb.append(playerSection.getString());
+			sb.append("\n");
+		}
+
 		return sb.toString();
+	}
+
+	private class PlayerSection {
+		private ChesspairingPlayer player;
+
+		private String dataIdentificationNumber;
+		private String startingRankNumber;
+		private String sex;
+		private String title;
+		private String name;
+		private String fideRating;
+		private String fideFederation;
+		private String fideNumber;
+		private String birthDate;
+		private String points;
+		private String rank;
+
+		private PlayerSection(ChesspairingPlayer player) {
+			this.player = player;
+			this.dataIdentificationNumber = "001";
+			this.startingRankNumber = String.valueOf(this.player.getInitialOrderId());
+
+			this.sex = "";
+			switch (this.player.getSex()) {
+			case MAN:
+				this.sex = "m";
+				break;
+			case WOMAN:
+				this.sex = "w";
+			default:
+				this.sex = "s";// "s" comes from secret
+				break;
+			}
+
+			this.title = "";
+			ChesspairingTitle chessTitle = player.getTitle();
+			if (chessTitle != null) {
+				switch (chessTitle) {
+				case GRANDMASTER:
+					this.title = "g";
+					break;
+				case INTERNATIONAL_MASTER:
+					this.title = "m";
+					break;
+				case FIDE_MASTER:
+					this.title = "f";
+					break;
+				case CANDIDATE_MASTER:
+					this.title = "c";
+					break;
+				}
+			}
+			this.name = player.getName();
+
+			this.fideRating = "";
+			if (player.getElo() > 0) {
+				this.fideRating = String.valueOf(player.getElo());
+			}
+
+			this.fideFederation = "";
+			if (player.getFederation() != null) {
+				this.fideFederation = player.getFederation();
+			}
+
+			this.fideNumber = "";
+			if (player.getFideNumber() != null) {
+				this.fideNumber = player.getFideNumber();
+			}
+
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			this.birthDate = "";
+			if (player.getBirthDate() != null) {
+				this.birthDate = dateFormat.format(player.getBirthDate());
+			}
+
+			Double pointsValue = Trf.computePoints(player, trfTournament);
+		}
+
+		private String getString() {
+			StringBuilder sb = new StringBuilder();
+			sb.append(Trf.formatStringIndentLeft(1, 3, dataIdentificationNumber));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentRight(5, 8, this.startingRankNumber));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentRight(10, 10, this.sex));
+			sb.append(Trf.formatStringIndentRight(11, 13, this.title));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentLeft(15, 47, this.name));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentRight(49, 52, this.fideRating));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentRight(54, 56, this.fideFederation));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentRight(58, 68, this.fideNumber));
+			sb.append(" ");
+			sb.append(Trf.formatStringIndentRight(70, 79, this.birthDate));
+			return sb.toString();
+		}
+	}
+
+	/**
+	 * format a "something" string into "something___" string
+	 * 
+	 * @param start
+	 * @param end
+	 * @param content
+	 * @return
+	 */
+	private static String formatStringIndentLeft(int start, int end, String content) {
+		int size = end - start + 1;
+		StringBuilder sb = new StringBuilder();
+		sb.append(content);
+
+		if (sb.length() > size) {
+			String result = sb.substring(0, size);
+			return result;
+		} else {
+			while (sb.length() < size) {
+				sb.append(" ");
+			}
+			String result = sb.toString();
+			return result;
+		}
+	}
+
+	/**
+	 * format a "something" sting into "___something" string
+	 * 
+	 * @param start
+	 * @param end
+	 * @param content
+	 * @return
+	 */
+	private static String formatStringIndentRight(int start, int end, String content) {
+		int size = end - start + 1;
+
+		if (content.length() > size) {
+			String result = content.substring(0, size);
+			return result;
+		} else {
+			StringBuilder sb = new StringBuilder();
+			while (sb.length() + content.length() < size) {
+				sb.append(" ");
+			}
+			String result = sb.append(content).toString();
+			return result;
+		}
+	}
+
+	@SuppressWarnings("incomplete-switch")
+	public static double computePoints(ChesspairingPlayer player, ChesspairingTournament tournament) {
+		String key = player.getPlayerKey();
+		Double totalPoints = 0.0;
+
+		Double whinPoints = 1.0;
+		Double lostPoints = 0.0;
+		Double drawPoints = 0.5;
+		Double buyPoints = 0.0;
+		ChesspairingByeValue buy = tournament.getChesspairingByeValue();
+
+		switch (buy) {
+		case HALF_A_POINT:
+			buyPoints = 0.5;
+			break;
+		case ONE_POINT:
+			buyPoints = 1.0;
+		default:
+			throw new IllegalStateException("Case not implemented fro buy " + buy);
+		}
+
+		for (ChesspairingRound round : tournament.getRounds()) {
+			for (ChesspairingGame game : round.getGames()) {
+				ChesspairingResult result = game.getResult();
+
+				String whiteKey = game.getWhitePlayer().getPlayerKey();
+				if (whiteKey.equals(key)) {
+					switch (result) {
+					case BYE:
+						totalPoints += buyPoints;
+						break;
+					case WHITE_WINS:
+						totalPoints += whinPoints;
+						break;
+					case WHITE_WINS_OPONENT_ABSENT:
+						totalPoints += whinPoints;
+					}
+					continue;
+				}
+
+				if (game.getBlackPlayer() == null) {
+					continue;
+				}
+
+				String blackKey = game.getBlackPlayer().getPlayerKey();
+				if (blackKey.equals(key)) {
+					switch (result) {
+					case BYE:
+						totalPoints += buyPoints;
+						break;
+					case BLACK_WINS:
+						totalPoints += whinPoints;
+						break;
+					case BLACK_WINS_OPONENT_ABSENT:
+						totalPoints += whinPoints;
+					}
+				}
+
+			}
+		}
+		throw new IllegalStateException("please finish this");
 	}
 
 }

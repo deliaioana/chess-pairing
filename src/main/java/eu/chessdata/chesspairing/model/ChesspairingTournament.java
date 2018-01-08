@@ -49,8 +49,6 @@ public class ChesspairingTournament {
 		this.federation = federation;
 	}
 
-	
-
 	public Date getDateOfStart() {
 		return dateOfStart;
 	}
