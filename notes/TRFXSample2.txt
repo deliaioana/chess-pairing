@@ -7,7 +7,7 @@
 072 41
 082 0
 092 Individual: Swiss-System
-102 IA Mikel Larreategi Arana (22232540)
+102 IA Mikel Larreategi Aranaa (22232540)
 112 
 122 moves/time, increment
 XXR 9
