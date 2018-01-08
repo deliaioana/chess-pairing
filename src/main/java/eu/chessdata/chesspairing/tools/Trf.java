@@ -13,7 +13,7 @@ import eu.chessdata.chesspairing.model.ChesspairingResult;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTitle;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
-import sun.org.mozilla.javascript.internal.regexp.SubString;
+//import sun.org.mozilla.javascript.internal.regexp.SubString;
 
 /**
  * Class with public static methods that are used for exporting a tournament as
@@ -323,7 +323,7 @@ public class Trf {
 
 			}
 		}
-		throw new IllegalStateException("please finish this");
+		return totalPoints;
 	}
 
 }
