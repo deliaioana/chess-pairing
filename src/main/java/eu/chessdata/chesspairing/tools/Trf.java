@@ -3,6 +3,7 @@ package eu.chessdata.chesspairing.tools;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
 
@@ -210,120 +211,160 @@ public class Trf {
 			sb.append(Trf.formatStringIndentRight(58, 68, this.fideNumber));
 			sb.append(" ");
 			sb.append(Trf.formatStringIndentRight(70, 79, this.birthDate));
+			sb.append(" ");// 80
+			sb.append(Trf.formatStringIndentRight(81, 84, this.getPoints()));
 			return sb.toString();
 		}
-	}
 
-	/**
-	 * format a "something" string into "something___" string
-	 * 
-	 * @param start
-	 * @param end
-	 * @param content
-	 * @return
-	 */
-	private static String formatStringIndentLeft(int start, int end, String content) {
-		int size = end - start + 1;
-		StringBuilder sb = new StringBuilder();
-		sb.append(content);
-
-		if (sb.length() > size) {
-			String result = sb.substring(0, size);
-			return result;
-		} else {
-			while (sb.length() < size) {
-				sb.append(" ");
+		/**
+		 * computes the number of point of the current tournament and returns
+		 * them in a string format( 11.5 format)
+		 * 
+		 * @return
+		 */
+		// computes the number of points of the current player from a specified
+		// tournament
+		private String getPoints( ) {
+			List<ChesspairingRound> rounds = trfTournament.getRounds();
+			float points = 0;
+			for (ChesspairingRound round: rounds){
+				List<ChesspairingGame> games = round.getGames();
+				for (ChesspairingGame game: games){
+					ChesspairingResult result = game.getResult();
+					
+					//this player is the white player
+					if (this.player.equals(game.getWhitePlayer())){
+						if(result.equals(ChesspairingResult.WHITE_WINS)){
+							points += 1;
+						}else if(result.equals(ChesspairingResult.DRAW_GAME)){
+							points += 0.5;
+						}else if (result.equals(ChesspairingResult.BYE)){
+							points += trfTournament.getChesspairingByeValue().getValue();
+						}
+					}else if(this.player.equals(game.getBlackPlayer())){
+						if (result.equals(ChesspairingResult.BLACK_WINS)){
+							points += 1;
+						}else if (result.equals(ChesspairingResult.DRAW_GAME)){
+							points += 0.5;
+						}
+					}
+				}
 			}
-			String result = sb.toString();
-			return result;
+			String pointsString = String.format("%.1f", points);
+			return pointsString;
 		}
 	}
 
-	/**
-	 * format a "something" sting into "___something" string
-	 * 
-	 * @param start
-	 * @param end
-	 * @param content
-	 * @return
-	 */
-	private static String formatStringIndentRight(int start, int end, String content) {
-		int size = end - start + 1;
-
-		if (content.length() > size) {
-			String result = content.substring(0, size);
-			return result;
-		} else {
+		/**
+		 * format a "something" string into "something___" string
+		 * 
+		 * @param start
+		 * @param end
+		 * @param content
+		 * @return
+		 */
+		private static String formatStringIndentLeft(int start, int end, String content) {
+			int size = end - start + 1;
 			StringBuilder sb = new StringBuilder();
-			while (sb.length() + content.length() < size) {
-				sb.append(" ");
-			}
-			String result = sb.append(content).toString();
-			return result;
-		}
-	}
+			sb.append(content);
 
-	@SuppressWarnings("incomplete-switch")
-	public static double computePoints(ChesspairingPlayer player, ChesspairingTournament tournament) {
-		String key = player.getPlayerKey();
-		Double totalPoints = 0.0;
-
-		Double whinPoints = 1.0;
-		Double lostPoints = 0.0;
-		Double drawPoints = 0.5;
-		Double buyPoints = 0.0;
-		ChesspairingByeValue buy = tournament.getChesspairingByeValue();
-
-		switch (buy) {
-		case HALF_A_POINT:
-			buyPoints = 0.5;
-			break;
-		case ONE_POINT:
-			buyPoints = 1.0;
-		default:
-			throw new IllegalStateException("Case not implemented fro buy " + buy);
-		}
-
-		for (ChesspairingRound round : tournament.getRounds()) {
-			for (ChesspairingGame game : round.getGames()) {
-				ChesspairingResult result = game.getResult();
-
-				String whiteKey = game.getWhitePlayer().getPlayerKey();
-				if (whiteKey.equals(key)) {
-					switch (result) {
-					case BYE:
-						totalPoints += buyPoints;
-						break;
-					case WHITE_WINS:
-						totalPoints += whinPoints;
-						break;
-					case WHITE_WINS_OPONENT_ABSENT:
-						totalPoints += whinPoints;
-					}
-					continue;
+			if (sb.length() > size) {
+				String result = sb.substring(0, size);
+				return result;
+			} else {
+				while (sb.length() < size) {
+					sb.append(" ");
 				}
-
-				if (game.getBlackPlayer() == null) {
-					continue;
-				}
-
-				String blackKey = game.getBlackPlayer().getPlayerKey();
-				if (blackKey.equals(key)) {
-					switch (result) {
-					case BYE:
-						totalPoints += buyPoints;
-						break;
-					case BLACK_WINS:
-						totalPoints += whinPoints;
-						break;
-					case BLACK_WINS_OPONENT_ABSENT:
-						totalPoints += whinPoints;
-					}
-				}
-
+				String result = sb.toString();
+				return result;
 			}
 		}
-		return totalPoints;
-	}
+
+		/**
+		 * format a "something" sting into "___something" string
+		 * 
+		 * @param start
+		 * @param end
+		 * @param content
+		 * @return
+		 */
+		private static String formatStringIndentRight(int start, int end, String content) {
+			int size = end - start + 1;
+
+			if (content.length() > size) {
+				String result = content.substring(0, size);
+				return result;
+			} else {
+				StringBuilder sb = new StringBuilder();
+				while (sb.length() + content.length() < size) {
+					sb.append(" ");
+				}
+				String result = sb.append(content).toString();
+				return result;
+			}
+		}
+
+		@SuppressWarnings("incomplete-switch")
+		public static double computePoints(ChesspairingPlayer player, ChesspairingTournament tournament) {
+			String key = player.getPlayerKey();
+			Double totalPoints = 0.0;
+
+			Double whinPoints = 1.0;
+			Double lostPoints = 0.0;
+			Double drawPoints = 0.5;
+			Double buyPoints = 0.0;
+			ChesspairingByeValue buy = tournament.getChesspairingByeValue();
+
+			switch (buy) {
+			case HALF_A_POINT:
+				buyPoints = 0.5;
+				break;
+			case ONE_POINT:
+				buyPoints = 1.0;
+			default:
+				throw new IllegalStateException("Case not implemented fro buy " + buy);
+			}
+
+			for (ChesspairingRound round : tournament.getRounds()) {
+				for (ChesspairingGame game : round.getGames()) {
+					ChesspairingResult result = game.getResult();
+
+					String whiteKey = game.getWhitePlayer().getPlayerKey();
+					if (whiteKey.equals(key)) {
+						switch (result) {
+						case BYE:
+							totalPoints += buyPoints;
+							break;
+						case WHITE_WINS:
+							totalPoints += whinPoints;
+							break;
+						case WHITE_WINS_OPONENT_ABSENT:
+							totalPoints += whinPoints;
+						}
+						continue;
+					}
+
+					if (game.getBlackPlayer() == null) {
+						continue;
+					}
+
+					String blackKey = game.getBlackPlayer().getPlayerKey();
+					if (blackKey.equals(key)) {
+						switch (result) {
+						case BYE:
+							totalPoints += buyPoints;
+							break;
+						case BLACK_WINS:
+							totalPoints += whinPoints;
+							break;
+						case BLACK_WINS_OPONENT_ABSENT:
+							totalPoints += whinPoints;
+						}
+					}
+
+				}
+			}
+			return totalPoints;
+		}
 
 }
