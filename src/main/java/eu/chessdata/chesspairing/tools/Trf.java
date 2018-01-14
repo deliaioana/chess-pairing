@@ -213,7 +213,18 @@ public class Trf {
 			sb.append(Trf.formatStringIndentRight(70, 79, this.birthDate));
 			sb.append(" ");// 80
 			sb.append(Trf.formatStringIndentRight(81, 84, this.getPoints()));
+			sb.append(" ");// 85
+			sb.append(Trf.formatStringIndentRight(86, 89, this.getRank()));
 			return sb.toString();
+		}
+
+		/**
+		 * It computes the rank of the player overall
+		 * @return
+		 */
+		private String getRank() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 		/**
