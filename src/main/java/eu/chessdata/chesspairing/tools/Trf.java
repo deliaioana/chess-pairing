@@ -2,8 +2,11 @@ package eu.chessdata.chesspairing.tools;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
@@ -221,46 +224,83 @@ public class Trf {
 
 		/**
 		 * It computes the rank of the player overall
+		 * 
 		 * @return
 		 */
 		private String getRank() {
-			HashMap<ChesspairingPlayer, Float> points = new HashMap<>();
-			for (ChesspairingPlayer player: trfTournament.getPlayers()){
-				points.put(player, getPoints(player));
+			
+			final HashMap<ChesspairingPlayer, Float> points = new HashMap<>();
+			for (ChesspairingPlayer player : trfTournament.getPlayers()) {
+				points.put(player, Float.valueOf(getPoints(player)));
 			}
-			// TODO Auto-generated method stub
-			return null;
+			final List<ChesspairingPlayer> initialOrder = new LinkedList<>();
+			initialOrder.addAll(trfTournament.getPlayers());
+			
+			List<ChesspairingPlayer> orderdPlayers = new LinkedList<>();
+			orderdPlayers.addAll(trfTournament.getPlayers());
+			Collections.sort(orderdPlayers, new Comparator<ChesspairingPlayer>() {
+
+				@Override
+				public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
+					/**
+					 * this comparator returns an inverted value
+					 */
+					int return_value = 0;
+					Float p1 = points.get(o1);
+					Float p2 = points.get(o2);
+					if (p1 < p2) {
+						return_value = -1;
+					}
+					if (p1 > p2) {
+						return_value = 1;
+					}
+					if (p1 == p2) {
+						int r1 = initialOrder.indexOf(o1);
+						int r2 = initialOrder.indexOf(o2);
+						if (r1 < r2) {
+							return_value = -1;
+						}else {
+							return_value = 1;
+						}
+					}
+					//invert the normal arrangement so wee get the highest numbers first
+					return_value = (-1) * return_value;
+					return return_value;
+				}
+			});
+			String rank = String.valueOf(orderdPlayers.indexOf(this.player)+1);
+			return rank;
 		}
 
 		/**
-		 * computes the number of point of the current tournament and returns
-		 * them in a string format( 11.5 format)
+		 * computes the number of point of the current tournament and returns them in a
+		 * string format( 11.5 format)
 		 * 
 		 * @return
 		 */
 		// computes the number of points of the current player from a specified
 		// tournament
-		private String getPoints( ChesspairingPlayer player) {
+		private String getPoints(ChesspairingPlayer player) {
 			List<ChesspairingRound> rounds = trfTournament.getRounds();
 			float points = 0;
-			for (ChesspairingRound round: rounds){
+			for (ChesspairingRound round : rounds) {
 				List<ChesspairingGame> games = round.getGames();
-				for (ChesspairingGame game: games){
+				for (ChesspairingGame game : games) {
 					ChesspairingResult result = game.getResult();
-					
-					//this player is the white player
-					if (player.equals(game.getWhitePlayer())){
-						if(result.equals(ChesspairingResult.WHITE_WINS)){
+
+					// this player is the white player
+					if (player.equals(game.getWhitePlayer())) {
+						if (result.equals(ChesspairingResult.WHITE_WINS)) {
 							points += 1;
-						}else if(result.equals(ChesspairingResult.DRAW_GAME)){
+						} else if (result.equals(ChesspairingResult.DRAW_GAME)) {
 							points += 0.5;
-						}else if (result.equals(ChesspairingResult.BYE)){
+						} else if (result.equals(ChesspairingResult.BYE)) {
 							points += trfTournament.getChesspairingByeValue().getValue();
 						}
-					}else if(player.equals(game.getBlackPlayer())){
-						if (result.equals(ChesspairingResult.BLACK_WINS)){
+					} else if (player.equals(game.getBlackPlayer())) {
+						if (result.equals(ChesspairingResult.BLACK_WINS)) {
 							points += 1;
-						}else if (result.equals(ChesspairingResult.DRAW_GAME)){
+						} else if (result.equals(ChesspairingResult.DRAW_GAME)) {
 							points += 0.5;
 						}
 					}
@@ -271,116 +311,116 @@ public class Trf {
 		}
 	}
 
-		/**
-		 * format a "something" string into "something___" string
-		 * 
-		 * @param start
-		 * @param end
-		 * @param content
-		 * @return
-		 */
-		private static String formatStringIndentLeft(int start, int end, String content) {
-			int size = end - start + 1;
+	/**
+	 * format a "something" string into "something___" string
+	 * 
+	 * @param start
+	 * @param end
+	 * @param content
+	 * @return
+	 */
+	private static String formatStringIndentLeft(int start, int end, String content) {
+		int size = end - start + 1;
+		StringBuilder sb = new StringBuilder();
+		sb.append(content);
+
+		if (sb.length() > size) {
+			String result = sb.substring(0, size);
+			return result;
+		} else {
+			while (sb.length() < size) {
+				sb.append(" ");
+			}
+			String result = sb.toString();
+			return result;
+		}
+	}
+
+	/**
+	 * format a "something" sting into "___something" string
+	 * 
+	 * @param start
+	 * @param end
+	 * @param content
+	 * @return
+	 */
+	private static String formatStringIndentRight(int start, int end, String content) {
+		int size = end - start + 1;
+
+		if (content.length() > size) {
+			String result = content.substring(0, size);
+			return result;
+		} else {
 			StringBuilder sb = new StringBuilder();
-			sb.append(content);
-
-			if (sb.length() > size) {
-				String result = sb.substring(0, size);
-				return result;
-			} else {
-				while (sb.length() < size) {
-					sb.append(" ");
-				}
-				String result = sb.toString();
-				return result;
+			while (sb.length() + content.length() < size) {
+				sb.append(" ");
 			}
+			String result = sb.append(content).toString();
+			return result;
+		}
+	}
+
+	@SuppressWarnings("incomplete-switch")
+	public static double computePoints(ChesspairingPlayer player, ChesspairingTournament tournament) {
+		String key = player.getPlayerKey();
+		Double totalPoints = 0.0;
+
+		Double whinPoints = 1.0;
+		Double lostPoints = 0.0;
+		Double drawPoints = 0.5;
+		Double buyPoints = 0.0;
+		ChesspairingByeValue buy = tournament.getChesspairingByeValue();
+
+		switch (buy) {
+		case HALF_A_POINT:
+			buyPoints = 0.5;
+			break;
+		case ONE_POINT:
+			buyPoints = 1.0;
+		default:
+			throw new IllegalStateException("Case not implemented fro buy " + buy);
 		}
 
-		/**
-		 * format a "something" sting into "___something" string
-		 * 
-		 * @param start
-		 * @param end
-		 * @param content
-		 * @return
-		 */
-		private static String formatStringIndentRight(int start, int end, String content) {
-			int size = end - start + 1;
+		for (ChesspairingRound round : tournament.getRounds()) {
+			for (ChesspairingGame game : round.getGames()) {
+				ChesspairingResult result = game.getResult();
 
-			if (content.length() > size) {
-				String result = content.substring(0, size);
-				return result;
-			} else {
-				StringBuilder sb = new StringBuilder();
-				while (sb.length() + content.length() < size) {
-					sb.append(" ");
+				String whiteKey = game.getWhitePlayer().getPlayerKey();
+				if (whiteKey.equals(key)) {
+					switch (result) {
+					case BYE:
+						totalPoints += buyPoints;
+						break;
+					case WHITE_WINS:
+						totalPoints += whinPoints;
+						break;
+					case WHITE_WINS_OPONENT_ABSENT:
+						totalPoints += whinPoints;
+					}
+					continue;
 				}
-				String result = sb.append(content).toString();
-				return result;
+
+				if (game.getBlackPlayer() == null) {
+					continue;
+				}
+
+				String blackKey = game.getBlackPlayer().getPlayerKey();
+				if (blackKey.equals(key)) {
+					switch (result) {
+					case BYE:
+						totalPoints += buyPoints;
+						break;
+					case BLACK_WINS:
+						totalPoints += whinPoints;
+						break;
+					case BLACK_WINS_OPONENT_ABSENT:
+						totalPoints += whinPoints;
+					}
+				}
+
 			}
 		}
-
-		@SuppressWarnings("incomplete-switch")
-		public static double computePoints(ChesspairingPlayer player, ChesspairingTournament tournament) {
-			String key = player.getPlayerKey();
-			Double totalPoints = 0.0;
-
-			Double whinPoints = 1.0;
-			Double lostPoints = 0.0;
-			Double drawPoints = 0.5;
-			Double buyPoints = 0.0;
-			ChesspairingByeValue buy = tournament.getChesspairingByeValue();
-
-			switch (buy) {
-			case HALF_A_POINT:
-				buyPoints = 0.5;
-				break;
-			case ONE_POINT:
-				buyPoints = 1.0;
-			default:
-				throw new IllegalStateException("Case not implemented fro buy " + buy);
-			}
-
-			for (ChesspairingRound round : tournament.getRounds()) {
-				for (ChesspairingGame game : round.getGames()) {
-					ChesspairingResult result = game.getResult();
-
-					String whiteKey = game.getWhitePlayer().getPlayerKey();
-					if (whiteKey.equals(key)) {
-						switch (result) {
-						case BYE:
-							totalPoints += buyPoints;
-							break;
-						case WHITE_WINS:
-							totalPoints += whinPoints;
-							break;
-						case WHITE_WINS_OPONENT_ABSENT:
-							totalPoints += whinPoints;
-						}
-						continue;
-					}
-
-					if (game.getBlackPlayer() == null) {
-						continue;
-					}
-
-					String blackKey = game.getBlackPlayer().getPlayerKey();
-					if (blackKey.equals(key)) {
-						switch (result) {
-						case BYE:
-							totalPoints += buyPoints;
-							break;
-						case BLACK_WINS:
-							totalPoints += whinPoints;
-							break;
-						case BLACK_WINS_OPONENT_ABSENT:
-							totalPoints += whinPoints;
-						}
-					}
-
-				}
-			}
-			return totalPoints;
-		}
+		return totalPoints;
+	}
 
 }
