@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.text.html.HTMLDocument.HTMLReader.BlockAction;
 
 import eu.chessdata.chesspairing.model.ChesspairingByeValue;
+import eu.chessdata.chesspairing.model.ChesspairingColour;
 import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 import eu.chessdata.chesspairing.model.ChesspairingResult;
@@ -219,6 +220,79 @@ public class Trf {
 			sb.append(Trf.formatStringIndentRight(81, 84, this.getPoints(player)));
 			sb.append(" ");// 85
 			sb.append(Trf.formatStringIndentRight(86, 89, this.getRank()));
+
+			for (ChesspairingRound round : trfTournament.getRounds()) {
+				sb.append("  "); // 90, 91
+				ChesspairingGame game = round.getGame(player);
+				ChesspairingResult result = game.getResult();
+				// if player is present
+				List<ChesspairingPlayer> presentPlayers = round.getPresentPlayers();
+				if (!presentPlayers.contains(player)) {
+					sb.append("0000 - H");
+					continue;
+				}
+
+				// if white player
+				if (game.getWhitePlayer().equals(player)) {
+					if (result == ChesspairingResult.BYE) {
+						sb.append("0000 - U");
+						continue;
+					} else {
+						ChesspairingPlayer enemy = game.getBlackPlayer();
+
+						String initialOrder = String.valueOf(enemy.getInitialOrderId());
+						sb.append(Trf.formatStringIndentRight(92, 95, initialOrder)); // 92 - 95
+						sb.append(" w "); // 96, 97, 98
+						switch (result) { // 99
+						case WHITE_WINS:
+							sb.append("1");
+							break;
+						case WHITE_WINS_OPONENT_ABSENT:
+							sb.append("+");
+							break;
+						case BLACK_WINS:
+							sb.append("0");
+							break;
+						case BLACK_WINS_OPONENT_ABSENT:
+							sb.append("-");
+							break;
+						case DRAW_GAME:
+							sb.append("=");
+							break;
+						default:
+							throw new IllegalStateException("Illegal state. Please debug");
+						}
+					}
+				}
+
+				// if player is black
+				if (game.getBlackPlayer().equals(player)) {
+					ChesspairingPlayer enemy = game.getWhitePlayer();
+
+					String initialOrder = String.valueOf(enemy.getInitialOrderId());
+					sb.append(Trf.formatStringIndentRight(92, 95, initialOrder)); // 92 - 95
+					sb.append(" b ");
+					switch (result) {
+					case WHITE_WINS:
+						sb.append("0");
+						break;
+					case WHITE_WINS_OPONENT_ABSENT:
+						sb.append("-");
+						break;
+					case BLACK_WINS:
+						sb.append("1");
+						break;
+					case BLACK_WINS_OPONENT_ABSENT:
+						sb.append("+");
+						break;
+					case DRAW_GAME:
+						sb.append("=");
+						break;
+					default:
+						throw new IllegalStateException("Illegal state. Please debug");
+					}
+				}
+			}
 			return sb.toString();
 		}
 
@@ -228,14 +302,14 @@ public class Trf {
 		 * @return
 		 */
 		private String getRank() {
-			
+
 			final HashMap<ChesspairingPlayer, Float> points = new HashMap<>();
 			for (ChesspairingPlayer player : trfTournament.getPlayers()) {
 				points.put(player, Float.valueOf(getPoints(player)));
 			}
 			final List<ChesspairingPlayer> initialOrder = new LinkedList<>();
 			initialOrder.addAll(trfTournament.getPlayers());
-			
+
 			List<ChesspairingPlayer> orderdPlayers = new LinkedList<>();
 			orderdPlayers.addAll(trfTournament.getPlayers());
 			Collections.sort(orderdPlayers, new Comparator<ChesspairingPlayer>() {
@@ -259,16 +333,16 @@ public class Trf {
 						int r2 = initialOrder.indexOf(o2);
 						if (r1 < r2) {
 							return_value = -1;
-						}else {
+						} else {
 							return_value = 1;
 						}
 					}
-					//invert the normal arrangement so wee get the highest numbers first
+					// invert the normal arrangement so wee get the highest numbers first
 					return_value = (-1) * return_value;
 					return return_value;
 				}
 			});
-			String rank = String.valueOf(orderdPlayers.indexOf(this.player)+1);
+			String rank = String.valueOf(orderdPlayers.indexOf(this.player) + 1);
 			return rank;
 		}
 

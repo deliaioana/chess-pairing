@@ -1595,7 +1595,7 @@
 						"tournamentPoints": 0,
 						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "WHITE_WINS"
 				},
 				{
 					"tableNumber": 2,
@@ -1619,7 +1619,7 @@
 						"tournamentPoints": 0,
 						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "WHITE_WINS"
 				},
 				{
 					"tableNumber": 3,
@@ -1643,7 +1643,7 @@
 						"tournamentPoints": 0,
 						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "WHITE_WINS"
 				},
 				{
 					"tableNumber": 4,
@@ -1667,7 +1667,7 @@
 						"tournamentPoints": 0,
 						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "WHITE_WINS"
 				},
 				{
 					"tableNumber": 5,
@@ -1691,7 +1691,7 @@
 						"tournamentPoints": 0,
 						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "BLACK_WINS"
 				},
 				{
 					"tableNumber": 6,
@@ -1715,7 +1715,7 @@
 						"tournamentPoints": 0,
 						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "BLACK_WINS"
 				},
 				{
 					"tableNumber": 7,
@@ -1739,7 +1739,7 @@
 						"tournamentPoints": 0,
 						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "BLACK_WINS"
 				},
 				{
 					"tableNumber": 8,
@@ -1763,7 +1763,7 @@
 						"tournamentPoints": 0,
 						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "BLACK_WINS"
 				},
 				{
 					"tableNumber": 9,
@@ -1787,7 +1787,7 @@
 						"tournamentPoints": 0,
 						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "BLACK_WINS"
 				},
 				{
 					"tableNumber": 10,
@@ -1811,7 +1811,7 @@
 						"tournamentPoints": 0,
 						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "WHITE_WINS"
 				},
 				{
 					"tableNumber": 11,
@@ -1835,7 +1835,7 @@
 						"tournamentPoints": 0,
 						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "WHITE_WINS"
 				},
 				{
 					"tableNumber": 12,
