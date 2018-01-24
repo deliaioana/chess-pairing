@@ -1,3 +1,4 @@
 project creation
 mvn archetype:generate -DgroupId=eu.chesdata -DartifactId=chess-paring -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 
+install javafo with maven

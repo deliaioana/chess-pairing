@@ -239,6 +239,7 @@ public class Trf {
 						continue;
 					} else {
 						ChesspairingPlayer enemy = game.getBlackPlayer();
+						enemy = trfTournament.getPlayer(enemy.getPlayerKey());
 
 						String initialOrder = String.valueOf(enemy.getInitialOrderId());
 						sb.append(Trf.formatStringIndentRight(92, 95, initialOrder)); // 92 - 95
@@ -268,6 +269,7 @@ public class Trf {
 				// if player is black
 				if (game.getBlackPlayer().equals(player)) {
 					ChesspairingPlayer enemy = game.getWhitePlayer();
+					enemy = trfTournament.getPlayer(enemy.getPlayerKey());
 
 					String initialOrder = String.valueOf(enemy.getInitialOrderId());
 					sb.append(Trf.formatStringIndentRight(92, 95, initialOrder)); // 92 - 95
@@ -491,7 +493,6 @@ public class Trf {
 						totalPoints += whinPoints;
 					}
 				}
-
 			}
 		}
 		return totalPoints;

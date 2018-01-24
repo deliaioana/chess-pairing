@@ -15,8 +15,8 @@ public class ChesspairingTournament {
 	private String ChifArbiter;
 	private String deputyChifArbiters;
 	/**
-	 * this is the maximum allowed number of rounds in a tournament. 
-	 * If you try to pare over this number some algorithms will just crash. 
+	 * this is the maximum allowed number of rounds in a tournament. If you try to
+	 * pare over this number some algorithms will just crash.
 	 */
 	private int totalRounds;
 	private ChesspairingByeValue chesspairingByeValue;
@@ -32,7 +32,6 @@ public class ChesspairingTournament {
 		this.name = name;
 	}
 
-	
 	public String getCity() {
 		return city;
 	}
@@ -136,6 +135,22 @@ public class ChesspairingTournament {
 	public void setParringSummary(PairingSummary parringSummary) {
 		this.parringSummary = parringSummary;
 	}
-	
-	
+
+	/**
+	 * It returns the player in {@link #players} by player key
+	 * 
+	 * @param playerKey
+	 *            is the key of a specific player
+	 * @return a player and throws exception if player does not exist
+	 */
+	public ChesspairingPlayer getPlayer(String playerKey) {
+		for (ChesspairingPlayer player : players) {
+			String key = player.getPlayerKey();
+			if (key.equals(playerKey)) {
+				return player;
+			}
+		}
+		throw new IllegalStateException("Player does not exist in the players list");
+	}
+
 }
