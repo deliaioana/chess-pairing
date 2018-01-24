@@ -52,6 +52,12 @@
 			<version>20.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>javafo-group</groupId>
+			<artifactId>javafo-artifact</artifactId>
+			<version>1.4</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -1,5 +1,8 @@
-package eu.chessdata.chesspairing;
+package eu.chessdata.chesspairing.tools;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.Date;
 
@@ -10,14 +13,13 @@ import eu.chessdata.chesspairing.model.ChesspairingSex;
 import eu.chessdata.chesspairing.model.ChesspairingTitle;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.TestUtils;
-import eu.chessdata.chesspairing.tools.SortTool;
-import eu.chessdata.chesspairing.tools.Trf;
+import javafo.api.JaVaFoApi;
 
 public class TrfTest {
 
 	/**
-	 * used to order first time players in order and add some test specific data
-	 * for future tests
+	 * used to order first time players in order and add some test specific data for
+	 * future tests
 	 */
 	@Test
 	public void test1() {
@@ -67,8 +69,12 @@ public class TrfTest {
 	public void test2() {
 		ChesspairingTournament tournament = TestUtils.loadFile("/trf/test2.json");
 		String trf = Trf.getTrf(tournament);
+		InputStream inputStream = new ByteArrayInputStream(trf.getBytes());
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		JaVaFoApi.exec(1000, "Hello World", inputStream, outputStream);
+		String resoult = outputStream.toString();
 		System.out.println(trf);
+		System.out.println(resoult);
 	}
-	
-	
+
 }
