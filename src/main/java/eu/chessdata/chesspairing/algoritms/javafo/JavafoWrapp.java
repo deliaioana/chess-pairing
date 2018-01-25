@@ -8,6 +8,7 @@ import java.util.List;
 
 import eu.chessdata.chesspairing.algoritms.fideswissduch.Algorithm;
 import eu.chessdata.chesspairing.model.ChesspairingGame;
+import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.tools.Trf;
@@ -38,6 +39,11 @@ public class JavafoWrapp implements Algorithm {
 			System.out.println(pare);
 			int indexWhite = Integer.valueOf(pare[0]);
 			int indexBlack = Integer.valueOf(pare[1]);
+			ChesspairingPlayer whitePlayer = tournament.getPlayerByInitialRank(indexWhite);
+			
+			ChesspairingGame game = new ChesspairingGame();
+			game.setTableNumber(i);
+			
 			
 		}
 		throw new IllegalStateException("Please implement this");
