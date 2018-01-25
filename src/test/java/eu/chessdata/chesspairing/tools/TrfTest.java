@@ -75,6 +75,12 @@ public class TrfTest {
 		String resoult = outputStream.toString();
 		System.out.println(trf);
 		System.out.println(resoult);
+		String newline = System.getProperty("line.separator");
+		String[] pares = resoult.split(newline);
+		
+		for (String pare: pares) {
+			System.out.println("pare: "+pare);
+		}
 	}
 
 }

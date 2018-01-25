@@ -11,8 +11,10 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
+import eu.chessdata.chesspairing.algoritms.fideswissduch.Algorithm;
 import eu.chessdata.chesspairing.algoritms.fideswissduch.v2.FideSwissDutchTest;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
+import eu.chessdata.chesspairing.model.TestUtils;
 import eu.chessdata.chesspairing.tools.Tools;
 
 public class JavafoWrappTest {
@@ -30,10 +32,11 @@ public class JavafoWrappTest {
 	}
 
 	@Test
-	public void test() {
-		ChesspairingTournament tournament = loadFile("/jafafoWrapp/test1.json");
-		
-		fail("Not yet implemented");
+	public void test1() {
+		ChesspairingTournament tournament = TestUtils.loadFile("/jafafoWrapp/test1.json");
+		Algorithm algorithm = new JavafoWrapp();
+		ChesspairingTournament nextRoundTournament = algorithm.generateNextRound(tournament);
+		TestUtils.writeToFile(nextRoundTournament, "test1NextRound.json");
 	}
 
 }

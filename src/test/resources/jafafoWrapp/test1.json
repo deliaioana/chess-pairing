@@ -1,214 +1,304 @@
 {
-	"name": "Tournament test 5",
+	"name": "Tournament trf test",
+	"city": "Iasi",
+	"dateOfStart": "May 13, 2017 11:31:05 PM",
+	"dateOfEnd": "May 13, 2017 11:31:05 PM",
+	"typeOfTournament": "Individual: Swiss-System",
 	"totalRounds": 7,
 	"chesspairingByeValue": "HALF_A_POINT",
 	"players": [
 		{
-			"name": "Bogdan Marian",
-			"elo": 1450,
-			"initialOrderId": 0,
-			"playerKey": "1450Bogdan Marian",
+			"name": "Cemil",
+			"elo": 2500,
+			"initialOrderId": 1,
+			"playerKey": "2500Cemil",
 			"isPresent": false,
 			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Lacramioara",
-			"elo": 1320,
-			"initialOrderId": 0,
-			"playerKey": "1320Lacramioara",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Calin Constantin",
-			"elo": 1550,
-			"initialOrderId": 0,
-			"playerKey": "1550Calin Constantin",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Cezar Andrei",
-			"elo": 1200,
-			"initialOrderId": 0,
-			"playerKey": "1200Cezar Andrei",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Rares",
-			"elo": 1600,
-			"initialOrderId": 0,
-			"playerKey": "1600Rares",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0,
+			"title": "GRANDMASTER",
+			"federation": "BEL",
+			"fideNumber": "13456781"
 		},
 		{
 			"name": "Catalin Ioan",
 			"elo": 1750,
-			"initialOrderId": 0,
+			"initialOrderId": 2,
 			"playerKey": "1750Catalin Ioan",
 			"isPresent": false,
 			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Maria",
-			"elo": 1700,
-			"initialOrderId": 0,
-			"playerKey": "1700Maria",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
 		},
 		{
 			"name": "Delia Ioana",
 			"elo": 1750,
-			"initialOrderId": 0,
+			"initialOrderId": 3,
 			"playerKey": "1750Delia Ioana",
 			"isPresent": false,
 			"acceleratedPoints": 0,
-			"tournamentPoints": 0
+			"tournamentPoints": 0,
+			"sex": "WOMAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0,
+			"title": "CANDIDATE_MASTER",
+			"federation": "ROU"
 		},
 		{
-			"name": "Cemil",
-			"elo": 2500,
-			"initialOrderId": 0,
-			"playerKey": "2500Cemil",
+			"name": "Maria",
+			"elo": 1700,
+			"initialOrderId": 4,
+			"playerKey": "1700Maria",
 			"isPresent": false,
 			"acceleratedPoints": 0,
-			"tournamentPoints": 0
+			"tournamentPoints": 0,
+			"sex": "WOMAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0,
+			"federation": "ROU"
 		},
 		{
-			"name": "Delia Dinu",
-			"elo": 700,
-			"initialOrderId": 0,
-			"playerKey": "700Delia Dinu",
+			"name": "Rares",
+			"elo": 1600,
+			"initialOrderId": 5,
+			"playerKey": "1600Rares",
 			"isPresent": false,
 			"acceleratedPoints": 0,
-			"tournamentPoints": 0
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0,
+			"title": "INTERNATIONAL_MASTER",
+			"federation": "ROU",
+			"fideNumber": "13456782"
 		},
 		{
-			"name": "Mihai",
-			"elo": 600,
-			"initialOrderId": 0,
-			"playerKey": "600Mihai",
+			"name": "Calin Constantin",
+			"elo": 1550,
+			"initialOrderId": 6,
+			"playerKey": "1550Calin Constantin",
 			"isPresent": false,
 			"acceleratedPoints": 0,
-			"tournamentPoints": 0
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0,
+			"title": "CANDIDATE_MASTER",
+			"federation": "ROU"
+		},
+		{
+			"name": "Bogdan Marian",
+			"elo": 1450,
+			"initialOrderId": 7,
+			"playerKey": "1450Bogdan Marian",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0,
+			"title": "FIDE_MASTER",
+			"federation": "ROU",
+			"fideNumber": "13456783"
+		},
+		{
+			"name": "Lacramioara",
+			"elo": 1320,
+			"initialOrderId": 8,
+			"playerKey": "1320Lacramioara",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "WOMAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0,
+			"federation": "ROU"
+		},
+		{
+			"name": "Cezar Andrei",
+			"elo": 1200,
+			"initialOrderId": 9,
+			"playerKey": "1200Cezar Andrei",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
 		},
 		{
 			"name": "Mihaela",
 			"elo": 750,
-			"initialOrderId": 0,
+			"initialOrderId": 10,
 			"playerKey": "750Mihaela",
 			"isPresent": false,
 			"acceleratedPoints": 0,
-			"tournamentPoints": 0
+			"tournamentPoints": 0,
+			"sex": "WOMAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0,
+			"federation": "ROU"
 		},
 		{
-			"name": "Player_1",
-			"elo": 505,
-			"initialOrderId": 0,
-			"playerKey": "505Player_1",
+			"name": "Delia Dinu",
+			"elo": 700,
+			"initialOrderId": 11,
+			"playerKey": "700Delia Dinu",
 			"isPresent": false,
 			"acceleratedPoints": 0,
-			"tournamentPoints": 0
+			"tournamentPoints": 0,
+			"sex": "WOMAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0,
+			"federation": "ROU"
 		},
 		{
-			"name": "Player_2",
-			"elo": 510,
-			"initialOrderId": 0,
-			"playerKey": "510Player_2",
+			"name": "Mihai",
+			"elo": 600,
+			"initialOrderId": 12,
+			"playerKey": "600Mihai",
 			"isPresent": false,
 			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Player_3",
-			"elo": 515,
-			"initialOrderId": 0,
-			"playerKey": "515Player_3",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Player_4",
-			"elo": 520,
-			"initialOrderId": 0,
-			"playerKey": "520Player_4",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Player_5",
-			"elo": 525,
-			"initialOrderId": 0,
-			"playerKey": "525Player_5",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Player_6",
-			"elo": 530,
-			"initialOrderId": 0,
-			"playerKey": "530Player_6",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Player_7",
-			"elo": 535,
-			"initialOrderId": 0,
-			"playerKey": "535Player_7",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Player_8",
-			"elo": 540,
-			"initialOrderId": 0,
-			"playerKey": "540Player_8",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Player_9",
-			"elo": 545,
-			"initialOrderId": 0,
-			"playerKey": "545Player_9",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
-		},
-		{
-			"name": "Player_10",
-			"elo": 550,
-			"initialOrderId": 0,
-			"playerKey": "550Player_10",
-			"isPresent": false,
-			"acceleratedPoints": 0,
-			"tournamentPoints": 0
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
 		},
 		{
 			"name": "Player_11",
 			"elo": 555,
-			"initialOrderId": 0,
+			"initialOrderId": 13,
 			"playerKey": "555Player_11",
 			"isPresent": false,
 			"acceleratedPoints": 0,
-			"tournamentPoints": 0
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
+		},
+		{
+			"name": "Player_10",
+			"elo": 550,
+			"initialOrderId": 14,
+			"playerKey": "550Player_10",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
+		},
+		{
+			"name": "Player_9",
+			"elo": 545,
+			"initialOrderId": 15,
+			"playerKey": "545Player_9",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
+		},
+		{
+			"name": "Player_8",
+			"elo": 540,
+			"initialOrderId": 16,
+			"playerKey": "540Player_8",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
+		},
+		{
+			"name": "Player_7",
+			"elo": 535,
+			"initialOrderId": 17,
+			"playerKey": "535Player_7",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
+		},
+		{
+			"name": "Player_6",
+			"elo": 530,
+			"initialOrderId": 18,
+			"playerKey": "530Player_6",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
+		},
+		{
+			"name": "Player_5",
+			"elo": 525,
+			"initialOrderId": 19,
+			"playerKey": "525Player_5",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
+		},
+		{
+			"name": "Player_4",
+			"elo": 520,
+			"initialOrderId": 20,
+			"playerKey": "520Player_4",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
+		},
+		{
+			"name": "Player_3",
+			"elo": 515,
+			"initialOrderId": 21,
+			"playerKey": "515Player_3",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
+		},
+		{
+			"name": "Player_2",
+			"elo": 510,
+			"initialOrderId": 22,
+			"playerKey": "510Player_2",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
+		},
+		{
+			"name": "Player_1",
+			"elo": 505,
+			"initialOrderId": 23,
+			"playerKey": "505Player_1",
+			"isPresent": false,
+			"acceleratedPoints": 0,
+			"tournamentPoints": 0,
+			"sex": "MAN",
+			"birthDate": "May 13, 2017 11:31:05 PM",
+			"rank": 0
 		}
 	],
 	"rounds": [
@@ -222,7 +312,8 @@
 					"playerKey": "1450Bogdan Marian",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Lacramioara",
@@ -231,7 +322,8 @@
 					"playerKey": "1320Lacramioara",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Calin Constantin",
@@ -240,7 +332,8 @@
 					"playerKey": "1550Calin Constantin",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Cezar Andrei",
@@ -249,7 +342,8 @@
 					"playerKey": "1200Cezar Andrei",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Rares",
@@ -258,7 +352,8 @@
 					"playerKey": "1600Rares",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Catalin Ioan",
@@ -267,7 +362,8 @@
 					"playerKey": "1750Catalin Ioan",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Maria",
@@ -276,7 +372,8 @@
 					"playerKey": "1700Maria",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Delia Ioana",
@@ -285,7 +382,8 @@
 					"playerKey": "1750Delia Ioana",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Cemil",
@@ -294,7 +392,8 @@
 					"playerKey": "2500Cemil",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Delia Dinu",
@@ -303,7 +402,8 @@
 					"playerKey": "700Delia Dinu",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Mihai",
@@ -312,7 +412,8 @@
 					"playerKey": "600Mihai",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Mihaela",
@@ -321,7 +422,8 @@
 					"playerKey": "750Mihaela",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_1",
@@ -330,7 +432,8 @@
 					"playerKey": "505Player_1",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_2",
@@ -339,7 +442,8 @@
 					"playerKey": "510Player_2",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_3",
@@ -348,7 +452,8 @@
 					"playerKey": "515Player_3",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_4",
@@ -357,7 +462,8 @@
 					"playerKey": "520Player_4",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_5",
@@ -366,7 +472,8 @@
 					"playerKey": "525Player_5",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_6",
@@ -375,7 +482,8 @@
 					"playerKey": "530Player_6",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_7",
@@ -384,7 +492,8 @@
 					"playerKey": "535Player_7",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_8",
@@ -393,7 +502,8 @@
 					"playerKey": "540Player_8",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_9",
@@ -402,7 +512,8 @@
 					"playerKey": "545Player_9",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_10",
@@ -411,7 +522,8 @@
 					"playerKey": "550Player_10",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_11",
@@ -420,7 +532,8 @@
 					"playerKey": "555Player_11",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				}
 			],
 			"upfloaters": [],
@@ -435,7 +548,8 @@
 						"playerKey": "1450Bogdan Marian",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_11",
@@ -444,7 +558,8 @@
 						"playerKey": "555Player_11",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -457,7 +572,8 @@
 						"playerKey": "1320Lacramioara",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_10",
@@ -466,7 +582,8 @@
 						"playerKey": "550Player_10",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -479,7 +596,8 @@
 						"playerKey": "1550Calin Constantin",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_9",
@@ -488,7 +606,8 @@
 						"playerKey": "545Player_9",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -501,7 +620,8 @@
 						"playerKey": "1200Cezar Andrei",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_8",
@@ -510,7 +630,8 @@
 						"playerKey": "540Player_8",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -523,7 +644,8 @@
 						"playerKey": "1600Rares",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_7",
@@ -532,7 +654,8 @@
 						"playerKey": "535Player_7",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -545,7 +668,8 @@
 						"playerKey": "1750Catalin Ioan",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_6",
@@ -554,7 +678,8 @@
 						"playerKey": "530Player_6",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -567,7 +692,8 @@
 						"playerKey": "1700Maria",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_5",
@@ -576,7 +702,8 @@
 						"playerKey": "525Player_5",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -589,7 +716,8 @@
 						"playerKey": "1750Delia Ioana",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_4",
@@ -598,7 +726,8 @@
 						"playerKey": "520Player_4",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -611,7 +740,8 @@
 						"playerKey": "2500Cemil",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_3",
@@ -620,7 +750,8 @@
 						"playerKey": "515Player_3",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -633,7 +764,8 @@
 						"playerKey": "700Delia Dinu",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_2",
@@ -642,7 +774,8 @@
 						"playerKey": "510Player_2",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -655,7 +788,8 @@
 						"playerKey": "600Mihai",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_1",
@@ -664,7 +798,8 @@
 						"playerKey": "505Player_1",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -677,7 +812,8 @@
 						"playerKey": "750Mihaela",
 						"isPresent": false,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "BYE"
 				}
@@ -693,7 +829,8 @@
 					"playerKey": "1450Bogdan Marian",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Lacramioara",
@@ -702,7 +839,8 @@
 					"playerKey": "1320Lacramioara",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Calin Constantin",
@@ -711,7 +849,8 @@
 					"playerKey": "1550Calin Constantin",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Cezar Andrei",
@@ -720,7 +859,8 @@
 					"playerKey": "1200Cezar Andrei",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Rares",
@@ -729,7 +869,8 @@
 					"playerKey": "1600Rares",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Catalin Ioan",
@@ -738,7 +879,8 @@
 					"playerKey": "1750Catalin Ioan",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Maria",
@@ -747,7 +889,8 @@
 					"playerKey": "1700Maria",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Delia Ioana",
@@ -756,7 +899,8 @@
 					"playerKey": "1750Delia Ioana",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Cemil",
@@ -765,7 +909,8 @@
 					"playerKey": "2500Cemil",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Delia Dinu",
@@ -774,7 +919,8 @@
 					"playerKey": "700Delia Dinu",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Mihai",
@@ -783,7 +929,8 @@
 					"playerKey": "600Mihai",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Mihaela",
@@ -792,7 +939,8 @@
 					"playerKey": "750Mihaela",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_1",
@@ -801,7 +949,8 @@
 					"playerKey": "505Player_1",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_2",
@@ -810,7 +959,8 @@
 					"playerKey": "510Player_2",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_3",
@@ -819,7 +969,8 @@
 					"playerKey": "515Player_3",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_4",
@@ -828,7 +979,8 @@
 					"playerKey": "520Player_4",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_5",
@@ -837,7 +989,8 @@
 					"playerKey": "525Player_5",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_6",
@@ -846,7 +999,8 @@
 					"playerKey": "530Player_6",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_7",
@@ -855,7 +1009,8 @@
 					"playerKey": "535Player_7",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_8",
@@ -864,7 +1019,8 @@
 					"playerKey": "540Player_8",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_9",
@@ -873,7 +1029,8 @@
 					"playerKey": "545Player_9",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_10",
@@ -882,7 +1039,8 @@
 					"playerKey": "550Player_10",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_11",
@@ -891,7 +1049,8 @@
 					"playerKey": "555Player_11",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				}
 			],
 			"upfloaters": [],
@@ -906,7 +1065,8 @@
 						"playerKey": "2500Cemil",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Calin Constantin",
@@ -915,7 +1075,8 @@
 						"playerKey": "1550Calin Constantin",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "BLACK_WINS"
 				},
@@ -928,7 +1089,8 @@
 						"playerKey": "1750Catalin Ioan",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Bogdan Marian",
@@ -937,7 +1099,8 @@
 						"playerKey": "1450Bogdan Marian",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "DRAW_GAME"
 				},
@@ -950,7 +1113,8 @@
 						"playerKey": "1750Delia Ioana",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Lacramioara",
@@ -959,7 +1123,8 @@
 						"playerKey": "1320Lacramioara",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -972,7 +1137,8 @@
 						"playerKey": "1700Maria",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Cezar Andrei",
@@ -981,7 +1147,8 @@
 						"playerKey": "1200Cezar Andrei",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "BLACK_WINS"
 				},
@@ -994,7 +1161,8 @@
 						"playerKey": "1600Rares",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Delia Dinu",
@@ -1003,7 +1171,8 @@
 						"playerKey": "700Delia Dinu",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "DRAW_GAME"
 				},
@@ -1016,7 +1185,8 @@
 						"playerKey": "535Player_7",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Mihai",
@@ -1025,7 +1195,8 @@
 						"playerKey": "600Mihai",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -1038,7 +1209,8 @@
 						"playerKey": "750Mihaela",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_6",
@@ -1047,7 +1219,8 @@
 						"playerKey": "530Player_6",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "BLACK_WINS"
 				},
@@ -1060,7 +1233,8 @@
 						"playerKey": "555Player_11",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_5",
@@ -1069,7 +1243,8 @@
 						"playerKey": "525Player_5",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "DRAW_GAME"
 				},
@@ -1082,7 +1257,8 @@
 						"playerKey": "550Player_10",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_4",
@@ -1091,7 +1267,8 @@
 						"playerKey": "520Player_4",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "WHITE_WINS"
 				},
@@ -1104,7 +1281,8 @@
 						"playerKey": "545Player_9",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_3",
@@ -1113,7 +1291,8 @@
 						"playerKey": "515Player_3",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "BLACK_WINS"
 				},
@@ -1126,7 +1305,8 @@
 						"playerKey": "540Player_8",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_2",
@@ -1135,7 +1315,8 @@
 						"playerKey": "510Player_2",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "DRAW_GAME"
 				},
@@ -1148,7 +1329,8 @@
 						"playerKey": "505Player_1",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "BYE"
 				}
@@ -1164,7 +1346,8 @@
 					"playerKey": "1450Bogdan Marian",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Lacramioara",
@@ -1173,7 +1356,8 @@
 					"playerKey": "1320Lacramioara",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Calin Constantin",
@@ -1182,7 +1366,8 @@
 					"playerKey": "1550Calin Constantin",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Cezar Andrei",
@@ -1191,7 +1376,8 @@
 					"playerKey": "1200Cezar Andrei",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Rares",
@@ -1200,7 +1386,8 @@
 					"playerKey": "1600Rares",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Catalin Ioan",
@@ -1209,7 +1396,8 @@
 					"playerKey": "1750Catalin Ioan",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Maria",
@@ -1218,7 +1406,8 @@
 					"playerKey": "1700Maria",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Delia Ioana",
@@ -1227,7 +1416,8 @@
 					"playerKey": "1750Delia Ioana",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Cemil",
@@ -1236,7 +1426,8 @@
 					"playerKey": "2500Cemil",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Delia Dinu",
@@ -1245,7 +1436,8 @@
 					"playerKey": "700Delia Dinu",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Mihai",
@@ -1254,7 +1446,8 @@
 					"playerKey": "600Mihai",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Mihaela",
@@ -1263,7 +1456,8 @@
 					"playerKey": "750Mihaela",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_1",
@@ -1272,7 +1466,8 @@
 					"playerKey": "505Player_1",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_2",
@@ -1281,7 +1476,8 @@
 					"playerKey": "510Player_2",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_3",
@@ -1290,7 +1486,8 @@
 					"playerKey": "515Player_3",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_4",
@@ -1299,7 +1496,8 @@
 					"playerKey": "520Player_4",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_5",
@@ -1308,7 +1506,8 @@
 					"playerKey": "525Player_5",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_6",
@@ -1317,7 +1516,8 @@
 					"playerKey": "530Player_6",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_7",
@@ -1326,7 +1526,8 @@
 					"playerKey": "535Player_7",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_8",
@@ -1335,7 +1536,8 @@
 					"playerKey": "540Player_8",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_9",
@@ -1344,7 +1546,8 @@
 					"playerKey": "545Player_9",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_10",
@@ -1353,7 +1556,8 @@
 					"playerKey": "550Player_10",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				},
 				{
 					"name": "Player_11",
@@ -1362,7 +1566,8 @@
 					"playerKey": "555Player_11",
 					"isPresent": false,
 					"acceleratedPoints": 0,
-					"tournamentPoints": 0
+					"tournamentPoints": 0,
+					"rank": 0
 				}
 			],
 			"upfloaters": [],
@@ -1377,7 +1582,8 @@
 						"playerKey": "1550Calin Constantin",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Delia Ioana",
@@ -1386,9 +1592,10 @@
 						"playerKey": "1750Delia Ioana",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "WHITE_WINS"
 				},
 				{
 					"tableNumber": 2,
@@ -1399,7 +1606,8 @@
 						"playerKey": "1200Cezar Andrei",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Rares",
@@ -1408,9 +1616,10 @@
 						"playerKey": "1600Rares",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "WHITE_WINS"
 				},
 				{
 					"tableNumber": 3,
@@ -1421,7 +1630,8 @@
 						"playerKey": "700Delia Dinu",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Catalin Ioan",
@@ -1430,9 +1640,10 @@
 						"playerKey": "1750Catalin Ioan",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "WHITE_WINS"
 				},
 				{
 					"tableNumber": 4,
@@ -1443,7 +1654,8 @@
 						"playerKey": "1450Bogdan Marian",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Mihai",
@@ -1452,9 +1664,10 @@
 						"playerKey": "600Mihai",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "WHITE_WINS"
 				},
 				{
 					"tableNumber": 5,
@@ -1465,7 +1678,8 @@
 						"playerKey": "550Player_10",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Cemil",
@@ -1474,9 +1688,10 @@
 						"playerKey": "2500Cemil",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "BLACK_WINS"
 				},
 				{
 					"tableNumber": 6,
@@ -1487,7 +1702,8 @@
 						"playerKey": "535Player_7",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Maria",
@@ -1496,9 +1712,10 @@
 						"playerKey": "1700Maria",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "BLACK_WINS"
 				},
 				{
 					"tableNumber": 7,
@@ -1509,7 +1726,8 @@
 						"playerKey": "530Player_6",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Lacramioara",
@@ -1518,9 +1736,10 @@
 						"playerKey": "1320Lacramioara",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "BLACK_WINS"
 				},
 				{
 					"tableNumber": 8,
@@ -1531,7 +1750,8 @@
 						"playerKey": "515Player_3",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_8",
@@ -1540,9 +1760,10 @@
 						"playerKey": "540Player_8",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "BLACK_WINS"
 				},
 				{
 					"tableNumber": 9,
@@ -1553,7 +1774,8 @@
 						"playerKey": "525Player_5",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Mihaela",
@@ -1562,9 +1784,10 @@
 						"playerKey": "750Mihaela",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "BLACK_WINS"
 				},
 				{
 					"tableNumber": 10,
@@ -1575,7 +1798,8 @@
 						"playerKey": "510Player_2",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_11",
@@ -1584,9 +1808,10 @@
 						"playerKey": "555Player_11",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "WHITE_WINS"
 				},
 				{
 					"tableNumber": 11,
@@ -1597,7 +1822,8 @@
 						"playerKey": "520Player_4",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"blackPlayer": {
 						"name": "Player_9",
@@ -1606,9 +1832,10 @@
 						"playerKey": "545Player_9",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
-					"result": "NOT_DECIDED"
+					"result": "WHITE_WINS"
 				},
 				{
 					"tableNumber": 12,
@@ -1619,7 +1846,8 @@
 						"playerKey": "505Player_1",
 						"isPresent": true,
 						"acceleratedPoints": 0,
-						"tournamentPoints": 0
+						"tournamentPoints": 0,
+						"rank": 0
 					},
 					"result": "BYE"
 				}

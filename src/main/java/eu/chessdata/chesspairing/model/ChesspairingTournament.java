@@ -153,4 +153,15 @@ public class ChesspairingTournament {
 		throw new IllegalStateException("Player does not exist in the players list");
 	}
 
+	
+	/**
+	 * TODO implement this
+	 * @param indexWhite
+	 * @return
+	 */
+	public ChesspairingPlayer getPlayerByInitialRank(int indexWhite) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
