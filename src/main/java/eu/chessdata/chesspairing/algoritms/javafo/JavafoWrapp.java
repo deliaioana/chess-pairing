@@ -25,12 +25,11 @@ public class JavafoWrapp implements Algorithm {
 		String javafoResult = outputStream.toString();
 		String newline = System.getProperty("line.separator");
 		String[] pares = javafoResult.split(newline);
-		
-		List<ChesspairingRound>rounds =  tournament.getRounds();
-		int roundNumber = rounds.size()+1;
-		ChesspairingRound round = new ChesspairingRound();
-		round.setRoundNumber(roundNumber);
-		
+
+		/**
+		 * Decode the result: first item is number of pares and next lines are the
+		 * number of pares
+		 */
 		List<ChesspairingGame> games = new ArrayList<>();
 
 		int totalPares = Integer.valueOf(pares[0]);
@@ -39,13 +38,26 @@ public class JavafoWrapp implements Algorithm {
 			System.out.println(pare);
 			int indexWhite = Integer.valueOf(pare[0]);
 			int indexBlack = Integer.valueOf(pare[1]);
-			ChesspairingPlayer whitePlayer = tournament.getPlayerByInitialRank(indexWhite);
+			int tableNumber = i;
 			
-			ChesspairingGame game = new ChesspairingGame();
-			game.setTableNumber(i);
-			
-			
+			if (indexBlack == 0) {
+				ChesspairingGame buyGame = ChesspairingGame.buildBuyGame(tableNumber, indexWhite);
+			} else {
+
+				ChesspairingPlayer whitePlayer = tournament.getPlayerByInitialRank(indexWhite);
+				ChesspairingPlayer blackPlayer = tournament.getPlayerByInitialRank(indexBlack);
+				
+
+				ChesspairingGame game = new ChesspairingGame(tableNumber, whitePlayer, blackPlayer);
+				games.add(game);
+			}
 		}
+
+		List<ChesspairingRound> rounds = tournament.getRounds();
+		int roundNumber = rounds.size() + 1;
+		ChesspairingRound round = new ChesspairingRound();
+		round.setRoundNumber(roundNumber);
+
 		throw new IllegalStateException("Please implement this");
 	}
 

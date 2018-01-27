@@ -168,6 +168,8 @@ public class ChesspairingPlayer {
 			return false;
 		return true;
 	}
+
+	
 	
 	
 

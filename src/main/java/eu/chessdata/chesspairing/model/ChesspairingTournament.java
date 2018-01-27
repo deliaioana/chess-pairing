@@ -153,15 +153,28 @@ public class ChesspairingTournament {
 		throw new IllegalStateException("Player does not exist in the players list");
 	}
 
-	
 	/**
-	 * TODO implement this
-	 * @param indexWhite
-	 * @return
+	 * It returns the player by initial index If index is 0 or does not exist in the
+	 * tournament ten it throws exception
+	 * 
+	 * @param indexPlayer is the index of the player
+	 * @return the playerf located in the players list
 	 */
-	public ChesspairingPlayer getPlayerByInitialRank(int indexWhite) {
-		// TODO Auto-generated method stub
-		return null;
+	public ChesspairingPlayer getPlayerByInitialRank(int indexPlayer) {
+		if (indexPlayer <= 0) {
+			throw new IllegalStateException("Index is <= then zero");
+		}
+		if (indexPlayer > players.size()) {
+			throw new IllegalStateException("Index is >= players.size()");
+		}
+		
+		for (ChesspairingPlayer player: this.players) {
+			if (player.getInitialOrderId() == indexPlayer) {
+				return player;
+			}
+		}
+		
+		throw new IllegalStateException("Index nod found. indexPlayer = " + indexPlayer);
 	}
 
 }
