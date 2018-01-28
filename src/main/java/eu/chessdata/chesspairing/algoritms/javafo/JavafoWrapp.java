@@ -18,6 +18,9 @@ public class JavafoWrapp implements Algorithm {
 
 	@Override
 	public ChesspairingTournament generateNextRound(ChesspairingTournament tournament) {
+		//compute next round number 
+		int nextRoundNumber = tournament.getRounds().size() + 1;
+		
 		String trf = Trf.getTrf(tournament);
 		InputStream inputStream = new ByteArrayInputStream(trf.getBytes());
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -41,24 +44,25 @@ public class JavafoWrapp implements Algorithm {
 			int tableNumber = i;
 			
 			if (indexBlack == 0) {
-				ChesspairingGame buyGame = ChesspairingGame.buildBuyGame(tableNumber, indexWhite);
+				ChesspairingPlayer player = tournament.getPlayerByInitialRank(indexWhite);
+				ChesspairingGame buyGame = ChesspairingGame.buildBuyGame(tableNumber, player);
+
+				games.add(buyGame);
 			} else {
 
 				ChesspairingPlayer whitePlayer = tournament.getPlayerByInitialRank(indexWhite);
 				ChesspairingPlayer blackPlayer = tournament.getPlayerByInitialRank(indexBlack);
-				
 
 				ChesspairingGame game = new ChesspairingGame(tableNumber, whitePlayer, blackPlayer);
 				games.add(game);
 			}
 		}
 
-		List<ChesspairingRound> rounds = tournament.getRounds();
-		int roundNumber = rounds.size() + 1;
-		ChesspairingRound round = new ChesspairingRound();
-		round.setRoundNumber(roundNumber);
+		ChesspairingRound round = ChesspairingRound.buildRound(nextRoundNumber, games);
+		
 
-		throw new IllegalStateException("Please implement this");
+		tournament.addRound(round);
+		return tournament;
 	}
 
 }

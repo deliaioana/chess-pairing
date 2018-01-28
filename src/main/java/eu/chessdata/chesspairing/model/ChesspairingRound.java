@@ -53,7 +53,8 @@ public class ChesspairingRound {
 	/**
 	 * It finds the game for a specific player and returns the game
 	 * 
-	 * @param player that will be located
+	 * @param player
+	 *            that will be located
 	 * @return a game
 	 */
 	public ChesspairingGame getGame(ChesspairingPlayer player) {
@@ -70,4 +71,34 @@ public class ChesspairingRound {
 		throw new IllegalStateException("No game found");
 	}
 
+	/**
+	 * It builds a round
+	 * 
+	 * @param nextRoundNumber
+	 *            is the next round number
+	 * @param games
+	 *            is the list with the games
+	 * @return a round
+	 */
+	public static ChesspairingRound buildRound(int nextRoundNumber, List<ChesspairingGame> games) {
+		ChesspairingRound round = new ChesspairingRound();
+		round.roundNumber = nextRoundNumber;
+
+		// compute present players
+		round.presentPlayers = new ArrayList<>();
+		for (ChesspairingGame game : games) {
+			round.presentPlayers.add(game.getWhitePlayer());
+			if (game.getResult() != ChesspairingResult.BYE) {
+				round.presentPlayers.add(game.getBlackPlayer());
+			}
+		}
+
+		round.games = games;
+
+		// just set empty downfloaters and upfloaters
+		round.downfloaters = new ArrayList<>();
+		round.upfloaters = new ArrayList<>();
+		
+		return round;
+	}
 }

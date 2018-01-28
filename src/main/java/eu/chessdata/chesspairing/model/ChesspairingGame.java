@@ -82,6 +82,7 @@ public class ChesspairingGame {
 		ChesspairingGame buyGame = new ChesspairingGame();
 		buyGame.tableNumber = tableNumber;
 		buyGame.whitePlayer = whitePlayer;
-		
+		buyGame.result = ChesspairingResult.BYE;
+		return buyGame;
 	}
 }

@@ -177,4 +177,12 @@ public class ChesspairingTournament {
 		throw new IllegalStateException("Index nod found. indexPlayer = " + indexPlayer);
 	}
 
+	/**
+	 * It adds a round to this tournament;
+	 * @param round
+	 */
+	public void addRound(ChesspairingRound round) {
+		this.rounds.add(round);
+	}
+
 }
