@@ -8,7 +8,6 @@ import java.util.List;
 import org.paukov.combinatorics.Generator;
 import org.paukov.combinatorics.ICombinatoricsVector;
 
-import com.sun.xml.internal.txw2.IllegalSignatureException;
 
 import eu.chessdata.chesspairing.tools.Tools;
 
@@ -166,7 +165,7 @@ public class PairingResult {
 	 */
 	public static PairingResult pareInOrder(List<Player> players){
 		if (players.size()<2){
-			throw new IllegalSignatureException("size smaller than 2");
+			throw new IllegalStateException("size smaller than 2");
 		}
 		
 		if (players.size()%2 != 0){

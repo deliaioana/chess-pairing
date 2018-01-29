@@ -1,6 +1,5 @@
 package eu.chessdata.chesspairing.algoritms.fideswissduch.v2;
 
-import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

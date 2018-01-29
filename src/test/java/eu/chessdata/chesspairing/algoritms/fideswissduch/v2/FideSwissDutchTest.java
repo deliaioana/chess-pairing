@@ -6,20 +6,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.gson.Gson;
 
-import eu.chessdata.chesspairing.algoritms.fideswissduch.Algorithm;
 import eu.chessdata.chesspairing.model.ChesspairingByeValue;
 import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingResult;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
-import eu.chessdata.chesspairing.model.TestUtils;
 import eu.chessdata.chesspairing.tools.Tools;
 
 public class FideSwissDutchTest {
@@ -38,7 +34,8 @@ public class FideSwissDutchTest {
 		return tournament;
 	}
 
-	@Test
+	
+	//TODO @Test
 	public void test1() {
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/test1a.json");
 		// configure the buy value
@@ -73,7 +70,7 @@ public class FideSwissDutchTest {
 		System.out.println("End test 1");
 	}
 
-	@Test
+	//TODO @Test
 	public void test2() {
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/v02-test02.json");
 		dataTournament.setName("Test 2 tournament");
@@ -92,7 +89,7 @@ public class FideSwissDutchTest {
 		System.out.println("End test 2 ");
 	}
 
-	@Test
+	//TODO @Test
 	public void test3() {
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/v02-test03.json");
 		dataTournament.setName("Test 3 tournament");
@@ -105,11 +102,15 @@ public class FideSwissDutchTest {
 		assertTrue(f2 == 1.0);
 	}
 	
-	@Test
+	//TEST @Test
 	public void test4 (){
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/v02-test04.json");
 		dataTournament.setName("Test 4 tournament");
 		ChesspairingTournament newRoundTournament = algorithm.generateNextRound(dataTournament);
 	}
 
+	@Test
+	public void test5(){
+		
+	}
 }
