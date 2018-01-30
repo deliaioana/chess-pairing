@@ -44,4 +44,16 @@ public class JavafoWrappTest {
 		ChesspairingTournament nextRoundTournament = algorithm.generateNextRound(tournament);
 		TestUtils.writeToFile(nextRoundTournament, "javafoWrapTestTest2.json");
 	}
+	
+	
+	/**
+	 * It fixes the get buyValue in case is not set
+	 */
+	@Test
+	public void test3(){
+		ChesspairingTournament tournament = TestUtils.loadFile("/jafafoWrapp/test3.json");
+		Algorithm algorithm = new JavafoWrapp();
+		ChesspairingTournament nextRoundTournament = algorithm.generateNextRound(tournament);
+		TestUtils.writeToFile(nextRoundTournament, "javafoWrapTestTest3.json");
+	}
 }

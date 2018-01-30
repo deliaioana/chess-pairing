@@ -15,8 +15,8 @@ public class ChesspairingTournament {
 	private String ChifArbiter;
 	private String deputyChifArbiters;
 	/**
-	 * this is the maximum allowed number of rounds in a tournament. If you try to
-	 * pare over this number some algorithms will just crash.
+	 * this is the maximum allowed number of rounds in a tournament. If you try
+	 * to pare over this number some algorithms will just crash.
 	 */
 	private int totalRounds;
 	private ChesspairingByeValue chesspairingByeValue;
@@ -89,6 +89,9 @@ public class ChesspairingTournament {
 	}
 
 	public ChesspairingByeValue getChesspairingByeValue() {
+		if (null == this.chesspairingByeValue) {
+			this.chesspairingByeValue = ChesspairingByeValue.ONE_POINT;
+		}
 		return chesspairingByeValue;
 	}
 
@@ -154,10 +157,11 @@ public class ChesspairingTournament {
 	}
 
 	/**
-	 * It returns the player by initial index If index is 0 or does not exist in the
-	 * tournament ten it throws exception
+	 * It returns the player by initial index If index is 0 or does not exist in
+	 * the tournament ten it throws exception
 	 * 
-	 * @param indexPlayer is the index of the player
+	 * @param indexPlayer
+	 *            is the index of the player
 	 * @return the playerf located in the players list
 	 */
 	public ChesspairingPlayer getPlayerByInitialRank(int indexPlayer) {
@@ -167,18 +171,19 @@ public class ChesspairingTournament {
 		if (indexPlayer > players.size()) {
 			throw new IllegalStateException("Index is >= players.size()");
 		}
-		
-		for (ChesspairingPlayer player: this.players) {
+
+		for (ChesspairingPlayer player : this.players) {
 			if (player.getInitialOrderId() == indexPlayer) {
 				return player;
 			}
 		}
-		
+
 		throw new IllegalStateException("Index nod found. indexPlayer = " + indexPlayer);
 	}
 
 	/**
 	 * It adds a round to this tournament;
+	 * 
 	 * @param round
 	 */
 	public void addRound(ChesspairingRound round) {
