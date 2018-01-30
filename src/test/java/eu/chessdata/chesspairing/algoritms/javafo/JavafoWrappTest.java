@@ -1,7 +1,5 @@
 package eu.chessdata.chesspairing.algoritms.javafo;
 
-import static org.junit.Assert.*;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -36,7 +34,14 @@ public class JavafoWrappTest {
 		ChesspairingTournament tournament = TestUtils.loadFile("/jafafoWrapp/test1.json");
 		Algorithm algorithm = new JavafoWrapp();
 		ChesspairingTournament nextRoundTournament = algorithm.generateNextRound(tournament);
-		TestUtils.writeToFile(nextRoundTournament, "test1NextRound.json");
+		TestUtils.writeToFile(nextRoundTournament, "javafoWrapTestTest1.json");
 	}
 
+	@Test
+	public void test2(){
+		ChesspairingTournament tournament = TestUtils.loadFile("/jafafoWrapp/test2.json");
+		Algorithm algorithm = new JavafoWrapp();
+		ChesspairingTournament nextRoundTournament = algorithm.generateNextRound(tournament);
+		TestUtils.writeToFile(nextRoundTournament, "javafoWrapTestTest2.json");
+	}
 }

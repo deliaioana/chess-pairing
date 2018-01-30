@@ -13,6 +13,7 @@ import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
 import eu.chessdata.chesspairing.model.ChesspairingResult;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
+import eu.chessdata.chesspairing.model.ChesspairingSex;
 import eu.chessdata.chesspairing.model.ChesspairingTitle;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 //import sun.org.mozilla.javascript.internal.regexp.SubString;
@@ -66,8 +67,12 @@ public class Trf {
 			this.federation = "";
 		}
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		this.dateOfStart = dateFormat.format(chesspTournament.getDateOfStart());
-		this.dateOfEnd = dateFormat.format(chesspTournament.getDateOfEnd());
+		if (null != chesspTournament.getDateOfStart()) {
+			this.dateOfStart = dateFormat.format(chesspTournament.getDateOfStart());
+		}
+		if (null != chesspTournament.getDateOfEnd()) {
+			this.dateOfEnd = dateFormat.format(chesspTournament.getDateOfEnd());
+		}
 
 		this.numberOfPlayers = chesspTournament.getPlayers().size();
 
@@ -139,6 +144,9 @@ public class Trf {
 			this.startingRankNumber = String.valueOf(this.player.getInitialOrderId());
 
 			this.sex = "";
+			if (null == this.player.getSex()){
+				this.player.setSex(ChesspairingSex.SECRET);
+			}
 			switch (this.player.getSex()) {
 			case MAN:
 				this.sex = "m";
@@ -238,7 +246,9 @@ public class Trf {
 						enemy = trfTournament.getPlayer(enemy.getPlayerKey());
 
 						String initialOrder = String.valueOf(enemy.getInitialOrderId());
-						sb.append(Trf.formatStringIndentRight(92, 95, initialOrder)); // 92 - 95
+						sb.append(Trf.formatStringIndentRight(92, 95, initialOrder)); // 92
+																						// -
+																						// 95
 						sb.append(" w "); // 96, 97, 98
 						switch (result) { // 99
 						case WHITE_WINS:
@@ -268,7 +278,9 @@ public class Trf {
 					enemy = trfTournament.getPlayer(enemy.getPlayerKey());
 
 					String initialOrder = String.valueOf(enemy.getInitialOrderId());
-					sb.append(Trf.formatStringIndentRight(92, 95, initialOrder)); // 92 - 95
+					sb.append(Trf.formatStringIndentRight(92, 95, initialOrder)); // 92
+																					// -
+																					// 95
 					sb.append(" b ");
 					switch (result) {
 					case WHITE_WINS:
@@ -335,7 +347,8 @@ public class Trf {
 							return_value = 1;
 						}
 					}
-					// invert the normal arrangement so wee get the highest numbers first
+					// invert the normal arrangement so wee get the highest
+					// numbers first
 					return_value = (-1) * return_value;
 					return return_value;
 				}
@@ -345,8 +358,8 @@ public class Trf {
 		}
 
 		/**
-		 * computes the number of point of the current tournament and returns them in a
-		 * string format( 11.5 format)
+		 * computes the number of point of the current tournament and returns
+		 * them in a string format( 11.5 format)
 		 * 
 		 * @return
 		 */
@@ -438,10 +451,11 @@ public class Trf {
 		Double totalPoints = 0.0;
 
 		Double whinPoints = 1.0;
-		Double lostPoints = 0.0;
-		Double drawPoints = 0.5;
 		Double buyPoints = 0.0;
 		ChesspairingByeValue buy = tournament.getChesspairingByeValue();
+		if (null == buy){
+			buy = ChesspairingByeValue.ONE_POINT;
+		}
 
 		switch (buy) {
 		case HALF_A_POINT:
@@ -449,6 +463,7 @@ public class Trf {
 			break;
 		case ONE_POINT:
 			buyPoints = 1.0;
+			break;
 		default:
 			throw new IllegalStateException("Case not implemented fro buy " + buy);
 		}

@@ -38,7 +38,6 @@ public class JavafoWrapp implements Algorithm {
 		int totalPares = Integer.valueOf(pares[0]);
 		for (int i = 1; i <= totalPares; i++) {
 			String pare[] = pares[i].split(" ");
-			System.out.println(pare);
 			int indexWhite = Integer.valueOf(pare[0]);
 			int indexBlack = Integer.valueOf(pare[1]);
 			int tableNumber = i;
