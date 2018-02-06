@@ -144,7 +144,7 @@ public class Trf {
 			this.startingRankNumber = String.valueOf(this.player.getInitialOrderId());
 
 			this.sex = "";
-			if (null == this.player.getSex()){
+			if (null == this.player.getSex()) {
 				this.player.setSex(ChesspairingSex.SECRET);
 			}
 			switch (this.player.getSex()) {
@@ -226,42 +226,78 @@ public class Trf {
 			sb.append(Trf.formatStringIndentRight(86, 89, this.getRank()));
 
 			for (ChesspairingRound round : trfTournament.getRounds()) {
-				sb.append("  "); // 90, 91
-				ChesspairingGame game = round.getGame(player);
-				ChesspairingResult result = game.getResult();
-				// if player is present
-				List<ChesspairingPlayer> presentPlayers = round.getPresentPlayers();
-				if (!presentPlayers.contains(player)) {
-					sb.append("0000 - H");
-					continue;
-				}
+				// if round has games and player is not absent
+				if (round.hasGames() && !round.playerAbsent(player)) {
 
-				// if white player
-				if (game.getWhitePlayer().equals(player)) {
-					if (result == ChesspairingResult.BYE) {
-						sb.append("0000 - U");
+					sb.append("  "); // 90, 91
+
+					ChesspairingGame game = round.getGame(player);
+					ChesspairingResult result = game.getResult();
+					// if player is present
+					List<ChesspairingPlayer> presentPlayers = round.getPresentPlayers();
+					if (!presentPlayers.contains(player)) {
+						sb.append("0000 - H");
 						continue;
-					} else {
-						ChesspairingPlayer enemy = game.getBlackPlayer();
+					}
+
+					// if white player
+					if (game.getWhitePlayer().equals(player)) {
+						if (result == ChesspairingResult.BYE) {
+							sb.append("0000 - U");
+							continue;
+						} else {
+							ChesspairingPlayer enemy = game.getBlackPlayer();
+							enemy = trfTournament.getPlayer(enemy.getPlayerKey());
+
+							String initialOrder = String.valueOf(enemy.getInitialOrderId());
+							sb.append(Trf.formatStringIndentRight(92, 95, initialOrder)); // 92
+																							// -
+																							// 95
+							sb.append(" w "); // 96, 97, 98
+							switch (result) { // 99
+							case WHITE_WINS:
+								sb.append("1");
+								break;
+							case WHITE_WINS_OPONENT_ABSENT:
+								sb.append("+");
+								break;
+							case BLACK_WINS:
+								sb.append("0");
+								break;
+							case BLACK_WINS_OPONENT_ABSENT:
+								sb.append("-");
+								break;
+							case DRAW_GAME:
+								sb.append("=");
+								break;
+							default:
+								throw new IllegalStateException("Illegal state. Please debug");
+							}
+						}
+					}
+
+					// if player is black
+					if (game.getBlackPlayer().equals(player)) {
+						ChesspairingPlayer enemy = game.getWhitePlayer();
 						enemy = trfTournament.getPlayer(enemy.getPlayerKey());
 
 						String initialOrder = String.valueOf(enemy.getInitialOrderId());
 						sb.append(Trf.formatStringIndentRight(92, 95, initialOrder)); // 92
 																						// -
 																						// 95
-						sb.append(" w "); // 96, 97, 98
-						switch (result) { // 99
+						sb.append(" b ");
+						switch (result) {
 						case WHITE_WINS:
-							sb.append("1");
-							break;
-						case WHITE_WINS_OPONENT_ABSENT:
-							sb.append("+");
-							break;
-						case BLACK_WINS:
 							sb.append("0");
 							break;
-						case BLACK_WINS_OPONENT_ABSENT:
+						case WHITE_WINS_OPONENT_ABSENT:
 							sb.append("-");
+							break;
+						case BLACK_WINS:
+							sb.append("1");
+							break;
+						case BLACK_WINS_OPONENT_ABSENT:
+							sb.append("+");
 							break;
 						case DRAW_GAME:
 							sb.append("=");
@@ -272,34 +308,14 @@ public class Trf {
 					}
 				}
 
-				// if player is black
-				if (game.getBlackPlayer().equals(player)) {
-					ChesspairingPlayer enemy = game.getWhitePlayer();
-					enemy = trfTournament.getPlayer(enemy.getPlayerKey());
-
-					String initialOrder = String.valueOf(enemy.getInitialOrderId());
-					sb.append(Trf.formatStringIndentRight(92, 95, initialOrder)); // 92
-																					// -
-																					// 95
-					sb.append(" b ");
-					switch (result) {
-					case WHITE_WINS:
-						sb.append("0");
-						break;
-					case WHITE_WINS_OPONENT_ABSENT:
-						sb.append("-");
-						break;
-					case BLACK_WINS:
-						sb.append("1");
-						break;
-					case BLACK_WINS_OPONENT_ABSENT:
-						sb.append("+");
-						break;
-					case DRAW_GAME:
-						sb.append("=");
-						break;
-					default:
-						throw new IllegalStateException("Illegal state. Please debug");
+				// if round has no games depends on if the player is absent or
+				// present
+				if (!round.hasGames()) {
+					sb.append("  "); // 90, 91
+					if (round.playerAbsent(player)) {
+						sb.append("0000 - Z");
+					} else {
+						sb.append("        ");
 					}
 				}
 			}
@@ -453,7 +469,7 @@ public class Trf {
 		Double whinPoints = 1.0;
 		Double buyPoints = 0.0;
 		ChesspairingByeValue buy = tournament.getChesspairingByeValue();
-		if (null == buy){
+		if (null == buy) {
 			buy = ChesspairingByeValue.ONE_POINT;
 		}
 

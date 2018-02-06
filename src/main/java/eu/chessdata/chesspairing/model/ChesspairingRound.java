@@ -12,12 +12,53 @@ public class ChesspairingRound {
 	private List<ChesspairingGame> games = new ArrayList<>();
 
 	/**
+	 * A round has games if the games list is not null or is size is grater then
+	 * zero
+	 * 
+	 * @return boolean value
+	 */
+	public boolean hasGames() {
+		if (this.games == null) {
+			return false;
+		}
+		if (this.games.size() == 0) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * It checks if the player is part of the absentPlayers list
+	 * 
+	 * @return true when the player is part of the list and false when the
+	 *         player is not part of the absent list
+	 */
+	public boolean playerAbsent(ChesspairingPlayer player) {
+		if (absentPlayers == null) {
+			throw new IllegalStateException("Absent plaeyrs ware not initialized");
+		}
+		if (absentPlayers.contains(player)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * It ads a player to the list of absent players. If the player is also in
 	 * the list with present players It will remove it from there.
 	 * 
 	 * @param player
 	 */
 	public void addAbsentPlayer(ChesspairingPlayer player) {
+
+		if (presentPlayers == null) {
+			presentPlayers = new ArrayList<>();
+		}
+		if (absentPlayers == null) {
+			absentPlayers = new ArrayList<>();
+		}
+
 		if (this.presentPlayers.contains(player)) {
 			int index = this.presentPlayers.indexOf(player);
 			this.presentPlayers.remove(index);
@@ -37,6 +78,14 @@ public class ChesspairingRound {
 	 * @param player
 	 */
 	public void addPresentPlayer(ChesspairingPlayer player) {
+
+		if (presentPlayers == null) {
+			presentPlayers = new ArrayList<>();
+		}
+		if (absentPlayers == null) {
+			absentPlayers = new ArrayList<>();
+		}
+
 		if (this.absentPlayers.contains(player)) {
 			int index = this.absentPlayers.indexOf(player);
 			this.absentPlayers.remove(index);
