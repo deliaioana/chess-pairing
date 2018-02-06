@@ -6,12 +6,59 @@ import java.util.List;
 public class ChesspairingRound {
 	private int roundNumber;
 	private List<ChesspairingPlayer> presentPlayers = new ArrayList<>();
+	private List<ChesspairingPlayer> absentPlayers = new ArrayList<>();
 	private List<ChesspairingPlayer> upfloaters = new ArrayList<>();
 	private List<ChesspairingPlayer> downfloaters = new ArrayList<>();
 	private List<ChesspairingGame> games = new ArrayList<>();
 
+	/**
+	 * It ads a player to the list of absent players. If the player is also in
+	 * the list with present players It will remove it from there.
+	 * 
+	 * @param player
+	 */
+	public void addAbsentPlayer(ChesspairingPlayer player) {
+		if (this.presentPlayers.contains(player)) {
+			int index = this.presentPlayers.indexOf(player);
+			this.presentPlayers.remove(index);
+		}
+
+		if (this.absentPlayers.contains(player)) {
+			return;
+		} else {
+			this.absentPlayers.add(player);
+		}
+	}
+
+	/**
+	 * It adds a player to the list of present players. If the player is also in
+	 * the list with absent players It will remove it from there
+	 * 
+	 * @param player
+	 */
+	public void addPresentPlayer(ChesspairingPlayer player) {
+		if (this.absentPlayers.contains(player)) {
+			int index = this.absentPlayers.indexOf(player);
+			this.absentPlayers.remove(index);
+		}
+
+		if (this.presentPlayers.contains(player)) {
+			return;
+		} else {
+			this.absentPlayers.add(player);
+		}
+	}
+
 	public int getRoundNumber() {
 		return roundNumber;
+	}
+
+	public List<ChesspairingPlayer> getAbsentPlayers() {
+		return absentPlayers;
+	}
+
+	public void setAbsentPlayers(List<ChesspairingPlayer> absentPlayers) {
+		this.absentPlayers = absentPlayers;
 	}
 
 	public void setRoundNumber(int roundNumber) {
@@ -98,7 +145,7 @@ public class ChesspairingRound {
 		// just set empty downfloaters and upfloaters
 		round.downfloaters = new ArrayList<>();
 		round.upfloaters = new ArrayList<>();
-		
+
 		return round;
 	}
 }
