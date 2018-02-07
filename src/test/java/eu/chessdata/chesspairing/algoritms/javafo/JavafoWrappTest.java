@@ -100,4 +100,16 @@ public class JavafoWrappTest {
 		ChesspairingTournament nextRoundTournament = algorithm.generateNextRound(tournament);
 		TestUtils.writeToFile(nextRoundTournament, "javafoWrapTestTest5.json");
 	}
+	
+	@Test
+	public void test6() {
+		ChesspairingTournament tournament = TestUtils.loadFile("/jafafoWrapp/test6.json");
+		
+		String trf = Trf.getTrf(tournament);
+		System.out.println(trf);
+		
+		Algorithm algorithm = new JavafoWrapp();
+		ChesspairingTournament nextRoundTournament = algorithm.generateNextRound(tournament);
+		TestUtils.writeToFile(nextRoundTournament, "javafoWrapTestTest6.json");
+	}
 }
