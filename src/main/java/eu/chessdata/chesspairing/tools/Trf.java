@@ -225,6 +225,7 @@ public class Trf {
 			sb.append(" ");// 85
 			sb.append(Trf.formatStringIndentRight(86, 89, this.getRank()));
 
+			
 			for (ChesspairingRound round : trfTournament.getRounds()) {
 				// if round has games and player is not absent
 				if (round.hasGames() && !round.playerAbsent(player)) {

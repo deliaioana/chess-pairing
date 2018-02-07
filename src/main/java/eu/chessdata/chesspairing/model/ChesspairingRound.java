@@ -29,6 +29,8 @@ public class ChesspairingRound {
 
 	/**
 	 * It checks if the player is part of the absentPlayers list
+	 * If everything fails then it check if there is any game that this player is part of.
+	 * If no game found then the player is absent
 	 * 
 	 * @return true when the player is part of the list and false when the
 	 *         player is not part of the absent list
@@ -39,9 +41,20 @@ public class ChesspairingRound {
 		}
 		if (absentPlayers.contains(player)) {
 			return true;
-		} else {
-			return false;
+		} 
+		if(this.hasGames()){
+			for (ChesspairingGame game: this.games){
+				if (game.getWhitePlayer().equals(player)){
+					return false;
+				}
+				if (game.getBlackPlayer() != null && game.getBlackPlayer().equals(player)){
+					return false;
+				}
+			}
+			
 		}
+		//no game found then player is absent
+		return true;
 	}
 
 	/**

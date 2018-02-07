@@ -18,6 +18,7 @@ import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.TestUtils;
 import eu.chessdata.chesspairing.tools.Tools;
+import eu.chessdata.chesspairing.tools.Trf;
 
 public class JavafoWrappTest {
 	private ChesspairingTournament loadFile(String fileProjectPath) {
@@ -81,10 +82,22 @@ public class JavafoWrappTest {
 		rounds.add(round);
 		TestUtils.writeToFile(tournament, "javafoWrapTestTest4WithAbsence.json");
 
+		String trf = Trf.getTrf(tournament);
+		System.out.println(trf);
+		
 		Algorithm algorithm = new JavafoWrapp();
+		
 		ChesspairingTournament nextRoundTournament = algorithm.generateNextRound(tournament);
 		int totalRounds = nextRoundTournament.getRounds().size();
 		Assert.assertTrue("It should be 2 rounds and in fact there are " + totalRounds, totalRounds == 2);
 		TestUtils.writeToFile(nextRoundTournament, "javafoWrapTestTest4.json");
+	}
+	
+	@Test
+	public void test5() {
+		ChesspairingTournament tournament = TestUtils.loadFile("/jafafoWrapp/test5.json");
+		Algorithm algorithm = new JavafoWrapp();
+		ChesspairingTournament nextRoundTournament = algorithm.generateNextRound(tournament);
+		TestUtils.writeToFile(nextRoundTournament, "javafoWrapTestTest5.json");
 	}
 }
