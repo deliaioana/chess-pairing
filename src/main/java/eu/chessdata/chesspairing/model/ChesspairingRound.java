@@ -51,10 +51,13 @@ public class ChesspairingRound {
 					return false;
 				}
 			}
-			
+			//no game found player is absent
+			return true;
 		}
-		//no game found then player is absent
-		return true;
+		else{
+			//wee consider as present just in case it was added later in the tournament
+			return false;
+		}
 	}
 
 	/**
