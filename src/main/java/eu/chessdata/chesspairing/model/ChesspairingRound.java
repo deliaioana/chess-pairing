@@ -28,12 +28,12 @@ public class ChesspairingRound {
 	}
 
 	/**
-	 * It checks if the player is part of the absentPlayers list
-	 * If everything fails then it check if there is any game that this player is part of.
-	 * If no game found then the player is absent
+	 * It checks if the player is part of the absentPlayers list If everything fails
+	 * then it check if there is any game that this player is part of. If no game
+	 * found then the player is absent
 	 * 
-	 * @return true when the player is part of the list and false when the
-	 *         player is not part of the absent list
+	 * @return true when the player is part of the list and false when the player is
+	 *         not part of the absent list
 	 */
 	public boolean playerAbsent(ChesspairingPlayer player) {
 		if (absentPlayers == null) {
@@ -41,28 +41,28 @@ public class ChesspairingRound {
 		}
 		if (absentPlayers.contains(player)) {
 			return true;
-		} 
-		if(this.hasGames()){
-			for (ChesspairingGame game: this.games){
-				if (game.getWhitePlayer().equals(player)){
+		}
+		if (this.hasGames()) {
+			for (ChesspairingGame game : this.games) {
+				if (game.getWhitePlayer().equals(player)) {
 					return false;
 				}
-				if (game.getBlackPlayer() != null && game.getBlackPlayer().equals(player)){
+				if (game.getBlackPlayer() != null && game.getBlackPlayer().equals(player)) {
 					return false;
 				}
 			}
-			//no game found player is absent
+			// no game found player is absent
 			return true;
-		}
-		else{
-			//wee consider as present just in case it was added later in the tournament
+		} else {
+			// wee consider as present just in case it was added later in the tournament
 			return false;
 		}
 	}
+	
 
 	/**
-	 * It ads a player to the list of absent players. If the player is also in
-	 * the list with present players It will remove it from there.
+	 * It ads a player to the list of absent players. If the player is also in the
+	 * list with present players It will remove it from there.
 	 * 
 	 * @param player
 	 */
@@ -88,8 +88,8 @@ public class ChesspairingRound {
 	}
 
 	/**
-	 * It adds a player to the list of present players. If the player is also in
-	 * the list with absent players It will remove it from there
+	 * It adds a player to the list of present players. If the player is also in the
+	 * list with absent players It will remove it from there
 	 * 
 	 * @param player
 	 */
@@ -212,5 +212,24 @@ public class ChesspairingRound {
 		round.upfloaters = new ArrayList<>();
 
 		return round;
+	}
+
+	/**
+	 * A round is considered that it has absent players only if the list with absent
+	 * players is not null. In case the tournament is peared by considering the
+	 * present players you should make sure in advance that you populate the absent
+	 * list
+	 * 
+	 * @return true if the list of absent players contains at least 1 player
+	 */
+	public boolean hasAbsentPlayers() {
+		if (this.absentPlayers == null) {
+			return false;
+		}
+		if (this.absentPlayers.size() <= 0) {
+			return false;
+		}
+		// the round has some absent players
+		return true;
 	}
 }
