@@ -44,6 +44,7 @@ public class Trf {
 	private String typeOfTournament;
 	private String chifArbiter;
 	private String deputyChifArbiters;
+	@SuppressWarnings("unused")
 	private String datesOfTheRounds;
 	private String timesPerMovesGame;
 
@@ -135,7 +136,9 @@ public class Trf {
 		private String fideFederation;
 		private String fideNumber;
 		private String birthDate;
+		@SuppressWarnings("unused")
 		private String points;
+		@SuppressWarnings("unused")
 		private String rank;
 
 		private PlayerSection(ChesspairingPlayer player) {
@@ -199,6 +202,7 @@ public class Trf {
 				this.birthDate = dateFormat.format(player.getBirthDate());
 			}
 
+			@SuppressWarnings("unused")
 			Double pointsValue = Trf.computePoints(player, trfTournament);
 		}
 
