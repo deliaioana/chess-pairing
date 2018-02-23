@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -18,7 +19,6 @@ import org.junit.Test;
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Api;
-import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.tools.Tools;
 
 public class ChesspairingTournamentTest {
@@ -89,6 +89,10 @@ public class ChesspairingTournamentTest {
 		ChesspairingTournament tournament = TestUtils.loadFile("/model/test1ComputeStandings.json");
 		assertNotNull("Tournament object is null", tournament);
 		
+		for (ChesspairingRound round : tournament.getRounds()) {
+			int roundNumber = round.getRoundNumber();
+			List<ChesspairingPlayer> standings = tournament.computeStandings(roundNumber);
+		}
 		
 		fail("Please implement compute standings");
 	}

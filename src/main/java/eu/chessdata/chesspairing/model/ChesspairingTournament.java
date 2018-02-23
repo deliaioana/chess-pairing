@@ -2,7 +2,9 @@ package eu.chessdata.chesspairing.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChesspairingTournament {
 	private String name;
@@ -15,8 +17,8 @@ public class ChesspairingTournament {
 	private String ChifArbiter;
 	private String deputyChifArbiters;
 	/**
-	 * this is the maximum allowed number of rounds in a tournament. If you try
-	 * to pare over this number some algorithms will just crash.
+	 * this is the maximum allowed number of rounds in a tournament. If you try to
+	 * pare over this number some algorithms will just crash.
 	 */
 	private int totalRounds;
 	private ChesspairingByeValue chesspairingByeValue;
@@ -157,8 +159,8 @@ public class ChesspairingTournament {
 	}
 
 	/**
-	 * It returns the player by initial index If index is 0 or does not exist in
-	 * the tournament ten it throws exception
+	 * It returns the player by initial index If index is 0 or does not exist in the
+	 * tournament ten it throws exception
 	 * 
 	 * @param indexPlayer
 	 *            is the index of the player
@@ -188,6 +190,42 @@ public class ChesspairingTournament {
 	 */
 	public void addRound(ChesspairingRound round) {
 		this.rounds.add(round);
+	}
+
+	/**
+	 * Compute players ranking after all games are played for a specific round
+	 * 
+	 * @param roundNumber
+	 *            is the round number for witch wee have to compute the standings
+	 * @return and ordered list of players. The best player is ranked number one
+	 */
+	public List<ChesspairingPlayer> computeStandings(int roundNumber) {
+
+		Map<ChesspairingPlayer, Integer> pointsMap = new HashMap<>();
+		for (int i = 1; i <= roundNumber; i++) {
+			ChesspairingRound round = getRoundByRoundNumber(i);
+			
+		}
+		throw new IllegalStateException("Please implement compute standings");
+	}
+
+	/**
+	 * It finds the round by a specific round number. If the round requested does
+	 * not exist then the request it will just throw exception
+	 * 
+	 * @param roundNumber
+	 *            of the round requested
+	 * @return the round identified by round number
+	 */
+	public ChesspairingRound getRoundByRoundNumber(int roundNumber) {
+		for (ChesspairingRound round: getRounds()) {
+			if (roundNumber == round.getRoundNumber()) {
+				return round;
+			}
+		}
+		
+		//no round located
+		throw new IllegalStateException("Not able to locate round nr " + roundNumber);
 	}
 
 }
