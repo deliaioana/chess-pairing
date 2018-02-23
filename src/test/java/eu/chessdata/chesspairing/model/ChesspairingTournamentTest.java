@@ -1,5 +1,8 @@
 package eu.chessdata.chesspairing.model;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -81,4 +84,12 @@ public class ChesspairingTournamentTest {
 		writer.close();
 	}
 
+	@Test
+	public void test1ComputeStandings() throws IOException{
+		ChesspairingTournament tournament = TestUtils.loadFile("/model/test1ComputeStandings.json");
+		assertNotNull("Tournament object is null", tournament);
+		
+		
+		fail("Please implement compute standings");
+	}
 }
