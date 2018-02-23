@@ -1,3 +1,17 @@
 project creation
 mvn archetype:generate -DgroupId=eu.chesdata -DartifactId=chess-paring -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 
+
+The first operation is to open javafo.jar (which is an archive that can be usually 
+opened with the same tools that open .zip or .rar files) and extract the file main.jar. 
+The latter is the file to be included in a Java project. 
+It exposes a static class, JaVaFoApi, that contains the definition of a method that 
+can be called to invoke, depending on the parameters, the pairing engine, 
+the pairing checker or the random generator.
+
+The aforementioned method is:
+            String JaVaFoApi.exec(int operation, Object... params);
+
+install javafo with maven
+mvn install:install-file -Dfile=<path-to-file> -DgroupId=<group-id> -DartifactId=<artifact-id> -Dversion=<version> -Dpackaging=<packaging>
+mvn install:install-file -Dfile=main.jar -DgroupId=javafo-group -DartifactId=javafo-artifact -Dversion=1.4 -Dpackaging=jar

@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.algoritms.comparators.ByElo;
 import eu.chessdata.chesspairing.algoritms.comparators.ByEloReverce;
 import eu.chessdata.chesspairing.algoritms.comparators.ByInitialOrderIdReverce;
@@ -21,6 +20,7 @@ import eu.chessdata.chesspairing.model.ChesspairingResult;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.PairingSummary;
+import eu.chessdata.chesspairing.tools.Tools;
 
 public class FideSwissDutchAlgorithmV1 implements Algorithm {
 	protected ChesspairingTournament mTournament;

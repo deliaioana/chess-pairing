@@ -1,14 +1,22 @@
 package eu.chessdata.chesspairing.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ChesspairingTournament {
 	private String name;
 	private String description;
+	private String city;
+	private String federation;
+	private Date dateOfStart;
+	private Date dateOfEnd;
+	private String typeOfTournament;
+	private String ChifArbiter;
+	private String deputyChifArbiters;
 	/**
-	 * this is the maximum allowed number of rounds in a tournament. 
-	 * If you try to pare over this number some algorithms will just crash. 
+	 * this is the maximum allowed number of rounds in a tournament. If you try
+	 * to pare over this number some algorithms will just crash.
 	 */
 	private int totalRounds;
 	private ChesspairingByeValue chesspairingByeValue;
@@ -24,8 +32,66 @@ public class ChesspairingTournament {
 		this.name = name;
 	}
 
-	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getFederation() {
+		return federation;
+	}
+
+	public void setFederation(String federation) {
+		this.federation = federation;
+	}
+
+	public Date getDateOfStart() {
+		return dateOfStart;
+	}
+
+	public void setDateOfStart(Date dateOfStart) {
+		this.dateOfStart = dateOfStart;
+	}
+
+	public Date getDateOfEnd() {
+		return dateOfEnd;
+	}
+
+	public void setDateOfEnd(Date dateOfEnd) {
+		this.dateOfEnd = dateOfEnd;
+	}
+
+	public String getTypeOfTournament() {
+		return typeOfTournament;
+	}
+
+	public void setTypeOfTournament(String typeOfTournament) {
+		this.typeOfTournament = typeOfTournament;
+	}
+
+	public String getChifArbiter() {
+		return ChifArbiter;
+	}
+
+	public void setChifArbiter(String chifArbiter) {
+		ChifArbiter = chifArbiter;
+	}
+
+	public String getDeputyChifArbiters() {
+		return deputyChifArbiters;
+	}
+
+	public void setDeputyChifArbiters(String deputyChifArbiters) {
+		this.deputyChifArbiters = deputyChifArbiters;
+	}
+
 	public ChesspairingByeValue getChesspairingByeValue() {
+		if (null == this.chesspairingByeValue) {
+			this.chesspairingByeValue = ChesspairingByeValue.ONE_POINT;
+		}
 		return chesspairingByeValue;
 	}
 
@@ -72,6 +138,56 @@ public class ChesspairingTournament {
 	public void setParringSummary(PairingSummary parringSummary) {
 		this.parringSummary = parringSummary;
 	}
-	
-	
+
+	/**
+	 * It returns the player in {@link #players} by player key
+	 * 
+	 * @param playerKey
+	 *            is the key of a specific player
+	 * @return a player and throws exception if player does not exist
+	 */
+	public ChesspairingPlayer getPlayer(String playerKey) {
+		for (ChesspairingPlayer player : players) {
+			String key = player.getPlayerKey();
+			if (key.equals(playerKey)) {
+				return player;
+			}
+		}
+		throw new IllegalStateException("Player does not exist in the players list");
+	}
+
+	/**
+	 * It returns the player by initial index If index is 0 or does not exist in
+	 * the tournament ten it throws exception
+	 * 
+	 * @param indexPlayer
+	 *            is the index of the player
+	 * @return the playerf located in the players list
+	 */
+	public ChesspairingPlayer getPlayerByInitialRank(int indexPlayer) {
+		if (indexPlayer <= 0) {
+			throw new IllegalStateException("Index is <= then zero");
+		}
+		if (indexPlayer > players.size()) {
+			throw new IllegalStateException("Index is >= players.size()");
+		}
+
+		for (ChesspairingPlayer player : this.players) {
+			if (player.getInitialOrderId() == indexPlayer) {
+				return player;
+			}
+		}
+
+		throw new IllegalStateException("Index nod found. indexPlayer = " + indexPlayer);
+	}
+
+	/**
+	 * It adds a round to this tournament;
+	 * 
+	 * @param round
+	 */
+	public void addRound(ChesspairingRound round) {
+		this.rounds.add(round);
+	}
+
 }

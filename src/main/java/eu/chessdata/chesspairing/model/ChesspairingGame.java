@@ -18,6 +18,16 @@ public class ChesspairingGame {
 	 */
 	private ChesspairingResult result = ChesspairingResult.NOT_DECIDED;
 
+	public ChesspairingGame(int tableNumber, ChesspairingPlayer whitePlayer, ChesspairingPlayer blackPlayer) {
+		this.tableNumber = tableNumber;
+		this.whitePlayer = whitePlayer;
+		this.blackPlayer = blackPlayer;
+		this.result = ChesspairingResult.NOT_DECIDED;
+	}
+
+	public ChesspairingGame() {
+	}
+
 	@Override
 	public String toString() {
 		String whitePlayerKey = whitePlayer.getPlayerKey();
@@ -60,5 +70,19 @@ public class ChesspairingGame {
 
 	public void setResult(ChesspairingResult result) {
 		this.result = result;
+	}
+
+	/**
+	 * Static method used to build a buy game
+	 * @param tableNumber
+	 * @param indexWhite
+	 * @return
+	 */
+	public static ChesspairingGame buildBuyGame(int tableNumber, ChesspairingPlayer whitePlayer) {
+		ChesspairingGame buyGame = new ChesspairingGame();
+		buyGame.tableNumber = tableNumber;
+		buyGame.whitePlayer = whitePlayer;
+		buyGame.result = ChesspairingResult.BYE;
+		return buyGame;
 	}
 }

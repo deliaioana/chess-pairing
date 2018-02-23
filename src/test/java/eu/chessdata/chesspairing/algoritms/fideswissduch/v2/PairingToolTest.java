@@ -7,13 +7,11 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Random;
 
 import org.junit.Test;
 
 import com.google.gson.Gson;
 
-import eu.chessdata.chesspairing.Tools;
 import eu.chessdata.chesspairing.model.ChesspairingByeValue;
 import eu.chessdata.chesspairing.model.ChesspairingGame;
 import eu.chessdata.chesspairing.model.ChesspairingPlayer;
@@ -21,6 +19,7 @@ import eu.chessdata.chesspairing.model.ChesspairingResult;
 import eu.chessdata.chesspairing.model.ChesspairingRound;
 import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.model.TestUtils;
+import eu.chessdata.chesspairing.tools.Tools;
 
 public class PairingToolTest {
 
@@ -62,7 +61,7 @@ public class PairingToolTest {
 		System.out.println("End test 1: " + player.getName());
 	}
 
-	@Test
+	//TODO @Test
 	/**
 	 * it replicates the logic inside computeGames with extra texts between
 	 * steps
@@ -127,7 +126,7 @@ public class PairingToolTest {
 	 * mainly meant to develop infrastructure to capture tournament state before
 	 * errors occurred.
 	 */
-	@Test
+	//TODO @Test
 	public void test5PareUntillItFails() {
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test5.json");
 		
@@ -192,7 +191,7 @@ public class PairingToolTest {
 		TestUtils.writeToFile(dataTournament, "test7GeneratedPares.json");
 	}
 	
-	@Test
+	//TODO @Test
 	public void test8(){
 		ChesspairingTournament dataTournament = loadFile("/fideswissdutchTest/v2/pairingTool/test8.json");
 		dataTournament = (new FideSwissDutch()).generateNextRound(dataTournament);
