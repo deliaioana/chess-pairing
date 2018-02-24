@@ -94,6 +94,6 @@ public class ChesspairingTournamentTest {
 			List<ChesspairingPlayer> standings = tournament.computeStandings(roundNumber);
 		}
 		
-		fail("Please implement compute standings");
+		fail("Please finish test compute standings");
 	}
 }

@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import eu.chessdata.chesspairing.algoritms.fideswissduch.v2.Game;
+import eu.chessdata.chesspairing.algoritms.fideswissduch.v2.Player;
+
 public class ChesspairingTournament {
 	private String name;
 	private String description;
@@ -200,11 +203,28 @@ public class ChesspairingTournament {
 	 * @return and ordered list of players. The best player is ranked number one
 	 */
 	public List<ChesspairingPlayer> computeStandings(int roundNumber) {
-
-		Map<ChesspairingPlayer, Integer> pointsMap = new HashMap<>();
+		List<ChesspairingPlayer> standings = new ArrayList<>();
+		standings.addAll(this.players);
+		
+		Map<ChesspairingPlayer, Float> pointsMap = new HashMap<>();
+		//set the points to 0
+		for (ChesspairingPlayer player: standings) {
+			pointsMap.put(player, 0f);
+		}
+		
 		for (int i = 1; i <= roundNumber; i++) {
 			ChesspairingRound round = getRoundByRoundNumber(i);
+			if (!round.allGamesHaveBeanPlayed()) {
+				throw new IllegalStateException("Atempt to compute standings when there are still games with no result");
+			} 
 			
+			//TODO cycle all games and collect the points
+			for (ChesspairingPlayer player: standings) {
+				Float points = round.getPointsFor(player, this.getChesspairingByeValue());
+				Float initialPoints = pointsMap.get(player);
+				Float result = points + initialPoints;
+				pointsMap.put(player, result);
+			}
 		}
 		throw new IllegalStateException("Please implement compute standings");
 	}
@@ -218,13 +238,13 @@ public class ChesspairingTournament {
 	 * @return the round identified by round number
 	 */
 	public ChesspairingRound getRoundByRoundNumber(int roundNumber) {
-		for (ChesspairingRound round: getRounds()) {
+		for (ChesspairingRound round : getRounds()) {
 			if (roundNumber == round.getRoundNumber()) {
 				return round;
 			}
 		}
-		
-		//no round located
+
+		// no round located
 		throw new IllegalStateException("Not able to locate round nr " + roundNumber);
 	}
 
