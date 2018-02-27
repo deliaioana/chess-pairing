@@ -1,17 +1,15 @@
 package eu.chessdata.chesspairing.model;
 
-import java.security.cert.CertStoreSpi;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import eu.chessdata.chesspairing.algoritms.comparators.ByEloReverce;
 import eu.chessdata.chesspairing.algoritms.comparators.ByInitialOrderIdReverce;
-import eu.chessdata.chesspairing.algoritms.fideswissduch.v2.Game;
-import eu.chessdata.chesspairing.algoritms.fideswissduch.v2.Player;
+import eu.chessdata.chesspairing.algoritms.comparators.ChainedComparator;
 
 public class ChesspairingTournament {
 	private String name;
@@ -209,63 +207,90 @@ public class ChesspairingTournament {
 	public List<ChesspairingPlayer> computeStandings(int roundNumber) {
 		List<ChesspairingPlayer> standings = new ArrayList<>();
 		standings.addAll(this.players);
-		
+
 		final Map<ChesspairingPlayer, Float> pointsMap = new HashMap<>();
-		//set the points to 0
-		for (ChesspairingPlayer player: standings) {
+		// set the points to 0
+		for (ChesspairingPlayer player : standings) {
 			pointsMap.put(player, 0f);
 		}
-		
+
 		for (int i = 1; i <= roundNumber; i++) {
 			ChesspairingRound round = getRoundByRoundNumber(i);
 			if (!round.allGamesHaveBeanPlayed()) {
-				throw new IllegalStateException("Atempt to compute standings when there are still games with no result");
-			} 
-			
-			//TODO cycle all games and collect the points
-			for (ChesspairingPlayer player: standings) {
+				throw new IllegalStateException(
+						"Atempt to compute standings when there are still games with no result");
+			}
+
+			// TODO cycle all games and collect the points
+			for (ChesspairingPlayer player : standings) {
 				Float points = round.getPointsFor(player, this.getChesspairingByeValue());
 				Float initialPoints = pointsMap.get(player);
 				Float result = points + initialPoints;
 				pointsMap.put(player, result);
 			}
 		}
-		
-		//collect all games. for each player create a list with all the games that he played
+
+		// collect all games. for each player create a list with all the games that he
+		// played
 		final Map<ChesspairingPlayer, List<ChesspairingGame>> playerGames = new HashMap<>();
-		for (ChesspairingPlayer player: this.players) {
-			List<ChesspairingGame>games = new ArrayList<>();
+		// map with players this player won against
+		final Map<ChesspairingPlayer, List<ChesspairingPlayer>> woneAgainst = new HashMap<>();
+		for (ChesspairingPlayer player : this.players) {
+			List<ChesspairingGame> games = new ArrayList<>();
 			playerGames.put(player, games);
+			List<ChesspairingPlayer> players = new ArrayList<>();
+			woneAgainst.put(player, players);
 		}
-		for (int i=1;i<=roundNumber;i++) {
-			//for each 
+		for (int i = 1; i <= roundNumber; i++) {
+			// for each
+			ChesspairingRound round = getRoundByRoundNumber(i);
+			for (ChesspairingPlayer player : this.getPlayers()) {
+				if (!round.playerAbsent(player)) {
+					ChesspairingGame game = round.getGame(player);
+					List<ChesspairingGame> games = playerGames.get(player);
+					games.add(game);
+
+					if (game.playerWins(player)) {
+						ChesspairingPlayer adversery = game.getAdversery(player);
+						List<ChesspairingPlayer> trofeyList = woneAgainst.get(player);
+						trofeyList.add(adversery);
+					}
+				}
+			}
 		}
-		
+
 		Comparator<ChesspairingPlayer> byPoints = new Comparator<ChesspairingPlayer>() {
-			
+
 			@Override
 			public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
 				// TODO Auto-generated method stub
 				Float points1 = pointsMap.get(o1);
 				Float points2 = pointsMap.get(o2);
-				//compare in reverce order
-				
+				// compare in reverce order
+
 				return points2.compareTo(points1);
 			}
 		};
-		
+
 		Comparator<ChesspairingPlayer> byDirectMatches = new Comparator<ChesspairingPlayer>() {
 
 			@Override
 			public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
-				// TODO Auto-generated method stub
+				List<ChesspairingPlayer> trofeyList = woneAgainst.get(o1);
+				if (trofeyList.contains(o2)) {
+					return 1;
+				}
 				return 0;
 			}
 		};
+
+		Comparator<ChesspairingPlayer> byRevercedInitialOrder = new ByInitialOrderIdReverce();
+
+		ChainedComparator chainedComparator = new ChainedComparator(byPoints, byDirectMatches, byRevercedInitialOrder);
 		
-		Comparator<ChesspairingPlayer> revercedInitialOrder = new ByInitialOrderIdReverce();
+		Collections.sort(standings, chainedComparator);
 		
-		throw new IllegalStateException("Please implement compute standings");
+		return standings;
 	}
 
 	/**
