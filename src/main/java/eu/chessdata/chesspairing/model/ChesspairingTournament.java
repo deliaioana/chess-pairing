@@ -1,11 +1,15 @@
 package eu.chessdata.chesspairing.model;
 
+import java.security.cert.CertStoreSpi;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import eu.chessdata.chesspairing.algoritms.comparators.ByEloReverce;
+import eu.chessdata.chesspairing.algoritms.comparators.ByInitialOrderIdReverce;
 import eu.chessdata.chesspairing.algoritms.fideswissduch.v2.Game;
 import eu.chessdata.chesspairing.algoritms.fideswissduch.v2.Player;
 
@@ -206,7 +210,7 @@ public class ChesspairingTournament {
 		List<ChesspairingPlayer> standings = new ArrayList<>();
 		standings.addAll(this.players);
 		
-		Map<ChesspairingPlayer, Float> pointsMap = new HashMap<>();
+		final Map<ChesspairingPlayer, Float> pointsMap = new HashMap<>();
 		//set the points to 0
 		for (ChesspairingPlayer player: standings) {
 			pointsMap.put(player, 0f);
@@ -226,6 +230,41 @@ public class ChesspairingTournament {
 				pointsMap.put(player, result);
 			}
 		}
+		
+		//collect all games. for each player create a list with all the games that he played
+		final Map<ChesspairingPlayer, List<ChesspairingGame>> playerGames = new HashMap<>();
+		for (ChesspairingPlayer player: this.players) {
+			List<ChesspairingGame>games = new ArrayList<>();
+			playerGames.put(player, games);
+		}
+		for (int i=1;i<=roundNumber;i++) {
+			//for each 
+		}
+		
+		Comparator<ChesspairingPlayer> byPoints = new Comparator<ChesspairingPlayer>() {
+			
+			@Override
+			public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
+				// TODO Auto-generated method stub
+				Float points1 = pointsMap.get(o1);
+				Float points2 = pointsMap.get(o2);
+				//compare in reverce order
+				
+				return points2.compareTo(points1);
+			}
+		};
+		
+		Comparator<ChesspairingPlayer> byDirectMatches = new Comparator<ChesspairingPlayer>() {
+
+			@Override
+			public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+		};
+		
+		Comparator<ChesspairingPlayer> revercedInitialOrder = new ByInitialOrderIdReverce();
+		
 		throw new IllegalStateException("Please implement compute standings");
 	}
 
