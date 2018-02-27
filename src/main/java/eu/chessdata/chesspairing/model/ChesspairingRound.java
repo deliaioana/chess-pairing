@@ -232,4 +232,82 @@ public class ChesspairingRound {
 		// the round has some absent players
 		return true;
 	}
+
+	/**
+	 * It returns true if the round contains the mains and all the
+	 * results are different then {@link ChesspairingResult#NOT_DECIDED}
+	 * @return
+	 */
+	public boolean allGamesHaveBeanPlayed() {
+		if (this.games.size() == 0) {
+			return false;
+		}
+		for (ChesspairingGame game: this.games) {
+			if (game.getResult() == ChesspairingResult.NOT_DECIDED) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * It will compute the number of points collected by a player for this round. It will
+	 * throw exceition if the round contains games with result "not decided"
+	 * @param player
+	 * @param byeValue
+	 * @return
+	 */
+	public Float getPointsFor(ChesspairingPlayer player, ChesspairingByeValue byeValue) {
+		for (ChesspairingGame game: games) {
+			if (player.equals(game.getWhitePlayer())){
+				switch (game.getResult()) {
+				case BYE:
+					return byeValue.getValue();
+				case WHITE_WINS:
+					return 1f;
+				case WHITE_WINS_OPONENT_ABSENT:
+					return 1f;
+				case NOT_DECIDED:
+					throw new IllegalStateException("Game not finished");
+				case DRAW_GAME:
+					return 0.5f;
+				case BLACK_WINS:
+					return 0f;
+				case BLACK_WINS_OPONENT_ABSENT:
+					return 0f;
+					
+				default:
+					throw new IllegalStateException("Game result not treated");
+				}
+			}
+			
+			if (game.getBlackPlayer() != null) {
+				if (player.equals(game.getBlackPlayer())) {
+					switch (game.getResult()) {
+					case BLACK_WINS:
+						return 1f;
+					case BLACK_WINS_OPONENT_ABSENT:
+						return 1f;
+					case WHITE_WINS:
+						return 1f;
+					case WHITE_WINS_OPONENT_ABSENT:
+						return 1f;
+					case DRAW_GAME:
+						return 0.5f;
+					case BYE:
+						return byeValue.getValue();
+					case NOT_DECIDED:
+						throw new IllegalStateException("Game not finished");
+					default:
+						break;
+					}
+				}
+			}
+			
+			
+		}
+		
+		//no games found just return 0
+		return 0f;
+	}
 }

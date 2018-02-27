@@ -1,8 +1,15 @@
 package eu.chessdata.chesspairing.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import eu.chessdata.chesspairing.algoritms.comparators.ByInitialOrderIdReverce;
+import eu.chessdata.chesspairing.algoritms.comparators.ChainedComparator;
 
 public class ChesspairingTournament {
 	private String name;
@@ -15,8 +22,8 @@ public class ChesspairingTournament {
 	private String ChifArbiter;
 	private String deputyChifArbiters;
 	/**
-	 * this is the maximum allowed number of rounds in a tournament. If you try
-	 * to pare over this number some algorithms will just crash.
+	 * this is the maximum allowed number of rounds in a tournament. If you try to
+	 * pare over this number some algorithms will just crash.
 	 */
 	private int totalRounds;
 	private ChesspairingByeValue chesspairingByeValue;
@@ -157,8 +164,8 @@ public class ChesspairingTournament {
 	}
 
 	/**
-	 * It returns the player by initial index If index is 0 or does not exist in
-	 * the tournament ten it throws exception
+	 * It returns the player by initial index If index is 0 or does not exist in the
+	 * tournament ten it throws exception
 	 * 
 	 * @param indexPlayer
 	 *            is the index of the player
@@ -188,6 +195,121 @@ public class ChesspairingTournament {
 	 */
 	public void addRound(ChesspairingRound round) {
 		this.rounds.add(round);
+	}
+
+	/**
+	 * Compute players ranking after all games are played for a specific round
+	 * 
+	 * @param roundNumber
+	 *            is the round number for witch wee have to compute the standings
+	 * @return and ordered list of players. The best player is ranked number one
+	 */
+	public List<ChesspairingPlayer> computeStandings(int roundNumber) {
+		List<ChesspairingPlayer> standings = new ArrayList<>();
+		standings.addAll(this.players);
+
+		final Map<ChesspairingPlayer, Float> pointsMap = new HashMap<>();
+		// set the points to 0
+		for (ChesspairingPlayer player : standings) {
+			pointsMap.put(player, 0f);
+		}
+
+		for (int i = 1; i <= roundNumber; i++) {
+			ChesspairingRound round = getRoundByRoundNumber(i);
+			if (!round.allGamesHaveBeanPlayed()) {
+				throw new IllegalStateException(
+						"Atempt to compute standings when there are still games with no result");
+			}
+
+			// TODO cycle all games and collect the points
+			for (ChesspairingPlayer player : standings) {
+				Float points = round.getPointsFor(player, this.getChesspairingByeValue());
+				Float initialPoints = pointsMap.get(player);
+				Float result = points + initialPoints;
+				pointsMap.put(player, result);
+			}
+		}
+
+		// collect all games. for each player create a list with all the games that he
+		// played
+		final Map<ChesspairingPlayer, List<ChesspairingGame>> playerGames = new HashMap<>();
+		// map with players this player won against
+		final Map<ChesspairingPlayer, List<ChesspairingPlayer>> woneAgainst = new HashMap<>();
+		for (ChesspairingPlayer player : this.players) {
+			List<ChesspairingGame> games = new ArrayList<>();
+			playerGames.put(player, games);
+			List<ChesspairingPlayer> players = new ArrayList<>();
+			woneAgainst.put(player, players);
+		}
+		for (int i = 1; i <= roundNumber; i++) {
+			// for each
+			ChesspairingRound round = getRoundByRoundNumber(i);
+			for (ChesspairingPlayer player : this.getPlayers()) {
+				if (!round.playerAbsent(player)) {
+					ChesspairingGame game = round.getGame(player);
+					List<ChesspairingGame> games = playerGames.get(player);
+					games.add(game);
+
+					if (game.playerWins(player)) {
+						ChesspairingPlayer adversery = game.getAdversery(player);
+						List<ChesspairingPlayer> trofeyList = woneAgainst.get(player);
+						trofeyList.add(adversery);
+					}
+				}
+			}
+		}
+
+		Comparator<ChesspairingPlayer> byPoints = new Comparator<ChesspairingPlayer>() {
+
+			@Override
+			public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
+				// TODO Auto-generated method stub
+				Float points1 = pointsMap.get(o1);
+				Float points2 = pointsMap.get(o2);
+				// compare in reverce order
+
+				return points2.compareTo(points1);
+			}
+		};
+
+		Comparator<ChesspairingPlayer> byDirectMatches = new Comparator<ChesspairingPlayer>() {
+
+			@Override
+			public int compare(ChesspairingPlayer o1, ChesspairingPlayer o2) {
+				List<ChesspairingPlayer> trofeyList = woneAgainst.get(o1);
+				if (trofeyList.contains(o2)) {
+					return 1;
+				}
+				return 0;
+			}
+		};
+
+		Comparator<ChesspairingPlayer> byRevercedInitialOrder = new ByInitialOrderIdReverce();
+
+		ChainedComparator chainedComparator = new ChainedComparator(byPoints, byDirectMatches, byRevercedInitialOrder);
+		
+		Collections.sort(standings, chainedComparator);
+		
+		return standings;
+	}
+
+	/**
+	 * It finds the round by a specific round number. If the round requested does
+	 * not exist then the request it will just throw exception
+	 * 
+	 * @param roundNumber
+	 *            of the round requested
+	 * @return the round identified by round number
+	 */
+	public ChesspairingRound getRoundByRoundNumber(int roundNumber) {
+		for (ChesspairingRound round : getRounds()) {
+			if (roundNumber == round.getRoundNumber()) {
+				return round;
+			}
+		}
+
+		// no round located
+		throw new IllegalStateException("Not able to locate round nr " + roundNumber);
 	}
 
 }

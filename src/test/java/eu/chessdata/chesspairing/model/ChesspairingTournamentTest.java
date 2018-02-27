@@ -1,5 +1,8 @@
 package eu.chessdata.chesspairing.model;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -15,12 +19,11 @@ import org.junit.Test;
 import com.google.gson.Gson;
 
 import eu.chessdata.chesspairing.Api;
-import eu.chessdata.chesspairing.model.ChesspairingTournament;
 import eu.chessdata.chesspairing.tools.Tools;
 
 public class ChesspairingTournamentTest {
 	@BeforeClass
-	public static void checGeneratedFilesFolder(){
+	public static void checGeneratedFilesFolder() {
 		TestUtils.createIfNotPresentGeneratedFilesFolder();
 	}
 
@@ -38,11 +41,9 @@ public class ChesspairingTournamentTest {
 		Assert.assertTrue("The hole serialized tournament should be the same", stringTournament.equals(secondString));
 	}
 
-
 	/**
-	 * Just as the name implies this is just a simple snippet that shows a
-	 * simple way to create a {@link ChesspairingTournament} object from a json
-	 * file.
+	 * Just as the name implies this is just a simple snippet that shows a simple
+	 * way to create a {@link ChesspairingTournament} object from a json file.
 	 * 
 	 * @throws UnsupportedEncodingException
 	 */
@@ -59,18 +60,18 @@ public class ChesspairingTournamentTest {
 		// simple line that tests that wee have the correct data
 		Assert.assertTrue("Not the expected data", tournament.getName().equals("Tournament 1"));
 	}
-	
+
 	/**
-	 * Simple test meant to be used to build specific tournaments and then save
-	 * them in files. The java.io package will only be used in tests. No
-	 * java.io.File objects will be used the bye chessparing package.
+	 * Simple test meant to be used to build specific tournaments and then save them
+	 * in files. The java.io package will only be used in tests. No java.io.File
+	 * objects will be used the bye chessparing package.
 	 * 
 	 * @throws IOException
 	 */
 	@Test
 	public void constumizeTournament() throws IOException {
-		
-		String tournament1FilePath = Tools.GENERATED_FILES+"/tournament1.json";
+
+		String tournament1FilePath = Tools.GENERATED_FILES + "/tournament1.json";
 		Writer writer = new FileWriter(tournament1FilePath);
 		Gson gson = Tools.getGson();
 
@@ -81,4 +82,16 @@ public class ChesspairingTournamentTest {
 		writer.close();
 	}
 
+	@Test
+	public void test1ComputeStandings() throws IOException {
+		ChesspairingTournament tournament = TestUtils.loadFile("/model/test1ComputeStandings.json");
+		assertNotNull("Tournament object is null", tournament);
+
+		for (ChesspairingRound round : tournament.getRounds()) {
+			int roundNumber = round.getRoundNumber();
+			List<ChesspairingPlayer> standings = tournament.computeStandings(roundNumber);
+			assert (standings.size() > 0);
+		}
+
+	}
 }
