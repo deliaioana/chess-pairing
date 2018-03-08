@@ -1,0 +1,88 @@
+{
+	"description": "Blitz 3 min",
+	"name": "Ans2",
+	"players": [
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 1200,
+			"initialOrderId": 1,
+			"isPresent": false,
+			"name": "Bogdan",
+			"playerKey": "-L75KkJko1RMiPNnIvYY",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 1600,
+			"initialOrderId": 2,
+			"isPresent": false,
+			"name": "Mollica ",
+			"playerKey": "-L75KtyKLAbbefrTAafz",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 2400,
+			"initialOrderId": 3,
+			"isPresent": false,
+			"name": "Hautot",
+			"playerKey": "-L75Kxmv9zun3DaKGBvy",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 1900,
+			"initialOrderId": 4,
+			"isPresent": false,
+			"name": "Vagner",
+			"playerKey": "-L75L1zt7sBiUUgH7Up6",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 2400,
+			"initialOrderId": 5,
+			"isPresent": false,
+			"name": "Cemil",
+			"playerKey": "-L75M3mS4mDOf50WXwUk",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 1900,
+			"initialOrderId": 6,
+			"isPresent": false,
+			"name": "Joassin",
+			"playerKey": "-L75M7PlHKCZaj875VKl",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 1500,
+			"initialOrderId": 7,
+			"isPresent": false,
+			"name": "Calin",
+			"playerKey": "-L75MA9aC6KeCHCc6LUr",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 1200,
+			"initialOrderId": 8,
+			"isPresent": false,
+			"name": "Cezar",
+			"playerKey": "-L75ME3gsVvL-3VhVueX",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		}
+	],
+	"rounds": [],
+	"totalRounds": 3
+}
