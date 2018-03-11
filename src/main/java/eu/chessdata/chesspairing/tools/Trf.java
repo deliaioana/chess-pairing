@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import eu.chessdata.chesspairing.model.ChesspairingByeValue;
 import eu.chessdata.chesspairing.model.ChesspairingGame;
@@ -417,7 +418,8 @@ public class Trf {
 					}
 				}
 			}
-			String pointsString = String.format("%.1f", points);
+			String pointsString = String.format(Locale.US, "%.1f", points);
+			
 			return pointsString;
 		}
 	}

@@ -1,0 +1,78 @@
+{
+	"description": "test 1",
+	"name": "Test 1",
+	"players": [
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 2500,
+			"initialOrderId": 1,
+			"isPresent": false,
+			"name": "Cemil",
+			"playerKey": "-L7KDlk9OqTfsoa9e5Rc",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 1300,
+			"initialOrderId": 2,
+			"isPresent": false,
+			"name": "Bogdan",
+			"playerKey": "-L7KDpUHPFvmA49Ugv7f",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 1500,
+			"initialOrderId": 3,
+			"isPresent": false,
+			"name": "Calin",
+			"playerKey": "-L7KDtZGq0Iu26c-MvWm",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 1300,
+			"initialOrderId": 4,
+			"isPresent": false,
+			"name": "Cezar",
+			"playerKey": "-L7KDylQy8Zl4iUXql85",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 1400,
+			"initialOrderId": 5,
+			"isPresent": false,
+			"name": "Lacramioara",
+			"playerKey": "-L7KE40nZE93616KUads",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 1900,
+			"initialOrderId": 6,
+			"isPresent": false,
+			"name": "Cedrique",
+			"playerKey": "-L7KE8wgnkGNjvVaAgXj",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		},
+		{
+			"acceleratedPoints": 0.0,
+			"elo": 1200,
+			"initialOrderId": 7,
+			"isPresent": false,
+			"name": "Andrei",
+			"playerKey": "-L7KEKH6Te-J80zfNuw6",
+			"rank": 0,
+			"tournamentPoints": 0.0
+		}
+	],
+	"rounds": [],
+	"totalRounds": 3
+}
